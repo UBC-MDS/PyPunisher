@@ -6,7 +6,7 @@ def read(fname):
     try:
         return open(os.path.join(os.path.dirname(__file__), fname)).read()
     except:
-        return 'See https://github.com/UBC-MDS/Punisher/tree/master'
+        return 'See https://github.com/UBC-MDS/PyPunisher/tree/master'
 
 
 setup(
