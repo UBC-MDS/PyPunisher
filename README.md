@@ -54,7 +54,7 @@ reached (see: [RFE](http://scikit-learn.org/stable/modules/generated/sklearn.fea
 
 One characteristic of the `RFE()` class that we dislike is its requirement that the user
 specify the number of features to select (see the `n_features_to_select` parameter). This strikes us
-as rather crude solution because it is almost never obvious what a sensible value would be.
+as a rather crude solution because it is almost never obvious what a sensible value would be.
 An alternative approach is to stop removing features when even the least predictive feature produces a
 non-trivial decrease in model performance. We hope to allow users to define a "non-trivial decrease" in our
 `backward_selection()` function via. a parameter.
