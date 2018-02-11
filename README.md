@@ -7,7 +7,8 @@ the Akaike and Bayesian Information Criterion (see below), both of which *punish
 name.
 
 We recognize that these tools already exist in Python. However, as discussed below, we have some minor
-misgivings about how this has been done, and believe it is possible to make some improvements in `PyPunisher`.
+misgivings about how one of these techniques has been implemented, and believe it is possible to make
+some improvements in `PyPunisher`.
 
 ## Contributors: 
 
@@ -50,3 +51,9 @@ Similarly, backward selection is also implemented in scikit-learn in the `RFE()`
 `RFE()` uses an external estimator that assigns weights to features and it prunes the number of features by
 recursively considering smaller and smaller sets of features until the desired number of features to select is eventually 
 reached (see: [RFE](http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html)).
+
+One characteristic of the `RFE()` class that we dislike is its requirement that the user
+specify the number of features to select (see the `n_features_to_select` parameter). An alternative 
+approach is to stop removing features when even the least predictive feature produces a non-trivial
+decrease in model performance. We hope to allow users to define "non-trivial decrease" in our 
+`backward_selection()` function as a parameter.
