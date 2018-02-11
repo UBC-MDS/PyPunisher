@@ -32,7 +32,7 @@ We will be implementing two stepwise feature selection techniques:
 
 We will also be implementing metrics that evaluate model performance: 
 
-- `aic()`: computes the Akaike information criterion [Akaike information criterion](https://en.wikipedia.org/wiki/Akaike_information_criterion)
+- `aic()`: computes the [Akaike information criterion](https://en.wikipedia.org/wiki/Akaike_information_criterion)
 - `bic()`: computes the [Bayesian information criterion](https://en.wikipedia.org/wiki/Bayesian_information_criterion) 
 
 
