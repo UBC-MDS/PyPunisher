@@ -50,12 +50,3 @@ Similarly, backward selection is also implemented in scikit-learn in the `RFE()`
 `RFE()` uses an external estimator that assigns weights to features and it prunes the number of features by
 recursively considering smaller and smaller sets of features until the desired number of features to select is eventually 
 reached (see: [RFE](http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html)).
-
-In the R ecosystem, forward and backward selection are implemented in both the [olsrr](https://cran.r-project.org/web/packages/olsrr/)
-and [MASS](https://cran.r-project.org/web/packages/MASS/MASS.pdf) packages. The former provides
-[`ols_step_forward()`](https://www.rdocumentation.org/packages/olsrr/versions/0.4.0/topics/ols_step_forward) and 
-[]`ols_step_backward()`](https://www.rdocumentation.org/packages/olsrr/versions/0.4.0/topics/ols_step_backward) for
-forward and backward stepwise selection, respectively. Both of these are p-value-based methods of feature selection.
-The latter, MASS, contains [`StepAIC()`](https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/stepAIC.html),
-which is complete with three modes: forward, backward or both. The selection procedure is based on the 
-Akaike Information Criterion (AIC). 
