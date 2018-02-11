@@ -1,7 +1,13 @@
 # PyPunisher
 
-The PyPunisher package will implement techniques for feature and model selection. Namely, it will contain tools for forward and backward selection, as well as tools for computing AIC and BIC (see below). 
+PyPunisher is a package for feature and model selection in Python. Specifically, this package will implement tools for 
+forward and backward model selection (see [here](https://en.wikipedia.org/wiki/Stepwise_regression)). 
+In order to measure model quality during the selection procedures, we will also be implement
+the Akaike and Bayesian Information Criterion (see below), both of which *punish* complex models -- hence this package's
+name.
 
+We recognize that these tools already exist in Python. However, as discussed below, we have some minor
+misgivings about how this has been done, and believe it is possible to make some improvements in `PyPunisher`.
 
 ## Contributors: 
 
