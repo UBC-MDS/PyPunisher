@@ -17,8 +17,12 @@ from feature_selection import Selection
 def generate_data():
   df = pd.DataFrame(np.random.randn(100, 40))
   split = np.random.rand(len(df)) < 0.7
-  train = df[split]
-  test = df[~split]
+  X = df.iloc[:,1:]
+  y = df.iloc[:,0]
+  Xtrain = X[split]
+  Xtest = X[~split]
+  ytrain = y[split]
+  ytest = X[~split]
 
 def test_forward_selection():
   print('test goes here')
