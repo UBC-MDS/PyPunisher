@@ -6,7 +6,7 @@
 """
 
 
-class Section(object):
+class Selection(object):
     """Feature Selection for Sklearn Models.
 
     Args:
