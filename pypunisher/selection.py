@@ -29,7 +29,7 @@ class Section(object):
 
     def _selection_engine(self, *args, **kwargs):
         """A backend to power the `.forward()` and `backward()` selection
-        procedures (i.e., the parts that are common to the two.
+        procedures (i.e., the parts that are common to the two).
 
         Args:
             TBD
