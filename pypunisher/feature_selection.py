@@ -48,11 +48,11 @@ class Selection(object):
                              over the past `epsilon_history` iterations of the algorithm.
             epsilon_history (int): number of past values to consider when comparing `epsilon`.
             max_features (int): the max. number of features to allow.
-            criterion (str): model selection criterion.
-                             * 'aic': use Akaike Information Criterion.
-                             * 'bic': use Bayesian Information Criterion.
-                             * None: Use the default score built into the model
-                                      object (i.e., call `.score()`.
+            criterion (str or None): model selection criterion.
+                                    * 'aic': use Akaike Information Criterion.
+                                    * 'bic': use Bayesian Information Criterion.
+                                    * None: Use the default score built into the model
+                                      object (i.e., call `.score()`).
 
         Returns:
             S (ndarray): column indices of `X_train` (and `X_val`) that denote the chosen features.
@@ -69,11 +69,11 @@ class Selection(object):
                              over the past `epsilon_history` iterations of the algorithm.
             epsilon_history (int): number of past values to consider when comparing `epsilon`.
             max_features (int): the max. number of features to allow.
-            criterion (str): model selection criterion.
-                             * 'aic': use Akaike Information Criterion.
-                             * 'bic': use Bayesian Information Criterion.
-                             * None: Use the default score built into the model
-                                      object (i.e., call `.score()`.
+            criterion (str or None): model selection criterion.
+                                    * 'aic': use Akaike Information Criterion.
+                                    * 'bic': use Bayesian Information Criterion.
+                                    * None: Use the default score built into the model
+                                      object (i.e., call `.score()`).
 
         Returns:
             S (ndarray): column indices of `X_train` (and `X_val`) that denote the chosen features.
