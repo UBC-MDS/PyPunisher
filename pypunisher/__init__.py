@@ -1,2 +1,2 @@
 from pypunisher.criterion import aic, bic
-from pypunisher.selection import Selection
+from pypunisher.feature_selection import Selection
