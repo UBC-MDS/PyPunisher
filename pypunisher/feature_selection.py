@@ -39,12 +39,11 @@ class Selection(object):
         """
         raise NotImplementedError
 
-    def forward(self, model, epsilon=10e-4, epsilon_history=5,
+    def forward(self, epsilon=10e-4, epsilon_history=5,
                 max_features=None, criterion=None):
         """Perform forward selection on a Sklearn model.
 
         Args:
-            model (sklearn model): any sklearn model with `.fit()`, `.predict()` and `.score()` methods.
             epsilon (float): smallest average change in the model's score to be considered meaningful
                              over the past `epsilon_history` iterations of the algorithm.
             epsilon_history (int): number of past values to consider when comparing `epsilon`.
