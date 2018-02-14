@@ -1,7 +1,14 @@
 # PyPunisher
 
-The PyPunisher package will implement techniques for feature and model selection. Namely, it will contain tools for forward and backward selection, as well as tools for computing AIC and BIC (see below). 
+PyPunisher is a package for feature and model selection in Python. Specifically, this package will implement tools for 
+forward and backward model selection (see [here](https://en.wikipedia.org/wiki/Stepwise_regression)). 
+In order to measure model quality during the selection procedures, we will also be implement
+the Akaike and Bayesian Information Criterion (see below), both of which *punish* complex models -- hence this package's
+name.
 
+We recognize that these tools already exist in Python. However, as discussed below, we have some minor
+misgivings about how one of these techniques has been implemented, and believe it is possible to make
+some improvements in `PyPunisher`.
 
 ## Contributors: 
 
@@ -35,12 +42,19 @@ We will also be implementing metrics that evaluate model performance:
 - `aic()`: computes the [Akaike information criterion](https://en.wikipedia.org/wiki/Akaike_information_criterion)
 - `bic()`: computes the [Bayesian information criterion](https://en.wikipedia.org/wiki/Bayesian_information_criterion) 
 
+## How does this Packages Fit into the Existing R and Python Ecosystems?
 
+In the Python ecosystem, forward selection has been implemented in scikit-learn in the 
+[f_regression](http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.f_regression.html) function.
+As stated in the documentation, *this function uses a linear model for testing the individual effect of each of many regressors*.
+Similarly, backward selection is also implemented in scikit-learn in the `RFE()` class.
+`RFE()` uses an external estimator that assigns weights to features and it prunes the number of features by
+recursively considering smaller and smaller sets of features until the desired number of features to select is eventually 
+reached (see: [RFE](http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html)).
 
-## How the packages fit into the existing R and Python ecosystems.
-
-In Python ecosystem, forward selection has been implemented in scikit learn by the
-[f_regression](http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.f_regression.html) function. The function uses Linear model for testing the individual effect of each of many regressors. It has been implemented as a scoring function to be used in feature seletion procedure. The backward selection has also been implemented in scikit learn by the [RFE](http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFE.html) function. RFE uses an external estimator that assigns weights to features and it prunes the number of features by recursively considering smaller and smaller sets of features until the desired number of features to select is eventually reached. Whereas, in R ecosystem, forward and backward selection are implemented by [olsrr package](https://cran.r-project.org/web/packages/olsrr/)
-and in [MASS package](https://cran.r-project.org/web/packages/MASS/MASS.pdf) by function
-[StepAIC](https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/stepAIC.html). StepAIC performs stepwise selection (forward, backward, both) by exact AIC.
-
+One characteristic of the `RFE()` class that we dislike is its requirement that the user
+specify the number of features to select (see the `n_features_to_select` parameter). This strikes us
+as a rather crude solution because it is almost never obvious what a sensible value would be.
+An alternative approach is to stop removing features when even the least predictive feature produces a
+non-trivial decrease in model performance. We hope to allow users to define a "non-trivial decrease" in our
+`backward_selection()` function via. a parameter.
