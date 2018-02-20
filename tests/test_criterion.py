@@ -9,7 +9,7 @@ import pytest
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
 
-import criterion
+import pypunisher.criterion
 
 def test_aic():
   print('test goes here')

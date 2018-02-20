@@ -12,7 +12,8 @@ import pandas as pd
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
 
-from feature_selection import Selection
+import pypunisher.feature_selection
+
 
 def generate_data():
   df = pd.DataFrame(np.random.randn(100, 40))
