@@ -61,3 +61,16 @@ as a rather crude solution because it is almost never obvious what a sensible va
 An alternative approach is to stop removing features when even the least predictive feature produces a
 non-trivial decrease in model performance. We hope to allow users to define a "non-trivial decrease" in our
 `backward_selection()` function via a parameter.
+
+
+## How to run unit tests
+
+In the root directory, run a test file in terminal.
+
+```
+python tests/test_criterion.py
+```
+
+```
+python tests/test_feature_selection.py
+```
