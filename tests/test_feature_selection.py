@@ -41,6 +41,11 @@ def selection():
 
 
 def test_forward_selection(selection):
+
+  # method error handling
+  msg = "Episilon must be positive"
+  assert_raise_message(ValueError, msg, selection.forward(epislon=-1))
+
   # TODO write unit tests for expected output of forward selection method
   print('test goes here')
 
@@ -48,16 +53,16 @@ def test_backward_selection(selection):
   # TODO write unit tests for expected output of backward selection method
   print('test goes here')
 
-def test_error_handling(selection):
+#def test_class_error_handling():
   # examples of error handling
 
   # TODO enhance error handling to make sure the sklearn model has "fit", "score", and "predict" methods
-  msg = "Model must be an sklearn method"
-  assert_raise_message(ValueError, msg, selection)
+  # msg = "Model must be an sklearn method"
+  # assert_raise_message(ValueError, msg, Selection(model="test", X_train, y_train, X_test, y_test, verbose=True))
 
   # TODO enhance error handling to make sure that an error gets returned if Xtrain, ytrain, Xval, yval is not the correct format (i.e. not a numpy array)
-  msg = "Training data must be a 2D array"
-  assert_raise_message(ValueError, msg, selection)
+  # msg = "Training data must be a 2D array"
+  # assert_raise_message(ValueError, msg, Selection(lin_reg, [1,2,3,4], y_train, X_test, y_test, verbose=True))
 
-  msg = "Test data must be a 2D array"
-  assert_raise_message(ValueError, msg, selection)
+  # msg = "Test data must be a 2D array"
+  # assert_raise_message(ValueError, msg, Selection(lin_reg, X_train, y_train, [1,2,3,4], y_test, verbose=True))
