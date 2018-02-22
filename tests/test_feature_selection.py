@@ -35,28 +35,29 @@ y_train = y[split]
 y_test = X[~split]
 lin_reg = linear_model.LinearRegression()
 
+@pytest.fixture
 def selection():
   return Selection(lin_reg, X_train, y_train, X_test, y_test, verbose=True)
 
 
-def test_forward_selection():
+def test_forward_selection(selection):
   # TODO write unit tests for expected output of forward selection method
   print('test goes here')
 
-def test_backward_selection():
+def test_backward_selection(selection):
   # TODO write unit tests for expected output of backward selection method
   print('test goes here')
 
-def test_error_handling():
+def test_error_handling(selection):
   # examples of error handling
 
   # TODO enhance error handling to make sure the sklearn model has "fit", "score", and "predict" methods
   msg = "Model must be an sklearn method"
-  assert_raise_message(ValueError, msg, Selection(model="test", X_train, y_train, X_test, y_test, verbose=True))
+  assert_raise_message(ValueError, msg, selection)
 
   # TODO enhance error handling to make sure that an error gets returned if Xtrain, ytrain, Xval, yval is not the correct format (i.e. not a numpy array)
   msg = "Training data must be a 2D array"
-  assert_raise_message(ValueError, msg, Selection(lin_reg, [1,2,3,4], y_train, X_test, y_test, verbose=True))
+  assert_raise_message(ValueError, msg, selection)
 
   msg = "Test data must be a 2D array"
-  assert_raise_message(ValueError, msg, Selection(lin_reg, X_train, y_train, [1,2,3,4], y_test, verbose=True))
+  assert_raise_message(ValueError, msg, selection)
