@@ -1,2 +1,2 @@
-from pypunisher.criterion import aic, bic
-from pypunisher.feature_selection import Selection
+from pypunisher.metrics.criterion import aic, bic
+from pypunisher.selection_engines.unified import Selection
