@@ -6,16 +6,14 @@
 """
 
 
-def aic(X_train, y_train, model):
+def aic(model):
     """Compute the Akaike Information Criterion (AIC)
 
     Args:
         model (sklearn model object): ...
-        X_train (ndarray): a 2D numpy array of (observations, features).
-        y_train (ndarray): a 1D array of target classes for X_train.
 
     Returns:
-        aic value (float)
+        float: ...
 
     References:
         * https://en.wikipedia.org/wiki/Akaike_information_criterion
@@ -24,19 +22,35 @@ def aic(X_train, y_train, model):
     pass
 
 
-def bic(X_train, y_train, model):
+def bic(model):
     """Compute the Bayesian Information Criterion (BIC)
 
     Args:
         model (sklearn model object): ...
-        X_train (ndarray): a 2D numpy array of (observations, features).
-        y_train (ndarray): a 1D array of target classes for X_train.
 
     Returns:
-        bic value (float)
+        float: ...
 
     References:
         * https://en.wikipedia.org/wiki/Bayesian_information_criterion
 
+    """
+    pass
+
+
+def compute_score(model, criterion):
+    """Get the score of a model.
+
+    Args:
+        model : sklearn model
+            Model to obtain the score of.
+        criterion : str
+            Criterion to use.
+            One of: 'aic', 'bic', None
+            If none, call `.score()`.
+
+    Returns:
+        float :
+            model score.
     """
     pass
