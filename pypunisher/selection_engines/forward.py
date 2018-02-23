@@ -57,12 +57,7 @@ class ForwardSelection(object):
 
     @staticmethod  # `self` captures yield of **locals().
     def _forward_input_checks(self, epsilon, epsilon_history, max_features):
-        if not isinstance(epsilon, float):
-            raise TypeError("`epsilon` must be of type float.")
-        if not isinstance(epsilon_history, int):
-            raise TypeError("`epsilon_history` must be an int.")
-        if max_features is not None and not isinstance(max_features, int):
-            raise TypeError("`max_features` must be of type None or int.")
+        pass
 
     def forward(self, epsilon=10e-4, epsilon_history=5, max_features=None):
         """Perform forward selection on a Sklearn model.
