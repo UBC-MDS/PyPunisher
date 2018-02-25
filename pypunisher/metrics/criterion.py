@@ -36,3 +36,21 @@ def bic(model):
 
     """
     pass
+
+
+def compute_score(model, criterion):
+    """Get the score of a model.
+
+    Args:
+        model : sklearn model
+            Model to obtain the score of.
+        criterion : str
+            Criterion to use.
+            One of: 'aic', 'bic', None
+            If none, call `.score()`.
+
+    Returns:
+        float :
+            model score.
+    """
+    pass
