@@ -27,32 +27,76 @@ def test_aic(X_train, y_train, model):
   print('test goes here')
 
 def test_aic_input_model_type():
-  # Check if the model passed into AIC is of correct type
+  '''
+  Check if the model passed into AIC is of correct type
+  '''
+
+  pass
 
 def test_aic_input_lambda_type():
-  # Check if the lambda parameter passed into AIC is a number
+  '''
+  Check if the lambda parameter passed into AIC is a number
+  '''
+  
+  pass
+
+
 
 def test_aic_output_type():
-  # Check if the value returned by AIC is of type float.
+  '''
+  Check if the value returned by AIC is of type float.
+  '''
+  
+  pass
+
+
 
 def test_aic_model1_output_value():
-  # Check if the returned value is correct for specified sklearn model
+  '''
+  Check if the returned value is correct for specified sklearn model
+  '''
+  
+  pass
+
 
 def test_aic_model2_output_value():
-  # Check if the returned value is correct for specified sklearn model
+  '''
+  Check if the returned value is correct for specified sklearn model
+  '''
+  
+  pass
 
 
 def test_bic():
   print('test goes here')
 
 def test_bic_input_model_type():
-  # Check if the model passed into BIC is of correct type
+  '''
+  Check if the model passed into BIC is of correct type
+  '''
+  
+  pass
+
 
 def test_bic_output_type():
-  # Check if the value returned by BIC is of type float.
+  '''
+  Check if the value returned by BIC is of type float.
+  '''
+  
+  pass
+
 
 def test_bic_model1_output_value():
-  # Check if the returned value is correct for specified sklearn model
+  '''
+  Check if the returned value is correct for specified sklearn model
+  '''
+  
+  pass
 
 def test_bic_model2_output_value():
-  # Check if the returned value is correct for specified sklearn model
+  '''
+  Check if the returned value is correct for specified sklearn model
+  '''
+  
+  pass
+
