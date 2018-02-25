@@ -32,5 +32,12 @@ def test_model_type():
 def test_lambda_type():
   # Check if the lambda parameter is a number
 
+def test_aic_model1():
+  # Check if the returned value is correct for specified sklearn model
+
+def test_aic_model2():
+  # Check if the returned value is correct for specified sklearn model
+
+
 def test_bic():
   print('test goes here')
