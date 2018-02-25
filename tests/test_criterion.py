@@ -26,18 +26,23 @@ import pypunisher.criterion
 def test_aic(X_train, y_train, model):
   print('test goes here')
 
-def test_model_type():
+def test_aic_input_model_type():
   # Check if the model passed into AIC is of correct type
 
-def test_lambda_type():
+def test_aic_input_lambda_type():
   # Check if the lambda parameter is a number
 
-def test_aic_model1():
+def test_aic_output_type():
+  # Check if the value returned value is of type float.
+
+def test_aic_model1_output_value():
   # Check if the returned value is correct for specified sklearn model
 
-def test_aic_model2():
+def test_aic_model2_output_value():
   # Check if the returned value is correct for specified sklearn model
 
 
 def test_bic():
   print('test goes here')
+
+
