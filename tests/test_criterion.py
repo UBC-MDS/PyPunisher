@@ -50,3 +50,9 @@ def test_bic_input_model_type():
 
 def test_bic_output_type():
   # Check if the value returned by BIC is of type float.
+
+def test_bic_model1_output_value():
+  # Check if the returned value is correct for specified sklearn model
+
+def test_bic_model2_output_value():
+  # Check if the returned value is correct for specified sklearn model
