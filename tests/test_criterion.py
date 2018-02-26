@@ -23,9 +23,6 @@ sys.path.insert(0, os.path.abspath("../"))
 import pypunisher.criterion
 
 
-def test_aic(X_train, y_train, model):
-  print('test goes here')
-
 def test_aic_input_model_type():
   '''
   Check if the model passed into AIC is of correct type
@@ -71,9 +68,6 @@ def test_aic_model2_output_value():
   
   pass
 
-
-def test_bic():
-  print('test goes here')
 
 def test_bic_input_model_type():
   '''
