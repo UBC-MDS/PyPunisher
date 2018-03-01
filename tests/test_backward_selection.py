@@ -35,16 +35,18 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=123)
 def selection():
   return BackwardSelection(LinearRegression(), X_train, y_train, X_test, y_test, verbose=True)
 
-# test inputs
-def test_epsilon_forward_selection(selection):
-  '''
-  test that error is returned if epsilon is not positive
-  '''
-  msg = "Episilon must be positive"
-  with pytest.raises(TypeError, match=msg):
-    BackwardSelection(epislon=-1)
 
-def test_sklearn_model_forward_selection(selection):
+# test inputs
+def test_input_types():
+  '''
+  type checking class inputs
+  '''
+  msg = "X_train must be numpy array"
+  with pytest.raises(TypeError, match=msg):
+    BackwardSelection(LinearRegression(), 12345, y_train, X_test, y_test, verbose=True)
+
+
+def test_sklearn_model_methods():
   '''
   test that error is returned if model doesn't have "fit", "predict", and "score" methods
   '''
@@ -55,12 +57,12 @@ def test_output_type(selection):
   '''
   test that output type is a list
   '''
-  assert isinstance(selection.backward, list)
+  assert isinstance(selection, list)
 
 
 def test_output_values(selection):
   '''
   test that output type is a list
   '''
-  assert selection.forward == [1,5,7]
+  assert selection == [1,5,7]
 

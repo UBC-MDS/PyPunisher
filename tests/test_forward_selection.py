@@ -30,21 +30,20 @@ y = pd.DataFrame(np.random.randn(100, 1))
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=123)
 
-
-@pytest.fixture
-def selection():
-  return ForwardSelection(LinearRegression(), X_train, y_train, X_test, y_test, verbose=True)
-
 # test inputs
-def test_epsilon_forward_selection(selection):
+def test_input_types(selection):
   '''
-  test that error is returned if epsilon is not positive
+  type checking class inputs
   '''
-  msg = "Episilon must be positive"
+  msg = "X_train must be a numpy array"
   with pytest.raises(TypeError, match=msg):
-    ForwardSelection(epislon=-1)
+    ForwardSelection(LinearRegression(), 12345, y_train, X_test, y_test, verbose=True)
 
-def test_sklearn_model_forward_selection(selection):
+  
+
+
+
+def test_sklearn_model_methods(selection):
   '''
   test that error is returned if model doesn't have "fit", "predict", and "score" methods
   '''

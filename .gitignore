@@ -1,1 +1,4 @@
 pypunisher/__pycache__/
+tests/__pycache__/
+pypunisher/selection_engines/__pycache__/
+pypunisher/metrics/__pycache__/
