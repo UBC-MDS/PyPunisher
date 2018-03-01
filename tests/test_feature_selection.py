@@ -16,53 +16,64 @@ from numpy.testing import assert_array_less
 from numpy.testing import assert_approx_equal
 
 # sklearn helpers
-from sklearn import linear_model
-from sklearn.utils.testing import assert_raise_message # helper function to test the message raised in an exception
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
 
 
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
 
-import pypunisher.feature_selection
+from pypunisher.selection_engines.unified import Selection
 
-df = pd.DataFrame(np.random.randn(100, 40))
-split = np.random.rand(len(df)) < 0.7
-X = df.iloc[:,1:]
-y = df.iloc[:,0]
-X_train = X[split]
-X_test = X[~split]
-y_train = y[split]
-y_test = X[~split]
-lin_reg = linear_model.LinearRegression()
+X = pd.DataFrame(np.random.randn(100, 40))
+y = pd.DataFrame(np.random.randn(100, 1))
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=123)
+
 
 @pytest.fixture
 def selection():
-  return Selection(lin_reg, X_train, y_train, X_test, y_test, verbose=True)
+  return Selection(LinearRegression(), X_train, y_train, X_test, y_test, verbose=True)
 
-
-def test_forward_selection(selection):
-
-  # method error handling
+# test inputs
+def test_epsilon_forward_selection(selection):
+  '''
+  test that error is returned if epsilon is not positive
+  '''
   msg = "Episilon must be positive"
-  assert_raise_message(ValueError, msg, selection.forward(epislon=-1))
+  with pytest.raises(TypeError, match=msg):
+    selection.forward(epislon=-1)
 
-  # TODO write unit tests for expected output of forward selection method
-  print('test goes here')
+def test_sklearn_model_forward_selection(selection):
+  '''
+  test that error is returned if model doesn't have "fit", "predict", and "score" methods
+  '''
 
-def test_backward_selection(selection):
-  # TODO write unit tests for expected output of backward selection method
-  print('test goes here')
 
-#def test_class_error_handling():
-  # examples of error handling
+# test output
+def test_output_type_forward_selection(selection):
+  '''
+  test that output type is a list
+  '''
+  assert isinstance(selection.forward, list)
 
-  # TODO enhance error handling to make sure the sklearn model has "fit", "score", and "predict" methods
-  # msg = "Model must be an sklearn method"
-  # assert_raise_message(ValueError, msg, Selection(model="test", X_train, y_train, X_test, y_test, verbose=True))
+def test_output_forward_selection(selection):
+  '''
+  test that output type is a list
+  '''
+  assert selection.forward == [1,5,7]
 
-  # TODO enhance error handling to make sure that an error gets returned if Xtrain, ytrain, Xval, yval is not the correct format (i.e. not a numpy array)
-  # msg = "Training data must be a 2D array"
-  # assert_raise_message(ValueError, msg, Selection(lin_reg, [1,2,3,4], y_train, X_test, y_test, verbose=True))
 
-  # msg = "Test data must be a 2D array"
-  # assert_raise_message(ValueError, msg, Selection(lin_reg, X_train, y_train, [1,2,3,4], y_test, verbose=True))
+def test_output_type_backward_selection(selection):
+  '''
+  test that output type is a list
+  '''
+  assert isinstance(selection.backward, list)
+
+
+def test_output_forward_selection(selection):
+  '''
+  test that output type is a list
+  '''
+  assert selection.forward == [1,5,7]
+
