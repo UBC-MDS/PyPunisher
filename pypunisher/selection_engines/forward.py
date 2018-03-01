@@ -51,8 +51,7 @@ class ForwardSelection(object):
     def _fit_and_score_forward(self, S, include):
         pass
 
-    def _forward_break_criteria(self, S, j_score_dict, s_change_history,
-                                epsilon, epsilon_history, max_features):
+    def _forward_break_criteria(self, S, j_score_dict, min_change, max_features):
         pass
 
     @staticmethod  # `self` captures yield of **locals().
