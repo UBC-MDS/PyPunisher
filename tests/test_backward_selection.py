@@ -1,5 +1,5 @@
 """
-Feature Selection Tests
+Backward Selection Tests
 """
 
 import os
@@ -23,7 +23,7 @@ from sklearn.model_selection import train_test_split
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
 
-from pypunisher.selection_engines.unified import Selection
+from pypunisher.selection_engines.backward import BackwardSelection
 
 X = pd.DataFrame(np.random.randn(100, 40))
 y = pd.DataFrame(np.random.randn(100, 1))
@@ -33,7 +33,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=123)
 
 @pytest.fixture
 def selection():
-  return Selection(LinearRegression(), X_train, y_train, X_test, y_test, verbose=True)
+  return BackwardSelection(LinearRegression(), X_train, y_train, X_test, y_test, verbose=True)
 
 # test inputs
 def test_epsilon_forward_selection(selection):
@@ -42,7 +42,7 @@ def test_epsilon_forward_selection(selection):
   '''
   msg = "Episilon must be positive"
   with pytest.raises(TypeError, match=msg):
-    selection.forward(epislon=-1)
+    BackwardSelection(epislon=-1)
 
 def test_sklearn_model_forward_selection(selection):
   '''
@@ -51,27 +51,14 @@ def test_sklearn_model_forward_selection(selection):
 
 
 # test output
-def test_output_type_forward_selection(selection):
-  '''
-  test that output type is a list
-  '''
-  assert isinstance(selection.forward, list)
-
-def test_output_forward_selection(selection):
-  '''
-  test that output type is a list
-  '''
-  assert selection.forward == [1,5,7]
-
-
-def test_output_type_backward_selection(selection):
+def test_output_type(selection):
   '''
   test that output type is a list
   '''
   assert isinstance(selection.backward, list)
 
 
-def test_output_forward_selection(selection):
+def test_output_values(selection):
   '''
   test that output type is a list
   '''
