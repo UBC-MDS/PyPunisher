@@ -68,9 +68,13 @@ non-trivial decrease in model performance. We hope to allow users to define a "n
 In the root directory, run a test file in terminal.
 
 ```
-python tests/test_criterion.py
+python -m pytest tests/test_forward_selection.py
 ```
 
 ```
-python tests/test_feature_selection.py
+python -m pytest tests/test_backward_selection.py
+```
+
+```
+python -m pytest tests/test_criterion.py
 ```

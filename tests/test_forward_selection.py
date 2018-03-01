@@ -8,17 +8,9 @@ import pytest
 import numpy as np
 import pandas as pd
 
-# numpy testing tools
-from numpy.testing import assert_almost_equal
-from numpy.testing import assert_array_equal
-from numpy.testing import assert_array_almost_equal
-from numpy.testing import assert_array_less
-from numpy.testing import assert_approx_equal
-
 # sklearn helpers
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
-
 
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
@@ -38,30 +30,54 @@ def selection():
 # test inputs
 def test_input_types():
   '''
-  type checking class inputs
+  Check input types of ForwardSelection class
   '''
-  msg = "X_train must be a numpy array"
-  with pytest.raises(TypeError, match=msg):
-    ForwardSelection(LinearRegression(), 12345, y_train, X_test, y_test, verbose=True)
-
+  with pytest.raises(TypeError):
+    ForwardSelection(LinearRegression(), 12345, y_train, X_test, y_test)
   
+  with pytest.raises(TypeError):
+    ForwardSelection(LinearRegression(), X_train, 12345, X_test, y_test)
+
+  with pytest.raises(TypeError):
+    ForwardSelection(LinearRegression(), X_train, y_train, 12345, y_test)
+
+  with pytest.raises(TypeError):
+    ForwardSelection(LinearRegression(), X_train, y_train, X_test, 12345)
 
 def test_sklearn_model_methods():
   '''
-  test that error is returned if model doesn't have "fit", "predict", and "score" methods
+  Check that an attribute error gets raised if the sklearn model does not have all 3 methods: fit, predict, and score
   '''
+  for method in ('fit', 'predict', 'score'):
+      model = LinearRegression()
+      delattr(model, method)
+      with pytest.raises(AttributeError):
+        ForwardSelection(model, method, verbose=True)
+
+def test_forward_attributes(selection):
+  '''
+  Check attribute types of that attributes of backward methods are correct 
+  '''
+  msg = "Number of features must be a positive integer or float"
+  with pytest.raises(TypeError, match=msg):
+    selection.forward(n_features=-0.5)
+
+  msg = "n_features must be None for min_change to work"
+  with pytest.raises(TypeError, match=msg):
+    selection.forward(n_features=0.5, min_change=0.5)
 
 
-# test output
+# test outputs
 def test_output_type(selection):
   '''
-  test that output type is a list
+  Test that output type is a list
   '''
   assert isinstance(selection.forward, list)
 
+
 def test_output_values(selection):
   '''
-  test that output type is a list
+  test that ForwardSelection selects best features
   '''
   assert selection.forward == [1,5,7]
 
