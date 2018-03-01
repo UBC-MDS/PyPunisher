@@ -25,8 +25,8 @@ sys.path.insert(0, os.path.abspath("../"))
 
 from pypunisher.selection_engines.backward import BackwardSelection
 
-X = pd.DataFrame(np.random.randn(100, 40))
-y = pd.DataFrame(np.random.randn(100, 1))
+X = np.random.randn(100, 40)
+y = np.random.randn(100, 1)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=123)
 
@@ -41,16 +41,27 @@ def test_input_types():
   '''
   Check input types of BackwardSelection class
   '''
-  msg = "X_train must be numpy array"
-  with pytest.raises(TypeError, match=msg):
-    BackwardSelection(LinearRegression(), 12345, y_train, X_test, y_test, verbose=True)
+  with pytest.raises(TypeError):
+    BackwardSelection(LinearRegression(), 12345, y_train, X_test, y_test)
+  
+  with pytest.raises(TypeError):
+    BackwardSelection(LinearRegression(), X_train, 12345, X_test, y_test)
 
+  with pytest.raises(TypeError):
+    BackwardSelection(LinearRegression(), X_train, y_train, 12345, y_test)
+
+  with pytest.raises(TypeError):
+    BackwardSelection(LinearRegression(), X_train, y_train, X_test, 12345)
 
 def test_sklearn_model_methods():
   '''
-  Test that error is returned if model doesn't have "fit", "predict", and "score" methods
+  Check that an attribute error gets raised if the sklearn model does not have all 3 methods: fit, predict, and score
   '''
-
+  for method in ('fit', 'predict', 'score'):
+      model = LinearRegression()
+      delattr(model, method)
+      with pytest.raises(AttributeError):
+        BackwardSelection(model, method, verbose=True)
 
 # test output
 def test_output_type(selection):
