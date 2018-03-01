@@ -59,15 +59,13 @@ class ForwardSelection(object):
     def _forward_input_checks(self, epsilon, epsilon_history, max_features):
         pass
 
-    def forward(self, epsilon=10e-4, epsilon_history=5, max_features=None):
+    def forward(self, min_change=0.5, max_features=None):
         """Perform forward selection on a Sklearn model.
 
         Args:
-            epsilon : float
-                smallest average change in the model's score to be considered meaningful
-                over the past `epsilon_history` iterations of the algorithm.
-            epsilon_history : int
-                number of past values to consider when comparing `epsilon`.
+            min_change : int or float, optional
+                The smallest change to be considered significant.
+                `n_features` must be None for `min_change` to operate.
             max_features : int
                 the max. number of features to allow.
 
