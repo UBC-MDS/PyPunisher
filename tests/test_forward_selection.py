@@ -30,8 +30,13 @@ y = pd.DataFrame(np.random.randn(100, 1))
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=123)
 
+@pytest.fixture
+def selection():
+  return ForwardSelection(LinearRegression(), X_train, y_train, X_test, y_test, verbose=True)
+
+
 # test inputs
-def test_input_types(selection):
+def test_input_types():
   '''
   type checking class inputs
   '''
@@ -41,9 +46,7 @@ def test_input_types(selection):
 
   
 
-
-
-def test_sklearn_model_methods(selection):
+def test_sklearn_model_methods():
   '''
   test that error is returned if model doesn't have "fit", "predict", and "score" methods
   '''

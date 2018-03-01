@@ -39,7 +39,7 @@ def selection():
 # test inputs
 def test_input_types():
   '''
-  type checking class inputs
+  Check input types of BackwardSelection class
   '''
   msg = "X_train must be numpy array"
   with pytest.raises(TypeError, match=msg):
@@ -48,21 +48,21 @@ def test_input_types():
 
 def test_sklearn_model_methods():
   '''
-  test that error is returned if model doesn't have "fit", "predict", and "score" methods
+  Test that error is returned if model doesn't have "fit", "predict", and "score" methods
   '''
 
 
 # test output
 def test_output_type(selection):
   '''
-  test that output type is a list
+  Test that output type is a list
   '''
-  assert isinstance(selection, list)
+  assert isinstance(selection.backward, list)
 
 
 def test_output_values(selection):
   '''
-  test that output type is a list
+  test that BackwardSelection selects best features
   '''
-  assert selection == [1,5,7]
+  assert selection.backward == [1,5,7]
 
