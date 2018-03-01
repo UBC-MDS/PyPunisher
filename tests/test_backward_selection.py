@@ -8,13 +8,6 @@ import pytest
 import numpy as np
 import pandas as pd
 
-# numpy testing tools
-from numpy.testing import assert_almost_equal
-from numpy.testing import assert_array_equal
-from numpy.testing import assert_array_almost_equal
-from numpy.testing import assert_array_less
-from numpy.testing import assert_approx_equal
-
 # sklearn helpers
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
