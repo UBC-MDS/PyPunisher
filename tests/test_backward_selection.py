@@ -63,6 +63,19 @@ def test_sklearn_model_methods():
       with pytest.raises(AttributeError):
         BackwardSelection(model, method, verbose=True)
 
+def test_backward_attributes(selection):
+  '''
+  Check attribute types of that attributes of backward methods are correct 
+  '''
+  msg = "Number of features must be a positive integer or float"
+  with pytest.raises(AttributeError, match=msg):
+    selection.backward(n_features=-0.5)
+
+  msg = "n_features must be None for min_change to work"
+  with pytest.raises(AttributeError, match=msg):
+    selection.backward(n_features=0.5, min_change=0.5)
+
+
 # test output
 def test_output_type(selection):
   '''
