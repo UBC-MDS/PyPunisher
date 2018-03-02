@@ -14,22 +14,6 @@ some improvements in `PyPunisher`.
 
 Avinash, Tariq, Jill
 
-
-## ToDos:
-
-Jill
-
-* function description
-    
-Tariq
-
-* summary paragraph
-    
-Avinash 
-
-* where your packages fit into the Python and R ecosystems
-
-
 ## Functions included:
 
 We will be implementing two stepwise feature selection techniques:
@@ -65,16 +49,14 @@ non-trivial decrease in model performance. We hope to allow users to define a "n
 
 ## How to run unit tests
 
-In the root directory, run a test file in terminal.
+From root directory, run all test files in terminal:
+
+```
+python -m pytest
+```
+
+You also have the option to run individual test files by referencing its path. For example: 
 
 ```
 python -m pytest tests/test_forward_selection.py
-```
-
-```
-python -m pytest tests/test_backward_selection.py
-```
-
-```
-python -m pytest tests/test_criterion.py
 ```
