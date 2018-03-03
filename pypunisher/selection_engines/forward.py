@@ -5,7 +5,6 @@
 
 """
 import numpy as np
-from pypunisher.metrics.criterion import compute_score
 from pypunisher.selection_engines._utils import (get_n_features,
                                                  enforce_use_of_all_cpus,
                                                  worse_case_bar)
