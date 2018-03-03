@@ -33,6 +33,7 @@ model = LinearRegression()
 # `model` Param
 # -----------------------------------------------------------------------------
 
+
 def test_metric_model_parm():
     for kind in ("invalid", model):
         for metric in (aic, bic):
