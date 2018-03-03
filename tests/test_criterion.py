@@ -23,7 +23,10 @@ model = LinearRegression()
 def test_metric_model_parm():
     for kind in ("invalid", model):
         for metric in (aic, bic):
-            with pytest.raises(TypeError):
+            if isinstance(kind, str):
+                with pytest.raises(TypeError):
+                    metric(kind, data=X_train)
+            else:
                 metric(kind, data=X_train)
 
 
@@ -35,7 +38,10 @@ def test_metric_model_parm():
 def test_metric_data_parm():
     for kind in ("invalid", X_train):
         for metric in (aic, bic):
-            with pytest.raises(TypeError):
+            if isinstance(kind, str):
+                with pytest.raises(TypeError):
+                    metric(model, data=kind)
+            else:
                 metric(model, data=kind)
 
 
