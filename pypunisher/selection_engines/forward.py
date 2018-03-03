@@ -55,7 +55,7 @@ class ForwardSelection(object):
         pass
 
     @staticmethod  # `self` captures yield of **locals().
-    def _forward_input_checks(self, epsilon, epsilon_history, max_features):
+    def _forward_input_checks(self, max_features):
         pass
 
     def forward(self, min_change=0.5, max_features=None):
