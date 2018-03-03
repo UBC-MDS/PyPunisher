@@ -37,7 +37,7 @@ sk_model = LinearRegression()
 
 
 def test_metric_model_parm():
-    """Test that the `model` param in `aic()` and `bic()`
+    """Test that the `model` params in `aic()` and `bic()`
     will raise a TypeError when passed something other
     than a sk-learn model."""
     for kind in ("invalid", sk_model):
@@ -55,7 +55,7 @@ def test_metric_model_parm():
 
 
 def test_metric_data_parm():
-    """Test that the `data` param in `aic()` and `bic()`
+    """Test that the `data` params in `aic()` and `bic()`
     will raise a TypeError when passed something other
     than an ndarray."""
     for kind in ("invalid", X_train):
@@ -73,7 +73,7 @@ def test_metric_data_parm():
 
 
 def test_metric_output():
-    """Test that both metrics (`aic()` and `bic()` return
+    """Test that both metrics (`aic()` and `bic()`) return
     floating point numbers."""
     for metric in (aic, bic):
         assert isinstance(metric(sk_model, data=X_train), float)
