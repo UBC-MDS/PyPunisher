@@ -6,6 +6,8 @@
 """
 import numpy as np
 
+np.random.seed(99)
+
 features = 20
 obs = 501
 
