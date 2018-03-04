@@ -1,105 +1,93 @@
 """
-Criterion Tests
+
+    Criterion Tests
+    ~~~~~~~~~~~~~~~
+
 """
 
 import os
 import sys
 import pytest
 
-# numpy testing tools
-from numpy.testing import assert_almost_equal
-from numpy.testing import assert_array_equal
-from numpy.testing import assert_array_almost_equal
-from numpy.testing import assert_array_less
-from numpy.testing import assert_approx_equal
-
-# sklearn helpers
-from sklearn import linear_model
-from sklearn.utils.testing import assert_raise_message # helper function to test the message raised in an exception
-
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
 
-import pypunisher.criterion
+import statsmodels.api as sm
+from pypunisher.metrics.criterion import aic, bic
+from sklearn.linear_model import LinearRegression
+from tests._test_data import X_train, y_train
+
+COMP_TOLERANCE = 0.5  # comparision tolerance between floats
+
+# -----------------------------------------------------------------------------
+# Setup
+# -----------------------------------------------------------------------------
+
+sm_model = sm.OLS(y_train, X_train)
+res = sm_model.fit()
+sm_aic = res.aic
+sm_bic = res.bic
+
+sk_model = LinearRegression()
 
 
-def test_aic_input_model_type():
-  '''
-  Check if the model passed into AIC is of correct type
-  '''
-  with pytest.raises(TypeError):
-    aic(model, 1)
+# -----------------------------------------------------------------------------
+# `model` Param
+# -----------------------------------------------------------------------------
 
 
-def test_aic_input_lambda_type():
-  '''
-  Check if the lambda parameter passed into AIC is an integer
-  '''
-  
-  with pytest.raises(TypeError):
-      aic(model, 1.5)
+def test_metric_model_parm():
+    """Test that the `model` params in `aic()` and `bic()`
+    will raise a TypeError when passed something other
+    than a sk-learn model."""
+    for kind in ("invalid", sk_model):
+        for metric in (aic, bic):
+            if isinstance(kind, str):
+                with pytest.raises(TypeError):
+                    metric(kind, data=X_train)
+            else:
+                metric(kind, data=X_train)
 
 
-def test_aic_output_type():
-  '''
-  Check if the value returned by AIC is of type float.
-  '''
-  
-  # assert isinstance(aic(model_1, 1), float)
-  
-  pass
+# -----------------------------------------------------------------------------
+# `data` Param
+# -----------------------------------------------------------------------------
 
 
-
-def test_aic_model1_output_value():
-  '''
-  Check if the returned value is correct for specified sklearn model
-  '''
-  # assert aic(model_1, 1) == value
-  
-  pass
-
-
-def test_aic_model2_output_value():
-  '''
-  Check if the returned value is correct for specified sklearn model
-  '''
-  # assert aic(model_2, 1) == value
-  
-  pass
+def test_metric_data_parm():
+    """Test that the `data` params in `aic()` and `bic()`
+    will raise a TypeError when passed something other
+    than an ndarray."""
+    for kind in ("invalid", X_train):
+        for metric in (aic, bic):
+            if isinstance(kind, str):
+                with pytest.raises(TypeError):
+                    metric(sk_model, data=kind)
+            else:
+                metric(sk_model, data=kind)
 
 
-def test_bic_input_model_type():
-  '''
-  Check if the model passed into BIC is of correct type
-  '''
-  
-  with pytest.raises(TypeError):
-      bic(model)
+# -----------------------------------------------------------------------------
+# Metric output
+# -----------------------------------------------------------------------------
 
 
-def test_bic_output_type():
-  '''
-  Check if the value returned by BIC is of type float.
-  '''
-  # assert isinstance(bic(model_1), float)
-  
-  pass
+def test_metric_output():
+    """Test that both metrics (`aic()` and `bic()`) return
+    floating point numbers."""
+    for metric in (aic, bic):
+        assert isinstance(metric(sk_model, data=X_train), float)
 
 
-def test_bic_model1_output_value():
-  '''
-  Check if the returned value is correct for specified sklearn model
-  '''
-  # assert bic(model_1, 1) == value
-  
-  pass
+# -----------------------------------------------------------------------------
+# Output Value (Compare against the Stats Models Package).
+# -----------------------------------------------------------------------------
 
-def test_bic_model2_output_value():
-  '''
-  Check if the returned value is correct for specified sklearn model
-  '''
-  # assert bic(model_2, 1) == value
-  
-  pass
 
+def test_metric_output_value():
+    """Test that the actual AIC and BIC values computed by
+    our functions match that computed by a well-respected
+    statistical library in Python (StatsModels)."""
+    for metric, comparision in zip((aic, bic), (sm_aic, sm_bic)):
+        ours = metric(sk_model, data=X_train)
+        ours == pytest.approx(comparision, abs=COMP_TOLERANCE)
