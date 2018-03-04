@@ -10,7 +10,7 @@ To contribute to `PyPunisher`, you must fork the repo and make changes in the fo
 https://github.com/yourusername/PyPunisher
 ```
 
-Please follow the [Google style guides ](http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html)for R and Python doc strings.
+Please follow the [Google style guides](http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html) for Python doc strings.
 
 Once you have made all of your proposed updates, submit a **pull request** and reference the appropriate `issue` that you have tackled.
 
