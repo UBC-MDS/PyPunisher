@@ -48,11 +48,29 @@ class BackwardSelection(object):
         self._n_features = get_n_features(X_train)
 
     def _fit_and_score_back(self, S, exclude):
-        pass
+        features = [f for f in S if f != exclude] if exclude else S
+        self._model.fit(self._X_train[:, features], self._y_train)
+        return self._model.score(self._X_val[:, features], self._y_val)
 
     @staticmethod  # `self` captures the yield of **locals().
     def _backward_input_checks(self, S, n_features, min_change):
-        pass
+        if min_change is None and n_features is None:
+            raise ValueError(
+                "One, and only one, of `min_change` and `n_features` "
+                "should be non-None."
+            )
+        if isinstance(n_features, int) and not 0 < n_features < len(S):
+            raise ValueError(
+                "If an int, `n_features` must be on (0, {}).".format(len(S))
+            )
+        if isinstance(n_features, float) and not 0 < n_features < 1:
+            raise ValueError(
+                "If a float, `n_features` must be on (0, 1)."
+            )
+        if min_change is not None and not isinstance(min_change, (int, float)):
+            raise TypeError(
+                "`min_change` must be of Type: None, int or float."
+            )
 
     def backward(self, n_features=0.5, min_change=None):
         """Run Backward Selection Algorithm.
@@ -75,4 +93,46 @@ class BackwardSelection(object):
             if `n_features` and `min_change` are both non-None.
 
         """
-        pass
+        S = list(range(self._n_features))  # start with all features
+        self._backward_input_checks(**locals())
+
+        if isinstance(n_features, float):
+            n_features = int(n_features * len(S))
+
+        last_score = self._fit_and_score_back(S, exclude=None)
+        worse_case = worse_case_bar(self._n_features, verbose=self._verbose)
+        for _ in worse_case:
+            worse_case.set_postfix(n_features=len(S), score=last_score)
+
+            # 1. Hunt for the least predictive feature.
+            best = None
+            for j in S:
+                score = self._fit_and_score_back(S, exclude=j)
+                if score >= last_score and (best is None or score > best[1]):
+                    best = (j, score)
+
+            if not best:
+                break  # Relent. Removing any `j` yielded a lower score.
+            else:
+                to_drop, best_new_score = best
+
+            # 2a. Halting Based Blindly Based on `n_features`.
+            if isinstance(n_features, int):
+                S.remove(to_drop)  # blindly drop.
+                last_score = best_new_score
+                if len(S) == n_features:
+                    break
+                else:
+                    continue  # i.e., ignore criteria below.
+
+            # 2b. Halt if the change is not longer significant.
+            if (best_new_score - last_score) < min_change:
+                break
+            else:
+                S.remove(to_drop)
+                last_score = best_new_score
+
+            if len(S) == 1:  # continuing is futile.
+                break
+
+        return S
