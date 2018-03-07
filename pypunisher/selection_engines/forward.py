@@ -4,7 +4,6 @@
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
-import numpy as np
 from pypunisher.selection_engines._utils import (get_n_features,
                                                  enforce_use_of_all_cpus,
                                                  worse_case_bar)
@@ -48,14 +47,28 @@ class ForwardSelection(object):
         self._n_features = get_n_features(X_train)
 
     def _fit_and_score_forward(self, S, include):
-        pass
+        features = S + [include]
+        self._model.fit(self._X_train[:, features], self._y_train)
+        return self._model.score(self._X_val[:, features], self._y_val)
 
-    def _forward_break_criteria(self, S, j_score_dict, min_change, max_features):
-        pass
+    def _forward_break_criteria(self, S, j_score_dict, max_features):
+        # 3a. Check if the algorithm should halt b/c of features themselves
+        if not len(j_score_dict) or len(S) == self._n_features:
+            return True
+        # 3c. Break if the number of features in S > max_features.
+        elif isinstance(max_features, int) and max_features > len(S):
+            return True
+        else:
+            return False
 
     @staticmethod  # `self` captures yield of **locals().
-    def _forward_input_checks(self, max_features):
-        pass
+    def _forward_input_checks(self, epsilon, epsilon_history, max_features):
+        if not isinstance(epsilon, float):
+            raise TypeError("`epsilon` must be of type float.")
+        if not isinstance(epsilon_history, int):
+            raise TypeError("`epsilon_history` must be an int.")
+        if max_features is not None and not isinstance(max_features, int):
+            raise TypeError("`max_features` must be of type None or int.")
 
     def forward(self, min_change=0.5, max_features=None):
         """Perform forward selection on a Sklearn model.
@@ -71,4 +84,33 @@ class ForwardSelection(object):
             S : list
               The column indices of `X_train` (and `X_val`) that denote the chosen features.
         """
-        pass
+        self._forward_input_checks(**locals())
+        S = list()
+        best_score = None
+        itera = list(range(self._n_features))
+
+        worse_case = worse_case_bar(self._n_features, verbose=self._verbose)
+        for _ in worse_case:
+            worse_case.set_postfix(n_features=len(S), score=best_score)
+            # 1. Find best feature, j, to add.
+            j_score_dict = dict()
+            for j in itera:
+                j_model_score = self._fit_and_score_forward(S, include=j)
+                if best_score is None or (j_model_score > best_score):
+                    j_score_dict[j] = j_model_score
+
+            # 2. Save the best j to S, if possible.
+            if len(j_score_dict):
+                best_j = max(j_score_dict, key=j_score_dict.get)
+                best_j_score = j_score_dict[best_j]
+                # Update S, the best score and score history ---
+                change = best_j_score - best_score if best_score else 0
+                best_score = best_j_score  # update the score to beat
+                S.append(best_j)  # add feature
+                itera.remove(best_j)  # no longer search over this feature.
+
+            if self._forward_break_criteria(S, j_score_dict=j_score_dict,
+                                            max_features=max_features):
+                break
+
+        return S
