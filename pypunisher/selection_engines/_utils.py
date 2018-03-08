@@ -87,18 +87,13 @@ def array_check(self):
 
 
 def model_check(model):
-    """Check that `model` is a sklearn model
-    and that it contains `fit`, `predict` and `score` methods.
+    """Check that `model` contains `fit`, `predict` and `score` methods.
 
     Args:
         model : sklearn model
             Any sklearn model
 
     """
-    if 'sklearn' not in str(type(model)):
-        raise TypeError(
-            "`model` is not a sklearn model"
-        )
     for attr in ('fit', 'predict', 'score'):
         if not hasattr(model, attr):
             raise AttributeError(
