@@ -12,8 +12,10 @@ def aic(model, X_train, y_train):
     Args:
         model : sklearn model object)
             A sklearn model.
-        data : ndarray
+        X_train : ndarray
             The data used to train `model`.
+        y_train : 1d numpy array
+            The response variable.
 
     Returns:
         float: ...
@@ -21,11 +23,11 @@ def aic(model, X_train, y_train):
     References:
         * https://en.wikipedia.org/wiki/Akaike_information_criterion
     """
-    k = model.coef_
     n = X_train.shape[0]
+    k = X_train.shape[1]
     y_pred = model.predict(X_train)
     rss = sum((y_train - y_pred)**2)
-    return n*np.log(rss) + 2*k
+    return n*np.log(rss/n) + 2*k
 
 
 def bic(model, X_train, y_train):
@@ -34,8 +36,10 @@ def bic(model, X_train, y_train):
     Args:
         model : sklearn model object)
             A sklearn model.
-        data : ndarray
+        X_train : ndarray
             The data used to train `model`.
+        y_train : 1d numpy array
+            The response variable. 
 
     Returns:
         float: ...
@@ -44,9 +48,9 @@ def bic(model, X_train, y_train):
         * https://en.wikipedia.org/wiki/Bayesian_information_criterion
 
     """
-    k = X_train.shape[1]
     n = X_train.shape[0]
+    k = X_train.shape[1]
     
     y_pred = model.predict(X_train)
     rss = sum((y_train - y_pred)**2)
-    return n*np.log(rss)+np.log(n)*k
+    return n*np.log(rss/n)+np.log(n)*k
