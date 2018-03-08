@@ -75,7 +75,7 @@ def worse_case_bar(n, verbose):
 
 def array_check(self):
     """Check that the arrays in `self` are
-    truly ndarray.
+    truly ndarrays.
 
     Args:
         self : class object
