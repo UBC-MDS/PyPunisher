@@ -47,7 +47,7 @@ def aic(model, X_train, y_train):
     aic = n*np.log(rss/n) + 2*k
 
     if n/k < 40:
-        # returns AICc if sample size is small wrt k
+        # returns AICc for small sample sizes
         return aic + 2*k*(k+1)/(n-k-1)
     else:
         return aic
