@@ -1,7 +1,7 @@
 """
 
-    Forward Selection Tests
-    ~~~~~~~~~~~~~~~~~~~~~~~
+    Tests Specific to Forward Selection
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
 import os
