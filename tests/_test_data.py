@@ -18,8 +18,8 @@ middle_feature = features // 2
 
 np.random.seed(SEED)
 X = np.zeros((obs, features))
-X[:, middle_feature] = np.arange(obs)
-y = X[:, middle_feature] + np.random.uniform(0, 50, size=obs)
+y = np.arange(obs)
+X[:, middle_feature] = y + np.random.uniform(0, 50, size=obs)
 
 X_train, X_val, y_train, y_val = train_test_split(X, y, random_state=SEED)
 

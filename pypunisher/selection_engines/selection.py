@@ -4,9 +4,10 @@
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
-from pypunisher.selection_engines._checks import (model_check,
-                                                  array_check,
-                                                  input_checks)
+from pypunisher._checks import (model_check,
+                                array_check,
+                                input_checks)
+                                         
 from pypunisher.selection_engines._utils import (get_n_features,
                                                  enforce_use_of_all_cpus,
                                                  worse_case_bar,
