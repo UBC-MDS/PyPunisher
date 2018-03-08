@@ -115,7 +115,6 @@ class Selection(object):
                 best_j = max(j_score_dict, key=j_score_dict.get)
                 best_j_score = j_score_dict[best_j]
                 # Update S, the best score and score history ---
-                change = best_j_score - best_score if best_score else 0
                 best_score = best_j_score  # update the score to beat
                 S.append(best_j)  # add feature
                 itera.remove(best_j)  # no longer search over this feature.
