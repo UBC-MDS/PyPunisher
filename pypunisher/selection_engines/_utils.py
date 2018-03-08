@@ -102,6 +102,25 @@ def model_check(model):
 
 
 def parse_features_param(param, total, param_name):
+    """Parse either the `n_features` (backward)
+    or `max_features` (forward) parameter. Namely
+    (a) if `param` is an int, ensure it lies on (0, `total`),
+    (a) if `param` is a float, ensure it lies on (0, 1).
+
+    Args:
+        param : int
+            One of `n_features`, `max_features`.
+        total : int
+            The total features in the data
+        param_name : str
+
+
+    Returns:
+        int
+            * if `n_features`, number of features to select.
+            * if `max_features`, the largest number of features to select.
+
+    """
     if isinstance(param, int) and not 0 < param < total:
         raise ValueError(
             "If an int, `{}` must be on (0, {}).".format(param_name, total)
@@ -112,13 +131,24 @@ def parse_features_param(param, total, param_name):
         )
 
     if isinstance(param, float):
-        return int(param * len(total))
+        return int(param * total)
     else:
         return param
 
 
 def input_checks(locals_):
-    param_a, param_b = [p for k, p in locals_.items() if k != 'self']
+    """Check that
+    (a) the only one of the the two inputs are non-None
+    (b) that the remaining element is numeric and is strictly
+    greater than zero
+
+    Args:
+        locals_ : dict
+            Yield of `locals()` within a function.
+
+    """
+    # Sort so that the first error message, if thrown, is in a reliable order.
+    param_a, param_b = sorted(k for k, p in locals_.items() if k != 'self')
     locals_non_non = {k: v for k, v in locals_.items()
                       if v is not None and k != 'self'}
 
