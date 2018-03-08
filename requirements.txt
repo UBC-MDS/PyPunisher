@@ -1,3 +1,5 @@
 pytest
 numpy
 scikit-learn
+scipy
+tqdm
