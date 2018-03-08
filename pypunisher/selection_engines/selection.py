@@ -56,13 +56,18 @@ class Selection(object):
         array_check(self)
 
         self._verbose = verbose
-        self._criterion = criterion  # ToDo: not implemented.
+        self._criterion = criterion
         self._n_features = get_n_features(X_train)
 
-    def _fit_and_score_forward(self, S, include):
-        features = S + [include]
+    def _fit_and_score(self, S, feature, algorithm):
+        if algorithm == 'forward':
+            features = S + [feature]
+        else:
+            features = [f for f in S if f != feature] if feature else S
         self._model.fit(self._X_train[:, features], self._y_train)
-        return self._model.score(self._X_val[:, features], self._y_val)
+        # ToDo: Add AIC and BIC.
+        score = self._model.score(self._X_val[:, features], self._y_val)
+        return score
 
     def _forward_break_criteria(self, S, j_score_dict, max_features):
         # a. Check if the algorithm should halt b/c of features themselves
@@ -107,7 +112,7 @@ class Selection(object):
             # 1. Find best feature, j, to add.
             j_score_dict = dict()
             for j in itera:
-                j_model_score = self._fit_and_score_forward(S, include=j)
+                j_model_score = self._fit_and_score(S, feature=j, algorithm='forward')
                 if best_score is None or (j_model_score > best_score):
                     j_score_dict[j] = j_model_score
 
@@ -125,11 +130,6 @@ class Selection(object):
                 break
 
         return S
-
-    def _fit_and_score_back(self, S, exclude):
-        features = [f for f in S if f != exclude] if exclude else S
-        self._model.fit(self._X_train[:, features], self._y_train)
-        return self._model.score(self._X_val[:, features], self._y_val)
 
     def backward(self, n_features=0.5, min_change=None):
         """Run Backward Selection Algorithm.
@@ -160,7 +160,7 @@ class Selection(object):
                 n_features, total=len(S), param_name="n_features"
             )
 
-        last_score = self._fit_and_score_back(S, exclude=None)
+        last_score = self._fit_and_score(S, feature=None, algorithm='backward')
         worse_case = worse_case_bar(self._n_features, verbose=self._verbose)
         for _ in worse_case:
             worse_case.set_postfix(n_features=len(S), score=last_score)
@@ -168,7 +168,7 @@ class Selection(object):
             # 1. Hunt for the least predictive feature.
             best = None
             for j in S:
-                score = self._fit_and_score_back(S, exclude=j)
+                score = self._fit_and_score(S, feature=j, algorithm='backward')
                 if score >= last_score and (best is None or score > best[1]):
                     best = (j, score)
 
