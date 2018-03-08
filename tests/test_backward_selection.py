@@ -14,7 +14,7 @@ from tests._wrappers import backward
 
 def test_backward_params():
     """
-    Check parameters to `forward()` raise when expected.
+    Check parameters to `backward()` raise when expected.
     """
     msg = "`n_features` must be greater than zero."
     with pytest.raises(ValueError, match=msg):

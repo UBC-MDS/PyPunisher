@@ -1,7 +1,7 @@
 """
 
-    Run Tests that Forward and Backward Selection have in Common
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Run Tests Common to Forward and Backward Selection
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
 import os
@@ -12,11 +12,10 @@ from copy import deepcopy
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
 
+from pypunisher import Selection
 from tests._wrappers import forward, backward
 from tests._test_data import TRUE_BEST_FEATURE
 from tests._defaults import DEFAULT_SELECTION_PARAMS
-from pypunisher.selection_engines.forward import ForwardSelection
-from pypunisher.selection_engines.backward import BackwardSelection
 
 
 # -----------------------------------------------------------------------------
@@ -24,23 +23,15 @@ from pypunisher.selection_engines.backward import BackwardSelection
 # -----------------------------------------------------------------------------
 
 
-def input_types(cls):
+def test_input_types():
     """
-    Check input types of ForwardSelection class
+    Check input types when Initializing Selection().
     """
     for k in ('X_train', 'y_train', 'X_val', 'y_val'):
         d = deepcopy(DEFAULT_SELECTION_PARAMS)
         d[k] = 12345
         with pytest.raises(TypeError):
-            cls(**d)
-
-
-def test_fsel_input_types():
-    input_types(ForwardSelection)
-
-
-def test_bsel_input_types():
-    input_types(BackwardSelection)
+            Selection(**d)
 
 
 # -----------------------------------------------------------------------------
@@ -48,7 +39,7 @@ def test_bsel_input_types():
 # -----------------------------------------------------------------------------
 
 
-def sklearn_model_methods(cls):
+def test_sklearn_model_methods():
     """
     Check that an attribute error gets raised if the sklearn
     model does not have all 3 methods: fit, predict, and score
@@ -69,15 +60,7 @@ def sklearn_model_methods(cls):
         d = deepcopy(DEFAULT_SELECTION_PARAMS)
         d['model'] = gen_dummy_model(exclude=method_to_drop)
         with pytest.raises(AttributeError):
-            cls(**d)
-
-
-def test_fsel_sklearn_model_methods():
-    sklearn_model_methods(ForwardSelection)
-
-
-def test_bsel_sklearn_model_methods():
-    sklearn_model_methods(BackwardSelection)
+            Selection(**d)
 
 
 # -----------------------------------------------------------------------------
