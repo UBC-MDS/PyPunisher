@@ -11,8 +11,8 @@ def _get_coeffs(model, X_train, y_train):
     """
 
     Args:
-        model : sklearn model object)
-            A sklearn model.
+        model : sklearn model object
+            A fitted sklearn model.
         X_train : ndarray
             The data used to train `model`.
         y_train : 1d numpy array
@@ -44,7 +44,7 @@ def aic(model, X_train, y_train):
     where L is the maximized value of the likelihood function. A smaller AIC value suggests that the model is a better fit for the data.
 
     Args:
-        model : sklearn model object)
+        model : A fitted sklearn model object)
             A fitted sklearn model.
         X_train : ndarray
             The data used to train `model`.
@@ -65,8 +65,7 @@ def aic(model, X_train, y_train):
     if not isinstance(y_train, ndarray):
         raise TypeError("`y_train` must be an ndarray.")
 
-    k, llf = _get_coeffs(model, X_train=X_train, y_train=y_train)
-
+    n, k, llf = _get_coeffs(model, X_train=X_train, y_train=y_train)
     aic = -2*log(llf)+2*k
 
     if n/k < 40:
@@ -106,6 +105,6 @@ def bic(model, X_train, y_train):
         raise TypeError("`y_train` must be an ndarray.")
 
     n, k, llf = _get_coeffs(model, X_train=X_train, y_train=y_train)
-
     bic = -2*log(llf)+log(n)*k
+
     return bic
