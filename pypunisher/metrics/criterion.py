@@ -4,7 +4,7 @@
      ~~~~~~~~~~~~~~~~~~~~~
 
 """
-import numpy as np
+from numpy import log, ndarray
 
 def aic(model, X_train, y_train):
     """Compute the Akaike Information Criterion (AIC)
@@ -37,14 +37,14 @@ def aic(model, X_train, y_train):
         if not callable(getattr(model, method, None)):
             raise AttributeError
 
-    if (not isinstance(X_train, np.ndarray)) or (not isinstance(y_train,np.ndarray)):
+    if (not isinstance(X_train, ndarray)) or (not isinstance(y_train,ndarray)):
         raise TypeError
 
     n = X_train.shape[0]
     k = X_train.shape[1]
     y_pred = model.predict(X_train)
     rss = sum((y_train - y_pred)**2)
-    aic = n*np.log(rss/n) + 2*k
+    aic = n*log(rss/n) + 2*k
 
     if n/k < 40:
         # returns AICc for small sample sizes
@@ -83,12 +83,12 @@ def bic(model, X_train, y_train):
         if not callable(getattr(model, method, None)):
             raise AttributeError
 
-    if (not isinstance(X_train, np.ndarray)) or (not isinstance(y_train,np.ndarray)):
+    if (not isinstance(X_train, ndarray)) or (not isinstance(y_train,ndarray)):
         raise TypeError
 
     n = X_train.shape[0]
     k = X_train.shape[1]
     y_pred = model.predict(X_train)
     rss = sum((y_train - y_pred)**2)
-    bic = n*np.log(rss/n)+np.log(n)*k
+    bic = n*log(rss/n)+log(n)*k
     return bic
