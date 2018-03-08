@@ -18,11 +18,17 @@ def aic(model, X_train, y_train):
             The response variable.
 
     Returns:
-        float: ...
+        aic: float
+            Akaike Information Criterion value if sample size is sufficient. 
+            If n/k < 40, AICc gets returned to adjust for small sample size.
+                  
 
     References:
         * https://en.wikipedia.org/wiki/Akaike_information_criterion
     """
+    if (not isinstance(X_train, np.ndarray)) or (not isinstance(y_train,np.ndarray)):
+        raise TypeError
+
     n = X_train.shape[0]
     k = X_train.shape[1]
     y_pred = model.predict(X_train)
@@ -48,13 +54,15 @@ def bic(model, X_train, y_train):
             The response variable. 
 
     Returns:
-        float: ...
+        bic: float
+            Bayesian Information Criterion value.
 
     References:
         * https://en.wikipedia.org/wiki/Bayesian_information_criterion
 
     """
-
+    if (not isinstance(X_train, np.ndarray)) or (not isinstance(y_train,np.ndarray)):
+        raise TypeError
 
     n = X_train.shape[0]
     k = X_train.shape[1]
