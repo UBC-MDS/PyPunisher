@@ -36,7 +36,7 @@ sk_model = LinearRegression()
 # -----------------------------------------------------------------------------
 
 
-def test_metric_model_parm():
+def test_metric_model_param():
     """Test that the `model` params in `aic()` and `bic()`
     will raise a TypeError when passed something other
     than a sk-learn model."""
@@ -44,9 +44,9 @@ def test_metric_model_parm():
         for metric in (aic, bic):
             if isinstance(kind, str):
                 with pytest.raises(TypeError):
-                    metric(kind, data=X_train)
+                    metric(kind, X_train=X_train, y_train=y_train)
             else:
-                metric(kind, data=X_train)
+                metric(kind, X_train=X_train, y_train=y_train)
 
 
 # -----------------------------------------------------------------------------
@@ -89,5 +89,5 @@ def test_metric_output_value():
     our functions match that computed by a well-respected
     statistical library in Python (StatsModels)."""
     for metric, comparision in zip((aic, bic), (sm_aic, sm_bic)):
-        ours = metric(sk_model, X_train=X_train y_train=y_train)
+        ours = metric(sk_model, X_train=X_train, y_train=y_train)
         ours == pytest.approx(comparision, abs=COMP_TOLERANCE)
