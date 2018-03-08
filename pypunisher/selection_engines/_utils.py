@@ -147,8 +147,8 @@ def input_checks(locals_):
             Yield of `locals()` within a function.
 
     """
-    # Sort so that the first parameter printed in
-    # the error message, if thrown, is in a reliable order.
+    # Sort so that the order of the parameter name
+    # are in a reliable (alphabetical) order.
     param_a, param_b = sorted(k for k, p in locals_.items() if k != 'self')
     locals_non_non = {k: v for k, v in locals_.items()
                       if v is not None and k != 'self'}
