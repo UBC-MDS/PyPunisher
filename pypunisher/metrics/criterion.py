@@ -27,12 +27,16 @@ def aic(model, X_train, y_train):
     Returns:
         aic: float
             Akaike Information Criterion value if sample size is sufficient. 
-            If n/k < 40, AICc gets returned to adjust for small sample size.
+            If n (number of observations)/k (number of features) < 40, AICc gets returned to adjust for small sample size.
                   
 
     References:
         * https://en.wikipedia.org/wiki/Akaike_information_criterion
     """
+    for method in ('fit', 'predict', 'score'):
+        if not callable(getattr(model, method, None)):
+            raise AttributeError
+
     if (not isinstance(X_train, np.ndarray)) or (not isinstance(y_train,np.ndarray)):
         raise TypeError
 
@@ -75,6 +79,10 @@ def bic(model, X_train, y_train):
         * https://en.wikipedia.org/wiki/Bayesian_information_criterion
 
     """
+    for method in ('fit', 'predict', 'score'):
+        if not callable(getattr(model, method, None)):
+            raise AttributeError
+
     if (not isinstance(X_train, np.ndarray)) or (not isinstance(y_train,np.ndarray)):
         raise TypeError
 
