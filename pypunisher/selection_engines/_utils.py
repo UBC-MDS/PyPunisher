@@ -4,6 +4,7 @@
     ~~~~~
 
 """
+import numpy as np
 from tqdm import trange
 
 
@@ -70,3 +71,16 @@ def worse_case_bar(n, verbose):
 
     """
     return trange(n, desc='Worst Case', disable=not verbose)
+
+
+def array_check(self):
+    """Check that the arrays in `self` are
+    truely ndarray
+
+    Args:
+        self : class object
+
+    """
+    for i in ("_X_train", '_y_train', '_X_val', '_y_val'):
+        if not isinstance(getattr(self, i), np.ndarray):
+            raise TypeError("{} must be a ndarray".format(i[1:]))
