@@ -4,9 +4,9 @@
      ~~~~~~~~~~~~~~~~~~~~~
 
 """
+import numpy as np
 
-
-def aic(model, data):
+def aic(model, X_train, y_train):
     """Compute the Akaike Information Criterion (AIC)
 
     Args:
@@ -20,12 +20,15 @@ def aic(model, data):
 
     References:
         * https://en.wikipedia.org/wiki/Akaike_information_criterion
-
     """
-    pass
+    k = model.coef_
+    n = X_train.shape[0]
+    y_pred = model.predict(X_train)
+    rss = sum((y_train - y_pred)**2)
+    return n*np.log(rss) + 2*k
 
 
-def bic(model, data):
+def bic(model, X_train, y_train):
     """Compute the Bayesian Information Criterion (BIC)
 
     Args:
@@ -41,4 +44,9 @@ def bic(model, data):
         * https://en.wikipedia.org/wiki/Bayesian_information_criterion
 
     """
-    pass
+    k = X_train.shape[1]
+    n = X_train.shape[0]
+    
+    y_pred = model.predict(X_train)
+    rss = sum((y_train - y_pred)**2)
+    return n*np.log(rss)+np.log(n)*k
