@@ -22,7 +22,9 @@ X = np.zeros((obs, features))
 X[:, middle_feature] = np.arange(obs)
 y = X[:, middle_feature] + np.random.uniform(0, 50, size=obs)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=SEED)
+X_train, X_val, y_train, y_val = train_test_split(X, y, random_state=SEED)
+
+TRUE_BEST_FEATURE = middle_feature
 
 # Visualize ---
 # import matplotlib.pyplot as plt
