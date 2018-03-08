@@ -87,16 +87,16 @@ class ForwardSelection(object):
                 "`{}` must be greater than zero.".format(name)
             )
 
-    def forward(self, min_change=0.5, max_features=None):
+    def forward(self, max_features=None, min_change=0.5):
         """Perform forward selection on a Sklearn model.
 
         Args:
-            min_change : int or float, optional
-                The smallest change to be considered significant.
-                Note: `max_features` must be None in order for `min_change` to operate.
             max_features : int
                 the max. number of features to allow.
                 Note: `min_change` must be None in order for `max_features` to operate.
+            min_change : int or float, optional
+                The smallest change to be considered significant.
+                Note: `max_features` must be None in order for `min_change` to operate.
 
         Returns:
             S : list
