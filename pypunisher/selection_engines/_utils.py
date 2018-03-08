@@ -62,8 +62,7 @@ def worse_case_bar(n, verbose):
         n : int
             Number of iterations
         verbose : bool
-            If true, the functionality of this function
-            collapses to `range()`.
+            If true, this function collapses to `range()`.
 
     Returns:
         `trange` object.
