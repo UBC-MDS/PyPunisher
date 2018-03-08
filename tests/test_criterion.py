@@ -4,7 +4,6 @@
     ~~~~~~~~~~~~~~~
 
 """
-
 import os
 import sys
 import pytest
@@ -28,7 +27,8 @@ res = sm_model.fit()
 sm_aic = res.aic
 sm_bic = res.bic
 
-sk_model = LinearRegression()
+# Fit on the contrived test data.
+sk_model = LinearRegression().fit(X=X_train, y=y_train)
 
 
 # -----------------------------------------------------------------------------
@@ -43,10 +43,10 @@ def test_metric_model_parm():
     for kind in ("invalid", sk_model):
         for metric in (aic, bic):
             if isinstance(kind, str):
-                with pytest.raises(TypeError):
-                    metric(kind, data=X_train)
+                with pytest.raises(AttributeError):
+                    metric(kind, X_train=X_train, y_train=y_train)
             else:
-                metric(kind, data=X_train)
+                metric(kind, X_train=X_train, y_train=y_train)
 
 
 # -----------------------------------------------------------------------------
@@ -90,4 +90,7 @@ def test_metric_output_value():
     statistical library in Python (StatsModels)."""
     for metric, comparision in zip((aic, bic), (sm_aic, sm_bic)):
         ours = metric(sk_model, X_train=X_train, y_train=y_train)
-        ours == pytest.approx(comparision, abs=COMP_TOLERANCE)
+        test = ours == pytest.approx(comparision, abs=COMP_TOLERANCE)
+        assert test, "`{}()` does not match the value from StatsModels.".format(
+            metric.__name__
+        )
