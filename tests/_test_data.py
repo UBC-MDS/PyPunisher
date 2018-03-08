@@ -20,7 +20,6 @@ np.random.seed(SEED)
 X = np.zeros((obs, features))
 y = np.arange(obs)
 X[:, middle_feature] = y + np.random.uniform(0, 50, size=obs)
-y = X[:, middle_feature]
 
 X_train, X_val, y_train, y_val = train_test_split(X, y, random_state=SEED)
 
