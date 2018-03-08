@@ -4,12 +4,13 @@
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
+from pypunisher.selection_engines._checks import (model_check,
+                                                  array_check,
+                                                  input_checks)
 from pypunisher.selection_engines._utils import (get_n_features,
                                                  enforce_use_of_all_cpus,
-                                                 worse_case_bar, array_check,
-                                                 model_check,
-                                                 parse_features_param,
-                                                 input_checks)
+                                                 worse_case_bar,
+                                                 parse_features_param)
 
 
 class Selection(object):
