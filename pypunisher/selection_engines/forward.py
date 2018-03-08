@@ -6,7 +6,8 @@
 """
 from pypunisher.selection_engines._utils import (get_n_features,
                                                  enforce_use_of_all_cpus,
-                                                 worse_case_bar, array_check)
+                                                 worse_case_bar, array_check,
+                                                 model_check)
 
 
 class ForwardSelection(object):
@@ -37,13 +38,15 @@ class ForwardSelection(object):
 
     def __init__(self, model, X_train, y_train,
                  X_val, y_val, criterion=None, verbose=True):
+        model_check(model)
+        self._model = enforce_use_of_all_cpus(model)
+
         self._X_train = X_train
         self._y_train = y_train
         self._X_val = X_val
         self._y_val = y_val
         array_check(self)
 
-        self._model = enforce_use_of_all_cpus(model)
         self._verbose = verbose
         self._criterion = criterion  # ToDO: Not Implemented Yet.
         self._n_features = get_n_features(X_train)
