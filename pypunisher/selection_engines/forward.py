@@ -79,7 +79,7 @@ class ForwardSelection(object):
                 the max. number of features to allow.
                 Note: `min_change` must be None in order for `max_features` to operate.
                 Floats will be regarded as proportions of the total
-                that must lie on (0, 1)
+                that must lie on (0, 1).
 
         Returns:
             S : list
