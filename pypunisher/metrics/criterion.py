@@ -5,7 +5,7 @@
 
 """
 from numpy import log, ndarray, pi
-
+from pypunisher._checks import model_check
 
 def _get_coeffs(model, X_train, y_train):
     """
@@ -23,33 +23,25 @@ def _get_coeffs(model, X_train, y_train):
             Number of samples
         k : int
             Number of features
-        rss : float
-            Residual Sum of Squares
-
+        llf : float
+            Maximized value of log likelihood function
     """
+    model_check(model)
     n = X_train.shape[0]
     k = X_train.shape[1]
     y_pred = model.predict(X_train)
     rss = sum((y_train - y_pred) ** 2)
-    return n, k, rss
+    llf = -(n/2)*log(2*pi) - (n/2)*log(rss/n) - n/2
+    return n, k, llf
 
 
 def aic(model, X_train, y_train):
     """Compute the Akaike Information Criterion (AIC)
 
-<<<<<<< HEAD
     AIC's objective is to prevent model overfitting by adding a penalty 
     term which penalizes more compelx models. Its formal definition is:
         -2ln(L)+2*k
     where L is the maximized value of the likelihood function. A smaller AIC value suggests that the model is a better fit for the data.
-=======
-    AIC's objective is to prevent model over-fitting by adding a penalty
-    term which penalizes more complex models. Its formal definition is:
-        -2ln(L) + 2*k
-    where L is the maximized value of the likelihood function. We can approximate 
-    -2ln(L) ≈ n*ln(RSS/n). A smaller AIC value suggests that the model is a better
-    fit for the data.
->>>>>>> master
 
     Args:
         model : sklearn model object)
@@ -68,14 +60,13 @@ def aic(model, X_train, y_train):
         * https://en.wikipedia.org/wiki/Akaike_information_criterion
     """
 
+    if not isinstance(X_train, ndarray):
+        raise TypeError("`X_train` must be an ndarray.")
     if not isinstance(y_train, ndarray):
         raise TypeError("`y_train` must be an ndarray.")
 
-    n = X_train.shape[0]
-    k = X_train.shape[1]
-    y_pred = model.predict(X_train)
-    rss = sum((y_train - y_pred)**2)
-    llf = -(n/2)*log(2*pi) - (n/2)*log(rss/n) - n/2
+    k, llf = _get_coeffs(model, X_train=X_train, y_train=y_train)
+
     aic = -2*log(llf)+2*k
 
     if n/k < 40:
@@ -109,13 +100,12 @@ def bic(model, X_train, y_train):
         * https://en.wikipedia.org/wiki/Bayesian_information_criterion
 
     """
-    if (not isinstance(X_train, ndarray)) or (not isinstance(y_train,ndarray)):
-        raise TypeError
+    if (not isinstance(X_train, ndarray)):
+        raise TypeError("`X_train` must be an ndarray.")
+    if (not isinstance(y_train,ndarray)):
+        raise TypeError("`y_train` must be an ndarray.")
 
-    n = X_train.shape[0]
-    k = X_train.shape[1]
-    y_pred = model.predict(X_train)
-    rss = sum((y_train - y_pred)**2)
-    llf = -(n/2)*log(2*pi) - (n/2)*log(rss/n) - n/2
+    n, k, llf = _get_coeffs(model, X_train=X_train, y_train=y_train)
+
     bic = -2*log(llf)+log(n)*k
     return bic
