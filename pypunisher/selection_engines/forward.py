@@ -52,23 +52,29 @@ class ForwardSelection(object):
         return self._model.score(self._X_val[:, features], self._y_val)
 
     def _forward_break_criteria(self, S, j_score_dict, max_features):
-        # 3a. Check if the algorithm should halt b/c of features themselves
+        # a. Check if the algorithm should halt b/c of features themselves
         if not len(j_score_dict) or len(S) == self._n_features:
             return True
-        # 3c. Break if the number of features in S > max_features.
+        # b. Break if the number of features in S > max_features.
         elif isinstance(max_features, int) and max_features > len(S):
             return True
         else:
             return False
 
     @staticmethod  # `self` captures yield of **locals().
-    def _forward_input_checks(self, epsilon, epsilon_history, max_features):
-        if not isinstance(epsilon, float):
-            raise TypeError("`epsilon` must be of type float.")
-        if not isinstance(epsilon_history, int):
-            raise TypeError("`epsilon_history` must be an int.")
-        if max_features is not None and not isinstance(max_features, int):
-            raise TypeError("`max_features` must be of type None or int.")
+    def _forward_input_checks(self, min_change, max_features):
+        if min_change is not None and max_features is not None:
+            raise TypeError(
+                "At least one of `min_change` and `max_features` must be None."
+            )
+        elif max_features is None and not isinstance(min_change, (int, float)):
+            raise TypeError(
+                "`min_change` must be of type int or float."
+            )
+        elif min_change is None and not isinstance(max_features, (int, float)):
+            raise TypeError(
+                "`max_features` must be of type int or float."
+            )
 
     def forward(self, min_change=0.5, max_features=None):
         """Perform forward selection on a Sklearn model.
@@ -76,9 +82,10 @@ class ForwardSelection(object):
         Args:
             min_change : int or float, optional
                 The smallest change to be considered significant.
-                `n_features` must be None for `min_change` to operate.
+                Note: `max_features` must be None in order for `min_change` to operate.
             max_features : int
                 the max. number of features to allow.
+                Note: `min_change` must be None in order for `max_features` to operate.
 
         Returns:
             S : list
