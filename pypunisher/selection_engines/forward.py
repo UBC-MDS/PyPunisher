@@ -68,17 +68,23 @@ class ForwardSelection(object):
 
     @staticmethod  # `self` captures yield of **locals().
     def _forward_input_checks(self, min_change, max_features):
-        if min_change is not None and max_features is not None:
+        locals_non_non = {k: v for k, v in locals().items()
+                          if v is not None and k != 'self'}
+
+        if len(locals_non_non) != 1:
             raise TypeError(
                 "At least one of `min_change` and `max_features` must be None."
             )
-        elif max_features is None and not isinstance(min_change, (int, float)):
+
+        # Unpack the single key and value pair
+        name, obj = tuple(locals_non_non.items())[0]
+        if obj is None and not isinstance(obj, (int, float)):
             raise TypeError(
-                "`min_change` must be of type int or float."
+                "`{}` must be of type int or float.".format(name)
             )
-        elif min_change is None and not isinstance(max_features, (int, float)):
-            raise TypeError(
-                "`max_features` must be of type int or float."
+        elif not obj > 0:
+            raise ValueError(
+                "`{}` must be greater than zero.".format(name)
             )
 
     def forward(self, min_change=0.5, max_features=None):
