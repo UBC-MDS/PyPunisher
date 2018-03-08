@@ -140,14 +140,15 @@ def input_checks(locals_):
     """Check that
     (a) the only one of the the two inputs are non-None
     (b) that the remaining element is numeric and is strictly
-    greater than zero
+    greater than zero.
 
     Args:
         locals_ : dict
             Yield of `locals()` within a function.
 
     """
-    # Sort so that the first error message, if thrown, is in a reliable order.
+    # Sort so that the first parameter printed in
+    # the error message, if thrown, is in a reliable order.
     param_a, param_b = sorted(k for k, p in locals_.items() if k != 'self')
     locals_non_non = {k: v for k, v in locals_.items()
                       if v is not None and k != 'self'}
