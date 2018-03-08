@@ -9,7 +9,7 @@ from tqdm import trange
 
 
 def get_n_features(matrix, min_=2):
-    """Get the number of features in a matrix
+    """Get the number of features in a matrix.
 
     Args:
         matrix : ndarray
@@ -38,7 +38,7 @@ def get_n_features(matrix, min_=2):
 def enforce_use_of_all_cpus(model):
     """For sklearn models which have an `n_jobs` attribute,
     set to -1. This will force all cores on the machine to be
-    used
+    used.
 
     Args:
         model : sklearn model
@@ -57,7 +57,7 @@ def enforce_use_of_all_cpus(model):
 
 def worse_case_bar(n, verbose):
     """Generate a progress bar for the worst case of
-    a forward or backward selection
+    a forward or backward selection.
 
     Args:
         n : int
@@ -75,7 +75,7 @@ def worse_case_bar(n, verbose):
 
 def array_check(self):
     """Check that the arrays in `self` are
-    truely ndarray
+    truly ndarray.
 
     Args:
         self : class object
@@ -83,4 +83,4 @@ def array_check(self):
     """
     for i in ("_X_train", '_y_train', '_X_val', '_y_val'):
         if not isinstance(getattr(self, i), np.ndarray):
-            raise TypeError("{} must be a ndarray".format(i[1:]))
+            raise TypeError("{} must be a ndarray.".format(i[1:]))
