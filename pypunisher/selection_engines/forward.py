@@ -52,10 +52,10 @@ class ForwardSelection(object):
         return self._model.score(self._X_val[:, features], self._y_val)
 
     def _forward_break_criteria(self, S, j_score_dict, max_features):
-        # 3a. Check if the algorithm should halt b/c of features themselves
+        # a. Check if the algorithm should halt b/c of features themselves
         if not len(j_score_dict) or len(S) == self._n_features:
             return True
-        # 3c. Break if the number of features in S > max_features.
+        # b. Break if the number of features in S > max_features.
         elif isinstance(max_features, int) and max_features > len(S):
             return True
         else:
