@@ -7,7 +7,9 @@
 from pypunisher.selection_engines._utils import (get_n_features,
                                                  enforce_use_of_all_cpus,
                                                  worse_case_bar, array_check,
-                                                 model_check)
+                                                 model_check,
+                                                 parse_features_param,
+                                                 input_checks)
 
 
 class ForwardSelection(object):
@@ -66,46 +68,32 @@ class ForwardSelection(object):
         else:
             return False
 
-    @staticmethod  # `self` captures yield of **locals().
-    def _forward_input_checks(self, min_change, max_features):
-        locals_non_non = {k: v for k, v in locals().items()
-                          if v is not None and k != 'self'}
-
-        if len(locals_non_non) != 1:
-            raise TypeError(
-                "At least one of `min_change` and `max_features` must be None."
-            )
-
-        # Unpack the single key and value pair
-        name, obj = tuple(locals_non_non.items())[0]
-        if obj is None and not isinstance(obj, (int, float)):
-            raise TypeError(
-                "`{}` must be of type int or float.".format(name)
-            )
-        elif not obj > 0:
-            raise ValueError(
-                "`{}` must be greater than zero.".format(name)
-            )
-
-    def forward(self, max_features=None, min_change=0.5):
+    def forward(self, min_change=0.5, max_features=None):
         """Perform forward selection on a Sklearn model.
 
         Args:
-            max_features : int
-                the max. number of features to allow.
-                Note: `min_change` must be None in order for `max_features` to operate.
             min_change : int or float, optional
                 The smallest change to be considered significant.
                 Note: `max_features` must be None in order for `min_change` to operate.
+            max_features : int
+                the max. number of features to allow.
+                Note: `min_change` must be None in order for `max_features` to operate.
+                Floats will be regarded as proportions of the total
+                that must lie on (0, 1)
 
         Returns:
             S : list
               The column indices of `X_train` (and `X_val`) that denote the chosen features.
         """
-        self._forward_input_checks(**locals())
+        input_checks(locals())
         S = list()
         best_score = None
         itera = list(range(self._n_features))
+
+        if max_features:
+            n_features = parse_features_param(
+                max_features, total=len(itera), param_name="max_features"
+            )
 
         worse_case = worse_case_bar(self._n_features, verbose=self._verbose)
         for _ in worse_case:

@@ -99,3 +99,43 @@ def model_check(model):
             raise AttributeError(
                 "`model` does not contain an {} method".format(attr)
             )
+
+
+def parse_features_param(param, total, param_name):
+    if isinstance(param, int) and not 0 < param < total:
+        raise ValueError(
+            "If an int, `{}` must be on (0, {}).".format(param_name, total)
+        )
+    if isinstance(param, float) and not 0 < param < 1:
+        raise ValueError(
+            "If a float, `{}` must be on (0, 1).".format(param_name)
+        )
+
+    if isinstance(param, float):
+        return int(param * len(total))
+    else:
+        return param
+
+
+def input_checks(locals_):
+    param_a, param_b = [p for k, p in locals_.items() if k != 'self']
+    locals_non_non = {k: v for k, v in locals_.items()
+                      if v is not None and k != 'self'}
+
+    if len(locals_non_non) != 1:
+        raise TypeError(
+            "At least one of `{a}` and `{b}` must be None.".format(
+                a=param_a, b=param_b
+            )
+        )
+
+    # Unpack the single key and value pair
+    name, obj = tuple(locals_non_non.items())[0]
+    if obj is None and not isinstance(obj, (int, float)):
+        raise TypeError(
+            "`{}` must be of type int or float.".format(name)
+        )
+    elif not obj > 0:
+        raise ValueError(
+            "`{}` must be greater than zero.".format(name)
+        )

@@ -6,7 +6,9 @@
 """
 from pypunisher.selection_engines._utils import (get_n_features,
                                                  enforce_use_of_all_cpus,
-                                                 worse_case_bar)
+                                                 worse_case_bar,
+                                                 parse_features_param,
+                                                 input_checks)
 
 
 class BackwardSelection(object):
@@ -52,26 +54,6 @@ class BackwardSelection(object):
         self._model.fit(self._X_train[:, features], self._y_train)
         return self._model.score(self._X_val[:, features], self._y_val)
 
-    @staticmethod  # `self` captures the yield of **locals().
-    def _backward_input_checks(self, S, n_features, min_change):
-        if min_change is None and n_features is None:
-            raise ValueError(
-                "One, and only one, of `min_change` and `n_features` "
-                "should be non-None."
-            )
-        if isinstance(n_features, int) and not 0 < n_features < len(S):
-            raise ValueError(
-                "If an int, `n_features` must be on (0, {}).".format(len(S))
-            )
-        if isinstance(n_features, float) and not 0 < n_features < 1:
-            raise ValueError(
-                "If a float, `n_features` must be on (0, 1)."
-            )
-        if min_change is not None and not isinstance(min_change, (int, float)):
-            raise TypeError(
-                "`min_change` must be of Type: None, int or float."
-            )
-
     def backward(self, n_features=0.5, min_change=None):
         """Run Backward Selection Algorithm.
 
@@ -93,11 +75,13 @@ class BackwardSelection(object):
             if `n_features` and `min_change` are both non-None.
 
         """
+        input_checks(locals())
         S = list(range(self._n_features))  # start with all features
-        self._backward_input_checks(**locals())
 
-        if isinstance(n_features, float):
-            n_features = int(n_features * len(S))
+        if n_features:
+            n_features = parse_features_param(
+                n_features, total=len(S), param_name="n_features"
+            )
 
         last_score = self._fit_and_score_back(S, exclude=None)
         worse_case = worse_case_bar(self._n_features, verbose=self._verbose)
