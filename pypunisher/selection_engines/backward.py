@@ -6,7 +6,8 @@
 """
 from pypunisher.selection_engines._utils import (get_n_features,
                                                  enforce_use_of_all_cpus,
-                                                 worse_case_bar,
+                                                 worse_case_bar, array_check,
+                                                 model_check,
                                                  parse_features_param,
                                                  input_checks)
 
@@ -40,13 +41,17 @@ class BackwardSelection(object):
 
     def __init__(self, model, X_train, y_train,
                  X_val, y_val, criterion=None, verbose=True):
+        model_check(model)
         self._model = enforce_use_of_all_cpus(model)
+
         self._X_train = X_train
         self._y_train = y_train
         self._X_val = X_val
         self._y_val = y_val
+        array_check(self)
+
         self._verbose = verbose
-        self._criterion = criterion  # ToDo: Not Implemented Yet.
+        self._criterion = criterion
         self._n_features = get_n_features(X_train)
 
     def _fit_and_score_back(self, S, exclude):

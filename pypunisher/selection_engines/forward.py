@@ -50,7 +50,7 @@ class ForwardSelection(object):
         array_check(self)
 
         self._verbose = verbose
-        self._criterion = criterion  # ToDO: Not Implemented Yet.
+        self._criterion = criterion
         self._n_features = get_n_features(X_train)
 
     def _fit_and_score_forward(self, S, include):
