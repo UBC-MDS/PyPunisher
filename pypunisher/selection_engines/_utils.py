@@ -8,7 +8,7 @@ from tqdm import trange
 
 
 def get_n_features(matrix, min_=2):
-    """Get the number of features in a matrix
+    """Get the number of features in a matrix.
 
     Args:
         matrix : ndarray
@@ -37,7 +37,7 @@ def get_n_features(matrix, min_=2):
 def enforce_use_of_all_cpus(model):
     """For sklearn models which have an `n_jobs` attribute,
     set to -1. This will force all cores on the machine to be
-    used
+    used.
 
     Args:
         model : sklearn model
@@ -56,17 +56,51 @@ def enforce_use_of_all_cpus(model):
 
 def worse_case_bar(n, verbose):
     """Generate a progress bar for the worst case of
-    a forward or backward selection
+    a forward or backward selection.
 
     Args:
         n : int
             Number of iterations
         verbose : bool
-            If true, the functionality of this function
-            collapses to `range()`.
+            If true, this function collapses to `range()`.
 
     Returns:
         `trange` object.
 
     """
     return trange(n, desc='Worst Case', disable=not verbose)
+
+
+def parse_features_param(param, total, param_name):
+    """Parse either the `n_features` (backward)
+    or `max_features` (forward) parameter. Namely
+    (a) if `param` is an int, ensure it lies on (0, `total`),
+    (a) if `param` is a float, ensure it lies on (0, 1).
+
+    Args:
+        param : int
+            One of `n_features`, `max_features`.
+        total : int
+            The total features in the data
+        param_name : str
+
+
+    Returns:
+        int
+            * if `n_features`, number of features to select.
+            * if `max_features`, the largest number of features to select.
+
+    """
+    if isinstance(param, int) and not 0 < param < total:
+        raise ValueError(
+            "If an int, `{}` must be on (0, {}).".format(param_name, total)
+        )
+    if isinstance(param, float) and not 0 < param < 1:
+        raise ValueError(
+            "If a float, `{}` must be on (0, 1).".format(param_name)
+        )
+
+    if isinstance(param, float):
+        return int(param * total)
+    else:
+        return param
