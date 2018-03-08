@@ -62,9 +62,9 @@ def test_metric_data_parm():
         for metric in (aic, bic):
             if isinstance(kind, str):
                 with pytest.raises(TypeError):
-                    metric(sk_model, data=kind)
+                    metric(sk_model, X_train=kind, y_train=y_train)
             else:
-                metric(sk_model, data=kind)
+                metric(sk_model, X_train=kind, y_train=y_train)
 
 
 # -----------------------------------------------------------------------------
@@ -76,7 +76,7 @@ def test_metric_output():
     """Test that both metrics (`aic()` and `bic()`) return
     floating point numbers."""
     for metric in (aic, bic):
-        assert isinstance(metric(sk_model, data=X_train), float)
+        assert isinstance(metric(sk_model, X_train=X_train, y_train=y_train), float)
 
 
 # -----------------------------------------------------------------------------
@@ -89,5 +89,5 @@ def test_metric_output_value():
     our functions match that computed by a well-respected
     statistical library in Python (StatsModels)."""
     for metric, comparision in zip((aic, bic), (sm_aic, sm_bic)):
-        ours = metric(sk_model, data=X_train)
+        ours = metric(sk_model, X_train=X_train y_train=y_train)
         ours == pytest.approx(comparision, abs=COMP_TOLERANCE)
