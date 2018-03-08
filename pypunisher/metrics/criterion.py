@@ -27,7 +27,13 @@ def aic(model, X_train, y_train):
     k = X_train.shape[1]
     y_pred = model.predict(X_train)
     rss = sum((y_train - y_pred)**2)
-    return n*np.log(rss/n) + 2*k
+    aic = n*np.log(rss/n) + 2*k
+
+    if n/k < 40:
+        # returns AICc if sample size is small wrt k
+        return aic + 2*k*(k+1)/(n-k-1)
+    else:
+        return aic
 
 
 def bic(model, X_train, y_train):
@@ -48,6 +54,8 @@ def bic(model, X_train, y_train):
         * https://en.wikipedia.org/wiki/Bayesian_information_criterion
 
     """
+
+
     n = X_train.shape[0]
     k = X_train.shape[1]
     
