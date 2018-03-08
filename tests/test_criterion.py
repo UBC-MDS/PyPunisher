@@ -89,5 +89,5 @@ def test_metric_output_value():
     our functions match that computed by a well-respected
     statistical library in Python (StatsModels)."""
     for metric, comparision in zip((aic, bic), (sm_aic, sm_bic)):
-        ours = metric(sk_model, X_train=X_train y_train=y_train)
+        ours = metric(sk_model, X_train=X_train, y_train=y_train)
         ours == pytest.approx(comparision, abs=COMP_TOLERANCE)
