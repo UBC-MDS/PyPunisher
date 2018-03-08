@@ -97,7 +97,7 @@ def model_check(model):
     for attr in ('fit', 'predict', 'score'):
         if not hasattr(model, attr):
             raise AttributeError(
-                "`model` does not contain an {} method".format(attr)
+                "`model` does not contain a {} method".format(attr)
             )
 
 
