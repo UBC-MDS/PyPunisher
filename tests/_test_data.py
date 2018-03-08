@@ -3,9 +3,8 @@
     Test Data
     ~~~~~~~~~
 
-    Generate y = x + e,
-
-    where e ~ Uniform(0, 50).
+    Generate: y = x + e, where e ~ Uniform(0, 50).
+    `x` is embeeded as the middle column in a zero matrix.
 
 """
 import numpy as np
