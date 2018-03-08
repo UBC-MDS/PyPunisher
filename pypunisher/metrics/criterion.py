@@ -63,7 +63,9 @@ def aic(model, X_train, y_train):
     """
     for method in ('fit', 'predict', 'score'):
         if not callable(getattr(model, method, None)):
-            raise AttributeError
+            raise AttributeError(
+                "Model does not have a callable method `{}`".format(method)
+            )
 
     if not isinstance(X_train, ndarray):
         raise TypeError("`X_train` must be an ndarray.")
