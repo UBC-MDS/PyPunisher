@@ -64,14 +64,16 @@ def test_sklearn_model_methods():
 
 
 # -----------------------------------------------------------------------------
-# Outputs: Run Algorithms
+# Outputs: Run the Forward and Backward Selection Algorithms
 # -----------------------------------------------------------------------------
 
-# Run the forward and backward selection
-# algorithms using their default settings.
-
 forward_output = forward()
-backward_output = backward()
+
+# Force the backward selection algorithm to
+# select the single feature it thinks is most predictive.
+# If implemented correctly, `backward()` should be able to
+# identify `TRUE_BEST_FEATURE` as predictive.
+backward_output = backward(n_features=1)
 
 
 # -----------------------------------------------------------------------------
@@ -83,7 +85,8 @@ def output_type(output):
     """
     Test that output type is a list.
     """
-    assert isinstance(output, list)
+    msg = "Output from the algorithm was not a list."
+    assert isinstance(output, list), msg
 
 
 def test_fsel_output_type():
@@ -104,7 +107,8 @@ def output_values(output):
     Test that ForwardSelection selects the best feature
     in the contrived data.
     """
-    assert TRUE_BEST_FEATURE in output
+    msg = "The algorithm failed to select the predictive feature."
+    assert TRUE_BEST_FEATURE in output, msg
 
 
 def test_fsel_output_values():
