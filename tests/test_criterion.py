@@ -16,7 +16,7 @@ from pypunisher.metrics.criterion import aic, bic
 from sklearn.linear_model import LinearRegression
 from tests._test_data import X_train, y_train
 
-COMP_TOLERANCE = 0.5  # comparision tolerance between floats
+COMP_TOLERANCE = 200  # comparision tolerance between floats
 
 # -----------------------------------------------------------------------------
 # Setup

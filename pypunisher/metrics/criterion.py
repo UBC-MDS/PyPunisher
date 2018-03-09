@@ -66,10 +66,9 @@ def aic(model, X_train, y_train):
         raise TypeError("`y_train` must be an ndarray.")
 
     n, k, llf = _get_coeffs(model, X_train=X_train, y_train=y_train)
-    aic = -2*log(llf)+2*k
-
+    aic = -2*llf +2*k
     if n/k < 40:
-        return aic + 2*k*(k+1)/(n-k-1)
+        return aic + 2 * k * (k + 1) / (n - k - 1)
     else:
         return aic
 
@@ -105,6 +104,6 @@ def bic(model, X_train, y_train):
         raise TypeError("`y_train` must be an ndarray.")
 
     n, k, llf = _get_coeffs(model, X_train=X_train, y_train=y_train)
-    bic = -2*log(llf)+log(n)*k
+    bic = -2*llf+log(n)*k
 
     return bic
