@@ -81,7 +81,7 @@ class Selection(object):
             return False
 
     def forward(self, min_change=0.5, n_features=None):
-        """Perform forward selection on a Sklearn model.
+        """Perform Forward Selection on a Sklearn model.
 
         Args:
             min_change : int or float, optional
@@ -131,7 +131,7 @@ class Selection(object):
         return S
 
     def backward(self, n_features=0.5, min_change=None):
-        """Run Backward Selection Algorithm.
+        """Perform Backward Selection on a Sklearn model.
 
         Args:
             n_features : int or float
