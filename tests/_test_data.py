@@ -3,8 +3,10 @@
     Test Data
     ~~~~~~~~~
 
-    Generate: y = x + e, where e ~ Uniform(0, 50).
-    `x` is embeeded as the middle column in a zero matrix.
+    Generate: y = x + e, where e ~ Uniform(0, 50) and
+    `x` is embedded as the middle column in a zero matrix.
+    That is, only ONE column is predictive of y, the rest are
+    trivial column vectors.
 
 """
 import numpy as np
