@@ -32,7 +32,7 @@ def _get_coeffs(model, X_train, y_train):
     y_pred = model.predict(X_train)
     rss = sum((y_train - y_pred) ** 2)
     llf = -(n/2)*log(2*pi) - (n/2)*log(rss/n) - n/2
-    return n, k, rss
+    return n, k, llf
 
 
 def aic(model, X_train, y_train):
@@ -65,8 +65,8 @@ def aic(model, X_train, y_train):
     if not isinstance(y_train, ndarray):
         raise TypeError("`y_train` must be an ndarray.")
 
-    n, k, rss = _get_coeffs(model, X_train=X_train, y_train=y_train)
-    aic = n * log(rss / n) + 2 * k
+    n, k, llf = _get_coeffs(model, X_train=X_train, y_train=y_train)
+    aic = -2*llf +2*k
     if n/k < 40:
         return aic + 2 * k * (k + 1) / (n - k - 1)
     else:
@@ -103,7 +103,7 @@ def bic(model, X_train, y_train):
     if (not isinstance(y_train,ndarray)):
         raise TypeError("`y_train` must be an ndarray.")
 
-    n, k, rss = _get_coeffs(model, X_train=X_train, y_train=y_train)
-    bic = n*log(rss/n)+log(n)*k
+    n, k, llf = _get_coeffs(model, X_train=X_train, y_train=y_train)
+    bic = -2*llf+log(n)*k
 
     return bic
