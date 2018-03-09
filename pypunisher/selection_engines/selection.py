@@ -11,7 +11,7 @@ from pypunisher._checks import (model_check,
 from pypunisher.selection_engines._utils import (get_n_features,
                                                  enforce_use_of_all_cpus,
                                                  worse_case_bar,
-                                                 parse_features_param)
+                                                 parse_n_features)
 
 
 class Selection(object):
@@ -58,7 +58,7 @@ class Selection(object):
 
         self._verbose = verbose
         self._criterion = criterion
-        self._n_features = get_n_features(X_train)
+        self._total_number_of_features = get_n_features(X_train)
 
     def _fit_and_score(self, S, feature, algorithm):
         if algorithm == 'forward':
@@ -72,7 +72,7 @@ class Selection(object):
 
     def _forward_break_criteria(self, S, j_score_dict, max_features):
         # a. Check if the algorithm should halt b/c of features themselves
-        if not len(j_score_dict) or len(S) == self._n_features:
+        if not len(j_score_dict) or len(S) == self._total_number_of_features:
             return True
         # b. Break if the number of features in S > max_features.
         elif isinstance(max_features, int) and max_features > len(S):
@@ -80,14 +80,14 @@ class Selection(object):
         else:
             return False
 
-    def forward(self, min_change=0.5, max_features=None):
+    def forward(self, min_change=0.5, n_features=None):
         """Perform forward selection on a Sklearn model.
 
         Args:
             min_change : int or float, optional
                 The smallest change to be considered significant.
                 Note: `max_features` must be None in order for `min_change` to operate.
-            max_features : int
+            n_features : int
                 the max. number of features to allow.
                 Note: `min_change` must be None in order for `max_features` to operate.
                 Floats will be regarded as proportions of the total
@@ -100,14 +100,12 @@ class Selection(object):
         input_checks(locals())
         S = list()
         best_score = None
-        itera = list(range(self._n_features))
+        itera = list(range(self._total_number_of_features))
 
-        if max_features:
-            n_features = parse_features_param(
-                max_features, total=len(itera), param_name="max_features"
-            )
+        if n_features:
+            n_features = parse_n_features(n_features, total=len(itera))
 
-        worse_case = worse_case_bar(self._n_features, verbose=self._verbose)
+        worse_case = worse_case_bar(self._total_number_of_features, verbose=self._verbose)
         for _ in worse_case:
             worse_case.set_postfix(n_features=len(S), score=best_score)
             # 1. Find best feature, j, to add.
@@ -127,7 +125,7 @@ class Selection(object):
                 itera.remove(best_j)  # no longer search over this feature.
 
             if self._forward_break_criteria(S, j_score_dict=j_score_dict,
-                                            max_features=max_features):
+                                            max_features=n_features):
                 break
 
         return S
@@ -154,47 +152,46 @@ class Selection(object):
 
         """
         input_checks(locals())
-        S = list(range(self._n_features))  # start with all features
+        S = list(range(self._total_number_of_features))  # start with all features
 
         if n_features:
-            n_features = parse_features_param(
-                n_features, total=len(S), param_name="n_features"
-            )
+            n_features = parse_n_features(n_features, total=len(S))
 
-        last_score = self._fit_and_score(S, feature=None, algorithm='backward')
-        worse_case = worse_case_bar(self._n_features, verbose=self._verbose)
+        last_iter_score = self._fit_and_score(S, feature=None, algorithm='backward')
+        worse_case = worse_case_bar(self._total_number_of_features, verbose=self._verbose)
         for _ in worse_case:
-            worse_case.set_postfix(n_features=len(S), score=last_score)
+            worse_case.set_postfix(n_features=len(S), score=last_iter_score)
 
             # 1. Hunt for the least predictive feature.
             best = None
             for j in S:
                 score = self._fit_and_score(S, feature=j, algorithm='backward')
-                if score >= last_score and (best is None or score > best[1]):
-                    best = (j, score)
+                if best is None or score > best['score']:
+                    best = {'feature': j, 'score': score,
+                            'defeated_last_iter_score': score > last_iter_score}
+            to_drop, best_new_score = best['feature'], best['score']
 
-            if not best:
-                break  # Relent. Removing any `j` yielded a lower score.
-            else:
-                to_drop, best_new_score = best
-
-            # 2a. Halting Based Blindly Based on `n_features`.
+            # 2a. Halting Blindly Based on `n_features`.
             if isinstance(n_features, int):
                 S.remove(to_drop)  # blindly drop.
-                last_score = best_new_score
+                last_iter_score = best_new_score
                 if len(S) == n_features:
                     break
                 else:
                     continue  # i.e., ignore criteria below.
+            # 2b. Halt if the change is not longer considered significant.
+            if isinstance(min_change, (int, float)):
+                if best['defeated_last_iter_score']:
+                    if (best_new_score - last_iter_score) < min_change:
+                        break  # there was a change, but it was not large enough.
+                    else:
+                        S.remove(to_drop)
+                        last_iter_score = best_new_score
+                else:
+                    break
 
-            # 2b. Halt if the change is not longer significant.
-            if (best_new_score - last_score) < min_change:
-                break
-            else:
-                S.remove(to_drop)
-                last_score = best_new_score
-
-            if len(S) == 1:  # continuing is futile.
+            # 2c. Halt if only one feature remains.
+            if len(S) == 1:
                 break
 
         return S
