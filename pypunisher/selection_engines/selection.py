@@ -4,8 +4,10 @@
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
-from pypunisher.metrics.criterion import aic, bic
-from pypunisher._checks import model_check, array_check, input_checks
+from pypunisher._checks import (model_check,
+                                array_check,
+                                input_checks)
+                                         
 from pypunisher.selection_engines._utils import (get_n_features,
                                                  enforce_use_of_all_cpus,
                                                  worse_case_bar,
@@ -54,11 +56,8 @@ class Selection(object):
         self._y_val = y_val
         array_check(self)
 
-        if criterion not in (None, 'aic', 'bic'):
-            raise ValueError("`criterion` must be one of: None, 'aic', 'bic'.")
-
-        self._criterion = criterion
         self._verbose = verbose
+        self._criterion = criterion
         self._total_number_of_features = get_n_features(X_train)
 
     def _fit_and_score(self, S, feature, algorithm):
@@ -67,16 +66,8 @@ class Selection(object):
         else:
             features = [f for f in S if f != feature] if feature else S
         self._model.fit(self._X_train[:, features], self._y_train)
-
-        X_val, y_val = self._X_val[:, features], self._y_val
-        if self._criterion == 'aic':
-            # Note: We want to do selection against the validation
-            # data, hence `X_train=X_val` and `y_train=y_val`.
-            score = aic(self._model, X_train=X_val, y_train=y_val)
-        elif self._criterion == 'bic':
-            score = bic(self._model, X_train=X_val, y_train=y_val)
-        else:
-            score = self._model.score(X_val, y_val)
+        # ToDo: Add AIC and BIC.
+        score = self._model.score(self._X_val[:, features], self._y_val)
         return score
 
     def _forward_break_criteria(self, S, j_score_dict, max_features):
