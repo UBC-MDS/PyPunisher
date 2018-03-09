@@ -71,7 +71,7 @@ def worse_case_bar(n, verbose):
     return trange(n, desc='Worst Case', disable=not verbose)
 
 
-def parse_features_param(param, total, param_name):
+def parse_n_features(param, total):
     """Parse either the `n_features` (backward)
     or `max_features` (forward) parameter. Namely
     (a) if `param` is an int, ensure it lies on (0, `total`),
@@ -82,8 +82,6 @@ def parse_features_param(param, total, param_name):
             One of `n_features`, `max_features`.
         total : int
             The total features in the data
-        param_name : str
-
 
     Returns:
         int
@@ -93,11 +91,13 @@ def parse_features_param(param, total, param_name):
     """
     if isinstance(param, int) and not 0 < param < total:
         raise ValueError(
-            "If an int, `{}` must be on (0, {}).".format(param_name, total)
+            "If an int, `n_features` must be on (0, {}).".format(
+                total
+            )
         )
     if isinstance(param, float) and not 0 < param < 1:
         raise ValueError(
-            "If a float, `{}` must be on (0, 1).".format(param_name)
+            "If a float, `n_features` must be on (0, 1)."
         )
 
     if isinstance(param, float):
