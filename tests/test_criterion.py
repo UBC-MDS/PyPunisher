@@ -36,7 +36,7 @@ sk_model = LinearRegression().fit(X=X_train, y=y_train)
 # -----------------------------------------------------------------------------
 
 
-def test_metric_model_parm():
+def test_metric_model_param():
     """Test that the `model` params in `aic()` and `bic()`
     will raise a TypeError when passed something other
     than a sk-learn model."""
