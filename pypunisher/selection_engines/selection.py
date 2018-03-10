@@ -79,12 +79,12 @@ class Selection(object):
             score = self._model.score(X_val, y_val)
         return score
 
-    def _forward_break_criteria(self, S, j_score_dict, max_features):
+    def _forward_break_criteria(self, S, j_score_dict, n_features):
         # a. Check if the algorithm should halt b/c of features themselves
         if not len(j_score_dict) or len(S) == self._total_number_of_features:
             return True
-        # b. Break if the number of features in S > max_features.
-        elif isinstance(max_features, int) and max_features > len(S):
+        # b. Break if the number of features in S > n_features.
+        elif isinstance(n_features, int) and n_features > len(S):
             return True
         else:
             return False
@@ -95,10 +95,10 @@ class Selection(object):
         Args:
             min_change : int or float, optional
                 The smallest change to be considered significant.
-                Note: `max_features` must be None in order for `min_change` to operate.
+                Note: `n_features` must be None in order for `min_change` to operate.
             n_features : int
                 the max. number of features to allow.
-                Note: `min_change` must be None in order for `max_features` to operate.
+                Note: `min_change` must be None in order for `n_features` to operate.
                 Floats will be regarded as proportions of the total
                 that must lie on (0, 1).
 
@@ -134,7 +134,7 @@ class Selection(object):
                 itera.remove(best_j)  # no longer search over this feature.
 
             if self._forward_break_criteria(S, j_score_dict=j_score_dict,
-                                            max_features=n_features):
+                                            n_features=n_features):
                 break
 
         return S

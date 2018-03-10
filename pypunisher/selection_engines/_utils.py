@@ -71,36 +71,37 @@ def worse_case_bar(n, verbose):
     return trange(n, desc='Worst Case', disable=not verbose)
 
 
-def parse_n_features(param, total):
-    """Parse either the `n_features` (backward)
-    or `max_features` (forward) parameter. Namely
+def parse_n_features(n_features, total):
+    """Parse either the `n_features` for forward
+    and backward selection. Namely
     (a) if `param` is an int, ensure it lies on (0, `total`),
     (a) if `param` is a float, ensure it lies on (0, 1).
 
     Args:
-        param : int
-            One of `n_features`, `max_features`.
+        n_features : int
+            An `n_features` parameter passed to forward or backward selection.
         total : int
             The total features in the data
 
     Returns:
         int
-            * if `n_features`, number of features to select.
-            * if `max_features`, the largest number of features to select.
+            * number of features to select.
+            If `n_features` and it lies on (0, `total`),
+            it will be returned 'as is'.
 
     """
-    if isinstance(param, int) and not 0 < param < total:
+    if isinstance(n_features, int) and not 0 < n_features < total:
         raise ValueError(
             "If an int, `n_features` must be on (0, {}).".format(
                 total
             )
         )
-    if isinstance(param, float) and not 0 < param < 1:
+    if isinstance(n_features, float) and not 0 < n_features < 1:
         raise ValueError(
             "If a float, `n_features` must be on (0, 1)."
         )
 
-    if isinstance(param, float):
-        return int(param * total)
+    if isinstance(n_features, float):
+        return int(n_features * total)
     else:
-        return param
+        return n_features
