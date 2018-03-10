@@ -27,6 +27,6 @@ def test_forward_params():
         forward(min_change=None, n_features=-0.75)
 
     # Note: items in backticks (``) will be in alphabetical order.
-    msg = "At least one of `n_features` and `min_change` must be None."
+    msg = "At least one of `min_change` and `n_features` must be None."
     with pytest.raises(TypeError, match=msg):
         forward(min_change=0.5, n_features=0.3)
