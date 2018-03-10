@@ -74,7 +74,7 @@ class Selection(object):
                 One of: 'forward', 'backward'.
 
         Returns : float
-            The score of the model
+            The score of the model.
 
         """
         if algorithm == 'forward':
@@ -136,6 +136,7 @@ class Selection(object):
         Returns:
             S : list
               The column indices of `X_train` (and `X_val`) that denote the chosen features.
+
         """
         input_checks(locals())
         S = list()
