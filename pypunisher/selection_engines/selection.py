@@ -13,7 +13,7 @@ from pypunisher.selection_engines._utils import (get_n_features,
 
 
 class Selection(object):
-    """Unified Forward and Backward Selection Class.
+    """Forward and Backward Selection Algorithms.
 
     Args:
         model : sklearn model
@@ -62,6 +62,21 @@ class Selection(object):
         self._total_number_of_features = get_n_features(X_train)
 
     def _fit_and_score(self, S, feature, algorithm):
+        """Fit and score the model
+
+        Args:
+            S : list
+                The list of features as found in `forward`
+                and `backward()`
+            feature : int
+                The feature to add or drop.
+            algorithm : str
+                One of: 'forward', 'backward'.
+
+        Returns : float
+            The score of the model.
+
+        """
         if algorithm == 'forward':
             features = S + [feature]
         else:
@@ -80,6 +95,22 @@ class Selection(object):
         return score
 
     def _forward_break_criteria(self, S, j_score_dict, n_features):
+        """Check if `forward()` should break
+
+        Args:
+            S : list
+                The list of features as found in `forward`
+                and `backward()`
+            j_score_dict : dict
+                A dictionary of scores in step 1. of `forward()`.
+            n_features : int
+                The `n_features` object as developed inide `forward()`.
+
+        Returns:
+            bool
+                Whether or not `forward()` should halt.
+
+        """
         # a. Check if the algorithm should halt b/c of features themselves
         if not len(j_score_dict) or len(S) == self._total_number_of_features:
             return True
@@ -105,6 +136,7 @@ class Selection(object):
         Returns:
             S : list
               The column indices of `X_train` (and `X_val`) that denote the chosen features.
+
         """
         input_checks(locals())
         S = list()
