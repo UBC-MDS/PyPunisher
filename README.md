@@ -12,9 +12,13 @@ We recognize that these tools already exist in Python. However, as discussed bel
 misgivings about how one of these techniques has been implemented, and believe it is possible to make
 some improvements in `PyPunisher`.
 
-## Contributors: 
+## Installation
 
-Avinash, Tariq, Jill
+```bash
+pip3 install git+git://github.com/UBC-MDS/PyPunisher@master
+```
+
+Requires Python 3.6+.
 
 ## Functions included:
 
@@ -62,3 +66,37 @@ You also have the option to run individual test files by referencing its path. F
 ```
 python -m pytest tests/test_forward_selection.py
 ```
+
+## Coverage
+
+```bash
+
+$ py.test --cov=pypunisher tests/
+
+============================================================================ test session starts =============================================================================
+platform darwin -- Python 3.6.3, pytest-3.4.1, py-1.5.2, pluggy-0.6.0
+plugins: cov-2.5.1
+collected 12 items                                                                                                                                                           
+
+tests/test_backward_selection.py .                                                                                                                                     [  8%]
+tests/test_criterion.py ....                                                                                                                                           [ 41%]
+tests/test_forward_selection.py .                                                                                                                                      [ 50%]
+tests/test_selection.py ......                                                                                                                                         [100%]
+
+---------- coverage: platform darwin, python 3.6.3-final-0 -----------
+Name                                        Stmts   Miss  Cover
+---------------------------------------------------------------
+pypunisher/__init__.py                          2      0   100%
+pypunisher/_checks.py                          19      1    95%
+pypunisher/metrics/__init__.py                  1      0   100%
+pypunisher/metrics/criterion.py                28      3    89%
+pypunisher/selection_engines/__init__.py        2      0   100%
+pypunisher/selection_engines/_utils.py         20      4    80%
+pypunisher/selection_engines/selection.py      90     15    83%
+---------------------------------------------------------------
+TOTAL                                         162     23    86%
+```
+
+## Contributors: 
+
+Avinash, Tariq, Jill.
