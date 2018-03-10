@@ -12,9 +12,13 @@ We recognize that these tools already exist in Python. However, as discussed bel
 misgivings about how one of these techniques has been implemented, and believe it is possible to make
 some improvements in `PyPunisher`.
 
-## Contributors: 
+## Installation
 
-Avinash, Tariq, Jill
+```bash
+$ pip3 install git+github.com/UBC-MDS/PyPunisher@master
+```
+
+Supported Python Versions: 3.6+.
 
 ## Functions included:
 
@@ -45,8 +49,8 @@ One characteristic of the `RFE()` class that we dislike is its requirement that 
 specify the number of features to select (see the `n_features_to_select` parameter). This strikes us
 as a rather crude solution because it is almost never obvious what a sensible value would be.
 An alternative approach is to stop removing features when even the least predictive feature produces a
-non-trivial decrease in model performance. We hope to allow users to define a "non-trivial decrease" in our
-`backward_selection()` function via a parameter.
+non-trivial decrease in model performance. We have thus allowed users to define a "non-trivial decrease" in our
+`Selection().backward()` method via a parameter.
 
 
 ## How to run unit tests
@@ -62,3 +66,7 @@ You also have the option to run individual test files by referencing its path. F
 ```
 python -m pytest tests/test_forward_selection.py
 ```
+
+## Contributors: 
+
+Jill Cates, Avinash Prabhakaran and Tariq Hassan. 2018.
