@@ -38,10 +38,11 @@ def _get_coeffs(model, X_train, y_train):
 def aic(model, X_train, y_train):
     """Compute the Akaike Information Criterion (AIC)
 
-    AIC's objective is to prevent model overfitting by adding a penalty 
+    AIC's objective is to prevent model overfitting by adding a penalty
     term which penalizes more compelx models. Its formal definition is:
         -2ln(L)+2*k
-    where L is the maximized value of the likelihood function. A smaller AIC value suggests that the model is a better fit for the data.
+    where L is the maximized value of the likelihood function.
+    A smaller AIC value suggests that the model is a better fit for the data.
 
     Args:
         model : A fitted sklearn model object)
@@ -53,9 +54,11 @@ def aic(model, X_train, y_train):
 
     Returns:
         aic: float
-            AIC value if sample size is sufficient. 
-            If n/k < 40 where n is the number of observations and k is the number of features, AICc gets returned to adjust for small sample size.
-                  
+            AIC value if sample size is sufficient.
+            If n/k < 40 where n is the number of observations
+            and k is the number of features, AICc gets returned
+            to adjust for small sample size.
+
     References:
         * https://en.wikipedia.org/wiki/Akaike_information_criterion
     """
@@ -88,7 +91,7 @@ def bic(model, X_train, y_train):
         X_train : ndarray
             The data used to train `model`.
         y_train : 1d numpy array
-            The response variable. 
+            The response variable.
 
     Returns:
         bic: float
