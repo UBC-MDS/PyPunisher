@@ -82,8 +82,8 @@ def bic(model, X_train, y_train):
     BIC's objective is to prevent model over-fitting by adding a penalty
     term which penalizes more complex models. Its formal definition is:
         -2ln(L)+ln(n)k
-    where L is the maximized value of the likelihood function. A smaller BIC value suggests that the model is a better
-    fit for the data.
+    where L is the maximized value of the likelihood function.
+    A smaller BIC value suggests that the model is a better fit for the data.
 
     Args:
         model : sklearn model object)
