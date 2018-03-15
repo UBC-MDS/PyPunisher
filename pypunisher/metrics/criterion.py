@@ -98,9 +98,9 @@ def bic(model, X_train, y_train):
         * https://en.wikipedia.org/wiki/Bayesian_information_criterion
 
     """
-    if (not isinstance(X_train, ndarray)):
+    if not isinstance(X_train, ndarray):
         raise TypeError("`X_train` must be an ndarray.")
-    if (not isinstance(y_train,ndarray)):
+    if not isinstance(y_train, ndarray):
         raise TypeError("`y_train` must be an ndarray.")
 
     n, k, llf = _get_coeffs(model, X_train=X_train, y_train=y_train)
