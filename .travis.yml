@@ -8,6 +8,7 @@ install:
 # command to run tests
 script:
   - pytest
+  - pylint --errors-only --extension-pkg-whitelist=numpy pypunisher/
 os: "linux"
 dist: "trusty"
 notifications:
