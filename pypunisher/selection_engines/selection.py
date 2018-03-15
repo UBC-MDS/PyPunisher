@@ -204,10 +204,10 @@ class Selection(object):
             worse_case.set_postfix(n_features=len(S), score=last_iter_score)
 
             # 1. Hunt for the least predictive feature.
-            best = None
+            best = {'feature': None, 'score': None, 'defeated_last_iter_score': True}
             for j in S:
                 score = self._fit_and_score(S, feature=j, algorithm='backward')
-                if best is None or score > best['score']:
+                if best['score'] is None or score > best['score']:
                     best = {'feature': j, 'score': score,
                             'defeated_last_iter_score': score > last_iter_score}
             to_drop, best_new_score = best['feature'], best['score']

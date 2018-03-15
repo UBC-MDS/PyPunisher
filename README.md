@@ -96,4 +96,8 @@ TOTAL                                         164     17    90%
 
 ## Contributors: 
 
-Avinash, Tariq, Jill.
+- Avinash, [@avinashkz](https://github.com/avinashkz)
+- Tariq, [@TariqAHassan](https://github.com/TariqAHassan/)
+- Jill, [@topspinj](https://github.com/topspinj/)
+
+Instructions and guidelines on how to contribute can be found [here](CONTRIBUTING.md).
