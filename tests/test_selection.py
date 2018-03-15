@@ -69,11 +69,17 @@ def test_sklearn_model_methods():
 
 forward_output = forward()
 
+# Run using the other parameter option
+forward_output += forward(n_features=1, min_change=None)
+
 # Force the backward selection algorithm to
 # select the single feature it thinks is most predictive.
 # If implemented correctly, `backward()` should be able to
 # identify `TRUE_BEST_FEATURE` as predictive.
 backward_output = backward(n_features=1)
+
+# Run using the other parameter option
+backward_output += backward(min_change=0.0001, n_features=None)
 
 
 # -----------------------------------------------------------------------------
@@ -95,6 +101,21 @@ def test_fsel_output_type():
 
 def test_bsel_output_type():
     output_type(backward_output)
+
+
+# -----------------------------------------------------------------------------
+# Test `n_features`
+# -----------------------------------------------------------------------------
+
+
+def test_n_features():
+    """
+    Test various version of n_features
+    """
+    for n_features in (10000, -1.0):
+        with pytest.raises(ValueError):  # should raise
+            backward(n_features=n_features)
+    backward(n_features=0.5)  # this should not raise
 
 
 # -----------------------------------------------------------------------------
