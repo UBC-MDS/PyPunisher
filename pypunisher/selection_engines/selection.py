@@ -155,9 +155,10 @@ class Selection(object):
         if n_features:
             n_features = parse_n_features(n_features, total=len(itera))
 
-        worse_case = worse_case_bar(self._total_number_of_features, verbose=self._verbose)
-        for _ in worse_case:
-            worse_case.set_postfix(n_features=len(S), score=best_score)
+        for i in range(self._total_number_of_features):
+            if self._verbose:
+                print("Iteration: {}".format(i))
+
             # 1. Find best feature, j, to add.
             j_score_dict = dict()
             for j in itera:
@@ -210,9 +211,10 @@ class Selection(object):
             n_features = parse_n_features(n_features, total=len(S))
 
         last_iter_score = self._fit_and_score(S, feature=None, algorithm='backward')
-        worse_case = worse_case_bar(self._total_number_of_features, verbose=self._verbose)
-        for _ in worse_case:
-            worse_case.set_postfix(n_features=len(S), score=last_iter_score)
+
+        for i in range(self._total_number_of_features):
+            if self._verbose:
+                print("Iteration: {}".format(i))
 
             # 1. Hunt for the least predictive feature.
             best = {'feature': None, 'score': None, 'defeated_last_iter_score': True}
