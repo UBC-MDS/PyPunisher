@@ -34,6 +34,19 @@ def test_input_types():
             Selection(**d)
 
 
+def test_too_few_features():
+    """
+    Check that there are enough features for
+    for selection to be a coherent goal (i.e., >= 2).
+    """
+    X_train = DEFAULT_SELECTION_PARAMS['X_train']
+    X_train = X_train[:, 0:1]
+    with pytest.raises(IndexError):
+        forward(n_features=1, X_train=X_train)
+    with pytest.raises(IndexError):
+        backward(n_features=1, X_train=X_train)
+
+
 # -----------------------------------------------------------------------------
 # Test inputs: Model Attributes
 # -----------------------------------------------------------------------------
@@ -148,9 +161,11 @@ def test_fsel_aic_output():
     forward_output = forward(n_features=2, min_change=None, criterion='aic')
     assert len(forward_output) > 0
 
+
 def test_fsel_bic_output():
     forward_output = forward(n_features=2, min_change=None, criterion='bic')
     assert len(forward_output) > 0
+
 
 # -----------------------------------------------------------------------------
 # Test that backward selection works with 'aic' and 'bic' criterion
@@ -160,9 +175,11 @@ def test_bsel_aic_output():
     backward_output = backward(n_features=2, min_change=None, criterion='aic')
     assert len(backward_output) >= 1
 
+
 def test_bsel_bic_output():
     backward_output = backward(n_features=2, min_change=None, criterion='bic')
     assert len(backward_output) >= 1
+
 
 # -----------------------------------------------------------------------------
 # Test that forward and backward selection work with 'min_change' arg
@@ -172,9 +189,11 @@ def test_fsel_min_change_output():
     forward_output = forward(n_features=None, min_change=1, criterion=None)
     assert len(forward_output) >= 1
 
+
 def test_bsel_min_change_output():
     backward_output = backward(n_features=None, min_change=10, criterion='aic')
     assert len(backward_output) >= 1
+
 
 # -----------------------------------------------------------------------------
 # Test that forward and backward selection work with verbose=True arg
@@ -184,9 +203,6 @@ def test_fsel_verbose_output():
     forward_output = forward(n_features=None, min_change=1, verbose=True)
     assert len(forward_output) >= 1
 
-def test_bsel_verbose_output():
-    backward_output = backward(n_features=2, min_change=None, verbose=True)
-    assert len(backward_output) >= 1
 
 def test_bsel_verbose_output():
     backward_output = backward(n_features=2, min_change=None, verbose=True)
