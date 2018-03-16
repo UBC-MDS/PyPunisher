@@ -54,23 +54,6 @@ def enforce_use_of_all_cpus(model):
     return model
 
 
-def worse_case_bar(n, verbose):
-    """Generate a progress bar for the worst case of
-    a forward or backward selection.
-
-    Args:
-        n : int
-            Number of iterations
-        verbose : bool
-            If true, this function collapses to `range()`.
-
-    Returns:
-        `trange` object.
-
-    """
-    return trange(n, desc='Worst Case', disable=not verbose)
-
-
 def parse_n_features(n_features, total):
     """Parse either the `n_features` for forward
     and backward selection. Namely
