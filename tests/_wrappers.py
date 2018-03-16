@@ -10,21 +10,22 @@ from pypunisher.selection_engines.selection import Selection
 
 
 def _sel(**kwargs):
+    func_kwargs = dict()
     dsp = deepcopy(DEFAULT_SELECTION_PARAMS)
     for k, v in kwargs.items():
         if k in dsp:
             dsp[k] = v
+        else:
+            func_kwargs[k] = v
     sel = Selection(**dsp)
-    # Extra loop, but avoids popping values during iteration above
-    new_kwargs = {k: v for k, v in kwargs.items() if k not in dsp}
-    return sel, new_kwargs
+    return sel, func_kwargs
 
 
 def forward(**kwargs):
-    sel, new_kwargs = _sel(**kwargs)
-    return sel.forward(**new_kwargs)
+    sel, func_kwargs = _sel(**kwargs)
+    return sel.forward(**func_kwargs)
 
 
 def backward(**kwargs):
-    sel, new_kwargs = _sel(**kwargs)
-    return sel.backward(**new_kwargs)
+    sel, func_kwargs = _sel(**kwargs)
+    return sel.backward(**func_kwargs)
