@@ -34,3 +34,7 @@ def test_backward_params():
     msg = "`criterion` must be one of: None, 'aic', 'bic'."
     with pytest.raises(ValueError, match=msg):
         backward(n_features=0.5, criterion='acc')
+
+    msg = "^If a float, `n_features` must be on"
+    with pytest.raises(ValueError, match=msg):
+        backward(n_features=1.5)
