@@ -138,3 +138,36 @@ def test_fsel_output_values():
 
 def test_bsel_output_values():
     output_values(backward_output)
+
+
+# -----------------------------------------------------------------------------
+# Testing that forward selection works with 'aic' and 'bic' criterion
+# -----------------------------------------------------------------------------
+
+def test_fsel_aic_output():
+    forward_output = forward(n_features=2, min_change=None, criterion='aic')
+    len(forward_output) == 2
+
+def test_fsel_bic_output():
+    forward_output = forward(n_features=2, min_change=None, criterion='bic')
+    len(forward_output) == 2
+
+# -----------------------------------------------------------------------------
+# Testing that forward selection works with 'min_change' arg
+# -----------------------------------------------------------------------------
+
+def test_fsel_min_change_output():
+    forward_output = forward(n_features=None, min_change=1, criterion=None)
+    len(forward_output) > 1
+
+# -----------------------------------------------------------------------------
+# Testing that backward selection works with 'aic' and 'bic' criterion
+# -----------------------------------------------------------------------------
+
+def test_bsel_aic_output():
+    backward_output = backward(n_features=2, min_change=None, criterion='aic')
+    len(backward_output) > 1
+
+def test_bsel_bic_output():
+    backward_output = backward(n_features=2, min_change=None, criterion='bic')
+    len(backward_output) > 1
