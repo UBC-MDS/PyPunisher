@@ -4,8 +4,6 @@
     ~~~~~
 
 """
-from tqdm import trange
-
 
 def get_n_features(matrix, min_=2):
     """Get the number of features in a matrix.
@@ -52,23 +50,6 @@ def enforce_use_of_all_cpus(model):
     if hasattr(model, 'n_jobs'):
         setattr(model, 'n_jobs', -1)
     return model
-
-
-def worse_case_bar(n, verbose):
-    """Generate a progress bar for the worst case of
-    a forward or backward selection.
-
-    Args:
-        n : int
-            Number of iterations
-        verbose : bool
-            If true, this function collapses to `range()`.
-
-    Returns:
-        `trange` object.
-
-    """
-    return trange(n, desc='Worst Case', disable=not verbose)
 
 
 def parse_n_features(n_features, total):

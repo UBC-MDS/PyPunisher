@@ -7,6 +7,7 @@
 import os
 import sys
 import pytest
+from numpy import ones
 
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
@@ -30,3 +31,15 @@ def test_backward_params():
     msg = "At least one of `min_change` and `n_features` must be None."
     with pytest.raises(TypeError, match=msg):
         backward(n_features=0.5, min_change=0.3)
+    
+    msg = "`criterion` must be one of: None, 'aic', 'bic'."
+    with pytest.raises(ValueError, match=msg):
+        backward(n_features=0.5, criterion='acc')
+
+    msg = "^If a float, `n_features` must be on"
+    with pytest.raises(ValueError, match=msg):
+        backward(n_features=1.5)
+    
+    msg = "less than 2 features present."
+    with pytest.raises(IndexError, match=msg):
+        backward(X_train=ones((501, 1)), X_val=ones((501, 1)))

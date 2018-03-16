@@ -54,7 +54,7 @@ def test_metric_model_param():
 # -----------------------------------------------------------------------------
 
 
-def test_metric_data_parm():
+def test_metric_data_param():
     """Test that the `data` params in `aic()` and `bic()`
     will raise a TypeError when passed something other
     than an ndarray."""
@@ -63,9 +63,10 @@ def test_metric_data_parm():
             if isinstance(kind, str):
                 with pytest.raises(TypeError):
                     metric(sk_model, X_train=kind, y_train=y_train)
+                with pytest.raises(TypeError):
+                    metric(sk_model, X_train=X_train, y_train=kind)
             else:
                 metric(sk_model, X_train=kind, y_train=y_train)
-
 
 # -----------------------------------------------------------------------------
 # Metric output
