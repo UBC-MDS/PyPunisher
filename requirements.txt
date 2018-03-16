@@ -5,3 +5,4 @@ scikit-learn
 scipy
 tqdm
 statsmodels
+codecov
