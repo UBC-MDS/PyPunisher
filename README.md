@@ -69,33 +69,6 @@ You also have the option to run individual test files by referencing its path. F
 python -m pytest tests/test_forward_selection.py
 ```
 
-## Coverage
-
-```bash
-
-$ py.test --cov=pypunisher tests/
-
-platform darwin -- Python 3.6.3, pytest-3.4.1, py-1.5.2, pluggy-0.6.0
-...
-plugins: cov-2.5.1
-collected 13 items                                                                                                                                                           
-
-...
-
----------- coverage: platform darwin, python 3.6.3-final-0 -----------
-Name                                        Stmts   Miss  Cover
----------------------------------------------------------------
-pypunisher/__init__.py                          4      0   100%
-pypunisher/_checks.py                          19      1    95%
-pypunisher/metrics/__init__.py                  1      0   100%
-pypunisher/metrics/criterion.py                28      3    89%
-pypunisher/selection_engines/__init__.py        2      0   100%
-pypunisher/selection_engines/_utils.py         20      2    90%
-pypunisher/selection_engines/selection.py      90     11    88%
----------------------------------------------------------------
-TOTAL                                         164     17    90%
-```
-
 ## Contributors: 
 
 - Avinash, [@avinashkz](https://github.com/avinashkz)
