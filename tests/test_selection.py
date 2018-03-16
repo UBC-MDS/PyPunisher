@@ -41,9 +41,9 @@ def test_too_few_features():
     """
     X_train = DEFAULT_SELECTION_PARAMS['X_train']
     X_train = X_train[:, 0:1]
-    with pytest.raises(TypeError):
+    with pytest.raises(IndexError):
         forward(n_features=1, X_train=X_train)
-    with pytest.raises(TypeError):
+    with pytest.raises(IndexError):
         backward(n_features=1, X_train=X_train)
 
 
