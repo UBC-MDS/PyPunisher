@@ -146,36 +146,11 @@ def test_bsel_output_values():
 
 def test_fsel_aic_output():
     forward_output = forward(n_features=2, min_change=None, criterion='aic')
-    len(forward_output) == 2
+    assert len(forward_output) > 0
 
 def test_fsel_bic_output():
     forward_output = forward(n_features=2, min_change=None, criterion='bic')
-    len(forward_output) == 2
-
-# -----------------------------------------------------------------------------
-# Test that forward selection works with 'min_change' arg
-# -----------------------------------------------------------------------------
-
-def test_fsel_min_change_output():
-    forward_output = forward(n_features=None, min_change=1, criterion=None)
-    len(forward_output) > 1
-
-def test_bsel_min_change_output():
-    backward_output = backward(n_features=None, min_change=10, criterion='aic')
-    len(backward_output) > 1
-
-# -----------------------------------------------------------------------------
-# Test that forward and backward selection work with verbose = True arg
-# -----------------------------------------------------------------------------
-
-def test_fsel_verbose_output():
-    forward_output = forward(n_features=None, min_change=1, verbose=True)
-    len(forward_output) > 1
-
-def test_bsel_verbose_output():
-    backward_output = backward(n_features=2, min_change=None, verbose=True)
-    len(backward_output) > 1
-
+    assert len(forward_output) > 0
 
 # -----------------------------------------------------------------------------
 # Test that backward selection works with 'aic' and 'bic' criterion
@@ -183,8 +158,32 @@ def test_bsel_verbose_output():
 
 def test_bsel_aic_output():
     backward_output = backward(n_features=2, min_change=None, criterion='aic')
-    len(backward_output) > 1
+    assert len(backward_output) >= 1
 
 def test_bsel_bic_output():
     backward_output = backward(n_features=2, min_change=None, criterion='bic')
-    len(backward_output) > 1
+    assert len(backward_output) >= 1
+
+# -----------------------------------------------------------------------------
+# Test that forward selection works with 'min_change' arg
+# -----------------------------------------------------------------------------
+
+def test_fsel_min_change_output():
+    forward_output = forward(n_features=None, min_change=1, criterion=None)
+    assert len(forward_output) >= 1
+
+def test_bsel_min_change_output():
+    backward_output = backward(n_features=None, min_change=10, criterion='aic')
+    assert len(backward_output) >= 1
+
+# -----------------------------------------------------------------------------
+# Test that forward and backward selection work with verbose = True arg
+# -----------------------------------------------------------------------------
+
+def test_fsel_verbose_output():
+    forward_output = forward(n_features=None, min_change=1, verbose=True)
+    assert len(forward_output) >= 1
+
+def test_bsel_verbose_output():
+    backward_output = backward(n_features=2, min_change=None, verbose=True)
+    assert len(backward_output) >= 1
