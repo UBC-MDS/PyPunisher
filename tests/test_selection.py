@@ -165,7 +165,7 @@ def test_bsel_bic_output():
     assert len(backward_output) >= 1
 
 # -----------------------------------------------------------------------------
-# Test that forward selection works with 'min_change' arg
+# Test that forward and backward selection work with 'min_change' arg
 # -----------------------------------------------------------------------------
 
 def test_fsel_min_change_output():
@@ -177,7 +177,7 @@ def test_bsel_min_change_output():
     assert len(backward_output) >= 1
 
 # -----------------------------------------------------------------------------
-# Test that forward and backward selection work with verbose = True arg
+# Test that forward and backward selection work with verbose=True arg
 # -----------------------------------------------------------------------------
 
 def test_fsel_verbose_output():
