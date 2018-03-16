@@ -7,6 +7,7 @@
 import os
 import sys
 import pytest
+from numpy import ones
 
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
@@ -38,3 +39,7 @@ def test_backward_params():
     msg = "^If a float, `n_features` must be on"
     with pytest.raises(ValueError, match=msg):
         backward(n_features=1.5)
+    
+    msg = "less than 2 features present."
+    with pytest.raises(IndexError, match=msg):
+        backward(X_train=ones((501, 1)), X_val=ones((501, 1)))

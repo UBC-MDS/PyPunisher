@@ -187,3 +187,7 @@ def test_fsel_verbose_output():
 def test_bsel_verbose_output():
     backward_output = backward(n_features=2, min_change=None, verbose=True)
     assert len(backward_output) >= 1
+
+def test_bsel_verbose_output():
+    backward_output = backward(n_features=2, min_change=None, verbose=True)
+    assert len(backward_output) >= 1
