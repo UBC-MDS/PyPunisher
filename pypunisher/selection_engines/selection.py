@@ -94,13 +94,19 @@ class Selection(object):
             score = self._model.score(X_val, y_val)
         return score
 
-    def _forward_break_criteria(self, S, j_score_dict, n_features):
+    def _forward_break_criteria(self, S, min_change, best_j_score,
+                                j_score_dict, n_features):
         """Check if `forward()` should break
 
         Args:
             S : list
                 The list of features as found in `forward`
                 and `backward()`
+            min_change : int or float, optional
+                The smallest change to be considered significant.
+            best_j_score : float
+                The best score for a given iteration as evolved
+                inside `forward()`.
             j_score_dict : dict
                 A dictionary of scores in step 1. of `forward()`.
             n_features : int
@@ -114,7 +120,10 @@ class Selection(object):
         # a. Check if the algorithm should halt b/c of features themselves
         if not len(j_score_dict) or len(S) == self._total_number_of_features:
             return True
-        # b. Break if the number of features in S > n_features.
+        # b. Break if the change was too small
+        if isinstance(min_change, (int, float)) and best_j_score < min_change:
+            return True
+        # c. Break if the number of features in S > n_features.
         elif isinstance(n_features, int) and n_features > len(S):
             return True
         else:
@@ -165,7 +174,9 @@ class Selection(object):
                 S.append(best_j)  # add feature
                 itera.remove(best_j)  # no longer search over this feature.
 
-            if self._forward_break_criteria(S, j_score_dict=j_score_dict,
+            if self._forward_break_criteria(S, min_change=min_change,
+                                            best_j_score=best_j_score,
+                                            j_score_dict=j_score_dict,
                                             n_features=n_features):
                 break
 
