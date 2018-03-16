@@ -4,8 +4,6 @@
     ~~~~~
 
 """
-from tqdm import trange
-
 
 def get_n_features(matrix, min_=2):
     """Get the number of features in a matrix.
