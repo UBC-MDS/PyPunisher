@@ -1,8 +1,0 @@
-pytest
-pylint
-numpy
-scikit-learn
-scipy
-tqdm
-statsmodels
-codecov
