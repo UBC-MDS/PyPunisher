@@ -11,7 +11,7 @@ def read(fname):
 
 setup(
     name='pypunisher',
-    version='3.0.0',
+    version='4.0.0',
     author='Jill Cates, Avinash Prabhakaran, Tariq Hassan',
     author_email='NA',
     description='Model Selection in Python',
