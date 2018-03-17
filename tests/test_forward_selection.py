@@ -34,7 +34,3 @@ def test_forward_params():
     msg = "At least one of `min_change` and `n_features` must be None."
     with pytest.raises(TypeError, match=msg):
         forward(min_change=0.5, n_features=0.3)
-    
-    msg = "`criterion` must be one of: None, 'aic', 'bic'."
-    with pytest.raises(ValueError, match=msg):
-        forward(min_change=0.5, criterion='acc')

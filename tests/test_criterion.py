@@ -15,6 +15,7 @@ import statsmodels.api as sm
 from pypunisher.metrics.criterion import aic, bic
 from sklearn.linear_model import LinearRegression
 from tests._test_data import X_train, y_train
+from tests._wrappers import forward, backward
 
 COMP_TOLERANCE = 200  # comparision tolerance between floats
 
@@ -50,6 +51,22 @@ def test_metric_model_param():
 
 
 # -----------------------------------------------------------------------------
+# Test criterion through selection
+# -----------------------------------------------------------------------------
+
+
+def test_selection_class_use_of_criterion():
+    """Test Criterion through `forward()` and `backward()."""
+
+    msg = "`criterion` must be one of: None, 'aic', 'bic'."
+    with pytest.raises(ValueError, match=msg):
+        forward(min_change=0.5, criterion='acc')
+
+    with pytest.raises(ValueError, match=msg):
+        backward(n_features=0.5, criterion='Santa')
+
+
+# -----------------------------------------------------------------------------
 # `data` Param
 # -----------------------------------------------------------------------------
 
@@ -67,6 +84,7 @@ def test_metric_data_param():
                     metric(sk_model, X_train=X_train, y_train=kind)
             else:
                 metric(sk_model, X_train=kind, y_train=y_train)
+
 
 # -----------------------------------------------------------------------------
 # Metric output
