@@ -1,160 +1,115 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>pypunisher.metrics.criterion &mdash; PyPunisher v4.0 documentation</title>
-  
 
-  
-  
-  
-  
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>pypunisher.metrics.criterion &#8212; PyPunisheR v4.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.3.6/simplex/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-  
+  </head><body>
 
-  
-  
-    
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          PyPunisheR</a>
+        <span class="navbar-text navbar-version pull-left"><b>4.0</b></span>
+      </div>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../../genindex.html"/>
-        <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="PyPunisher v4.0 documentation" href="../../../index.html"/>
-        <link rel="up" title="Module code" href="../../index.html"/> 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
-</head>
-
-<body class="wy-body-for-nav" role="document">
-
-   
-  <div class="wy-grid-for-nav">
-
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
-
-          
-            <a href="../../../index.html" class="icon icon-home"> PyPunisher
-          
-
-          
-          </a>
-
-          
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="https://github.com/UBC-MDS/PyPunisher">View on GitHub</a></li>
             
             
-              <div class="version">
-                4.0
-              </div>
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../code.html">Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../code.html#information-criterion">Information Criterion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../code.html#forward-and-backward-selection-algorithms">Forward and Backward Selection Algorithms</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Current Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../code.html">Developer Documentation</a></li>
-</ul>
-
+              
+                
+              
             
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
           
         </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary">
+        </div>
       </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
+    <div class="col-md-9 content">
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">PyPunisher</a>
-        
-      </nav>
-
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../../index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-        
-      <li>pypunisher.metrics.criterion</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-            
-        
-      </li>
-    
-  </ul>
-
-  
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-            
   <h1>Source code for pypunisher.metrics.criterion</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 
@@ -162,8 +117,12 @@
 <span class="sd"> Information Criterion</span>
 <span class="sd"> =====================</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># NOTE: aic() and `bic()` have docstrings formatted</span>
+<span class="c1"># for sphinx&#39;s auto-documentation engine.</span>
+
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">pi</span>
 <span class="kn">from</span> <span class="nn">pypunisher._checks</span> <span class="k">import</span> <span class="n">model_check</span>
+
 
 <span class="k">def</span> <span class="nf">_get_coeffs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -189,7 +148,7 @@
     <span class="n">k</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
     <span class="n">rss</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">y_train</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">llf</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">log</span><span class="p">(</span><span class="n">rss</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="n">n</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">llf</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">rss</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="n">n</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="k">return</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">llf</span>
 
 
@@ -197,21 +156,22 @@
     <span class="sd">&quot;&quot;&quot;Compute the Akaike Information Criterion (AIC)</span>
 
 <span class="sd">    AIC&#39;s objective is to prevent model overfitting by adding a penalty</span>
-<span class="sd">    term which penalizes more compelx models. Its formal definition is:</span>
-<span class="sd">        -2ln(L)+2*k</span>
-<span class="sd">    where L is the maximized value of the likelihood function.</span>
-<span class="sd">    A smaller AIC value suggests that the model is a better fit for the data.</span>
+<span class="sd">    term which penalizes more complex models. Its formal definition is:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        -2ln(L) + 2k</span>
+
+<span class="sd">    where :math:`L` is the maximized value of the likelihood function and :math:`k`</span>
+<span class="sd">    if the number of parameters. A smaller AIC value suggests that the model</span>
+<span class="sd">    is a better fit for the data, relative to competing models.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        model : A fitted sklearn model object)</span>
-<span class="sd">            A fitted sklearn model.</span>
-<span class="sd">        X_train : ndarray</span>
-<span class="sd">            The data used to train `model`.</span>
-<span class="sd">        y_train : 1d numpy array</span>
-<span class="sd">            The response variable.</span>
+<span class="sd">        model (fitted sklearn model object): A fitted sklearn model.</span>
+<span class="sd">        X_train (2d ndarray): The data used to train `model`.</span>
+<span class="sd">        y_train (1d numpy array): the response variable.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        aic: float</span>
+<span class="sd">        aic (float)</span>
 <span class="sd">            AIC value if sample size is sufficient.</span>
 <span class="sd">            If n/k &lt; 40 where n is the number of observations</span>
 <span class="sd">            and k is the number of features, AICc gets returned</span>
@@ -227,8 +187,8 @@
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`y_train` must be an ndarray.&quot;</span><span class="p">)</span>
 
     <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">llf</span> <span class="o">=</span> <span class="n">_get_coeffs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">)</span>
-    <span class="n">aic</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">llf</span> <span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span>
-    <span class="k">if</span> <span class="n">n</span><span class="o">/</span><span class="n">k</span> <span class="o">&lt;</span> <span class="mi">40</span><span class="p">:</span>
+    <span class="n">aic</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">llf</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">/</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">40</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">aic</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span></div>
         <span class="k">return</span> <span class="n">aic</span>
@@ -239,25 +199,25 @@
 
 <span class="sd">    BIC&#39;s objective is to prevent model over-fitting by adding a penalty</span>
 <span class="sd">    term which penalizes more complex models. Its formal definition is:</span>
-<span class="sd">        -2ln(L)+ln(n)k</span>
-<span class="sd">    where L is the maximized value of the likelihood function.</span>
-<span class="sd">    A smaller BIC value suggests that the model is a better fit for the data.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        -2ln(L) + ln(n)k</span>
+
+<span class="sd">    where :math:`L` is the maximized value of the likelihood function and :math:`k`</span>
+<span class="sd">    if the number of parameters. A smaller BIC value suggests that the model</span>
+<span class="sd">    is a better fit for the data, relative to competing models.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        model : sklearn model object)</span>
-<span class="sd">            A fitted sklearn linear regression model.</span>
-<span class="sd">        X_train : ndarray</span>
-<span class="sd">            The data used to train `model`.</span>
-<span class="sd">        y_train : 1d numpy array</span>
-<span class="sd">            The response variable.</span>
+<span class="sd">        model (fitted sklearn model object): A fitted sklearn model.</span>
+<span class="sd">        X_train (2d ndarray): The data used to train `model`.</span>
+<span class="sd">        y_train (1d numpy array): the response variable.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        bic: float</span>
+<span class="sd">        bic (float)</span>
 <span class="sd">            Bayesian Information Criterion value.</span>
 
 <span class="sd">    References:</span>
 <span class="sd">        * https://en.wikipedia.org/wiki/Bayesian_information_criterion</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`X_train` must be an ndarray.&quot;</span><span class="p">)</span>
@@ -265,72 +225,26 @@
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`y_train` must be an ndarray.&quot;</span><span class="p">)</span>
 
     <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">llf</span> <span class="o">=</span> <span class="n">_get_coeffs</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">)</span>
-    <span class="n">bic</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">llf</span><span class="o">+</span><span class="n">log</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="n">k</span>
+    <span class="n">bic</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">llf</span> <span class="o">+</span> <span class="n">log</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">k</span>
 </div>
     <span class="k">return</span> <span class="n">bic</span>
 </pre></div>
 
-           </div>
-           <div class="articleComments">
-            
-           </div>
-          </div>
-          <footer>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
     <p>
-        &copy; Copyright 2018, Jill Cates, Avinash Prabhakaran, Tariq Hassan.
-
+        &copy; Copyright 2018, Jill Cates, Avinash Prabhakaran, Tariq Hassan.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.<br/>
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
 </footer>
-
-        </div>
-      </div>
-
-    </section>
-
-  </div>
-  
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../../',
-            VERSION:'v4.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
-
-</body>
+  </body>
 </html>
