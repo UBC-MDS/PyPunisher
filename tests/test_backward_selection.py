@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
 
 from tests._wrappers import backward
-from pypunisher.example_data import X_train
+from pypunisher._example_data import X_train
 
 
 # -----------------------------------------------------------------------------

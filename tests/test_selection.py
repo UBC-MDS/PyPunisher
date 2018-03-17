@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.abspath("../"))
 
 from pypunisher import Selection
 from tests._wrappers import forward, backward
-from pypunisher.example_data import true_best_feature
+from pypunisher._example_data import true_best_feature
 from tests._defaults import DEFAULT_SELECTION_PARAMS
 
 
