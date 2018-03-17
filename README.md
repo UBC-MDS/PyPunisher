@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/UBC-MDS/PyPunisher.svg?branch=master)](https://travis-ci.org/UBC-MDS/PyPunisher)
 
-[![codecov](https://codecov.io/gh/UBC-MDS/PyPunisher/branch/master/graph/badge.svg)](https://codecov.io/gh/UBC-MDS/PyPunisher)
-
 PyPunisher is a package for feature and model selection in Python. Specifically, this package will implement tools for 
 forward and backward model selection (see [here](https://en.wikipedia.org/wiki/Stepwise_regression)). 
 In order to measure model quality during the selection procedures, we will also be implement
@@ -67,6 +65,28 @@ You also have the option to run individual test files by referencing its path. F
 
 ```
 python -m pytest tests/test_forward_selection.py
+```
+
+## Branch Coverage
+
+
+```bash
+mbp:PyPunisher tariq$ py.test --cov=pypunisher tests/ --cov-branch
+
+
+---------- coverage: platform darwin, python 3.6.3-final-0 -----------
+Name                                        Stmts   Miss Branch BrPart  Cover
+-----------------------------------------------------------------------------
+pypunisher/__init__.py                          5      0      0      0   100%
+pypunisher/_checks.py                          21      0     18      0   100%
+pypunisher/metrics/__init__.py                  2      0      0      0   100%
+pypunisher/metrics/criterion.py                29      0     10      0   100%
+pypunisher/selection_engines/__init__.py        3      0      0      0   100%
+pypunisher/selection_engines/_utils.py         17      0      8      0   100%
+pypunisher/selection_engines/selection.py      99      0     52      0   100%
+-----------------------------------------------------------------------------
+TOTAL                                         176      0     88      0   100%
+
 ```
 
 ## Contributors: 
