@@ -6,6 +6,7 @@ Criterion Tests
 """
 import os
 import sys
+
 import pytest
 
 sys.path.insert(0, os.path.abspath("."))
@@ -14,7 +15,7 @@ sys.path.insert(0, os.path.abspath("../"))
 import statsmodels.api as sm
 from pypunisher.metrics.criterion import aic, bic
 from sklearn.linear_model import LinearRegression
-from tests._test_data import X_train, y_train
+from pypunisher.example_data._example_data import X_train, y_train
 from tests._wrappers import forward, backward
 
 COMP_TOLERANCE = 200  # comparision tolerance between floats

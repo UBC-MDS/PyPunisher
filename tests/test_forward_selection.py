@@ -6,13 +6,14 @@ Tests Specific to Forward Selection
 """
 import os
 import sys
+
 import pytest
 
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
 
 from tests._wrappers import forward
-from tests._test_data import X_train
+from pypunisher.example_data._example_data import X_train
 
 
 # -----------------------------------------------------------------------------
