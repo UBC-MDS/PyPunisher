@@ -4,8 +4,12 @@
  Information Criterion
  =====================
 """
+# NOTE: aic() and `bic()` have docstrings formatted
+# for sphinx's auto-documentation engine.
+
 from numpy import log, ndarray, pi
 from pypunisher._checks import model_check
+
 
 def _get_coeffs(model, X_train, y_train):
     """
@@ -31,7 +35,7 @@ def _get_coeffs(model, X_train, y_train):
     k = X_train.shape[1]
     y_pred = model.predict(X_train)
     rss = sum((y_train - y_pred) ** 2)
-    llf = -(n/2)*log(2*pi) - (n/2)*log(rss/n) - n/2
+    llf = -(n / 2) * log(2 * pi) - (n / 2) * log(rss / n) - n / 2
     return n, k, llf
 
 
@@ -39,21 +43,22 @@ def aic(model, X_train, y_train):
     """Compute the Akaike Information Criterion (AIC)
 
     AIC's objective is to prevent model overfitting by adding a penalty
-    term which penalizes more compelx models. Its formal definition is:
-        -2ln(L)+2*k
-    where L is the maximized value of the likelihood function.
-    A smaller AIC value suggests that the model is a better fit for the data.
+    term which penalizes more complex models. Its formal definition is:
+
+    .. math::
+        -2ln(L) + 2k
+
+    where :math:`L` is the maximized value of the likelihood function and :math:`k`
+    if the number of parameters. A smaller AIC value suggests that the model
+    is a better fit for the data, relative to competing models.
 
     Args:
-        model : A fitted sklearn model object)
-            A fitted sklearn model.
-        X_train : ndarray
-            The data used to train `model`.
-        y_train : 1d numpy array
-            The response variable.
+        model (fitted sklearn model object): A fitted sklearn model.
+        X_train (2d ndarray): The data used to train `model`.
+        y_train (1d numpy array): the response variable.
 
     Returns:
-        aic: float
+        aic (float)
             AIC value if sample size is sufficient.
             If n/k < 40 where n is the number of observations
             and k is the number of features, AICc gets returned
@@ -69,8 +74,8 @@ def aic(model, X_train, y_train):
         raise TypeError("`y_train` must be an ndarray.")
 
     n, k, llf = _get_coeffs(model, X_train=X_train, y_train=y_train)
-    aic = -2*llf +2*k
-    if n/k < 40:
+    aic = -2 * llf + 2 * k
+    if n / k < 40:
         return aic + 2 * k * (k + 1) / (n - k - 1)
     else:
         return aic
@@ -81,25 +86,25 @@ def bic(model, X_train, y_train):
 
     BIC's objective is to prevent model over-fitting by adding a penalty
     term which penalizes more complex models. Its formal definition is:
-        -2ln(L)+ln(n)k
-    where L is the maximized value of the likelihood function.
-    A smaller BIC value suggests that the model is a better fit for the data.
+
+    .. math::
+        -2ln(L) + ln(n)k
+
+    where :math:`L` is the maximized value of the likelihood function and :math:`k`
+    if the number of parameters. A smaller BIC value suggests that the model
+    is a better fit for the data, relative to competing models.
 
     Args:
-        model : sklearn model object)
-            A fitted sklearn linear regression model.
-        X_train : ndarray
-            The data used to train `model`.
-        y_train : 1d numpy array
-            The response variable.
+        model (fitted sklearn model object): A fitted sklearn model.
+        X_train (2d ndarray): The data used to train `model`.
+        y_train (1d numpy array): the response variable.
 
     Returns:
-        bic: float
+        bic (float)
             Bayesian Information Criterion value.
 
     References:
         * https://en.wikipedia.org/wiki/Bayesian_information_criterion
-
     """
     if not isinstance(X_train, ndarray):
         raise TypeError("`X_train` must be an ndarray.")
@@ -107,6 +112,6 @@ def bic(model, X_train, y_train):
         raise TypeError("`y_train` must be an ndarray.")
 
     n, k, llf = _get_coeffs(model, X_train=X_train, y_train=y_train)
-    bic = -2*llf+log(n)*k
+    bic = -2 * llf + log(n) * k
 
     return bic

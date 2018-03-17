@@ -4,6 +4,10 @@
 Forward and Backward Selection Algorithms
 =========================================
 """
+# NOTE: `Selection()`, `Selection().forward()` and
+# `Selection.backward()` have docstrings formatted
+# for sphinx's auto-documentation engine.
+
 from pypunisher.metrics.criterion import aic, bic
 from pypunisher._checks import model_check, array_check, input_checks
 from pypunisher.selection_engines._utils import (get_n_features,
@@ -15,30 +19,29 @@ class Selection(object):
     """Forward and Backward Selection Algorithms.
 
     Args:
-        model : sklearn model
+        model (sklearn model)
             any sklearn model with `.fit()`, `.predict()` and
             `.score()` methods.
-        X_train : ndarray
+        X_train (2d ndarray)
             a 2D numpy array of (observations, features).
-        y_train : ndarray:
+        y_train (1d ndarray)
             a 1D array of target classes for X_train.
-        X_val : ndarray
+        X_val (2d ndarray)
             a 2D numpy array of (observations, features).
-        y_val : ndarray
+        y_val (1d ndarray)
             a 1D array of target classes for X_validate.
-        criterion : str or None
+        criterion (str or None)
             model selection criterion.
+
             * 'aic': use Akaike Information Criterion.
+
             * 'bic': use Bayesian Information Criterion.
-            * None: Use the default score built into the model
-              object (i.e., call `.score()`).
-        verbose : bool
+
+            * None: Use the model's default (i.e., call ``.score()``).
+
+        verbose (bool)
             if True, print additional information as selection occurs.
             Defaults to True.
-
-    Exposes:
-        * .forward()
-        * .backward()
 
     """
 
@@ -153,23 +156,25 @@ class Selection(object):
         """Perform Forward Selection on a Sklearn model.
 
         Args:
-            n_features : int
+            n_features (int)
                 the max. number of features to allow.
-                Note: `min_change` must be None in order for `n_features` to operate.
+                Note: ``min_change`` must be None in order for ``n_features`` to operate.
                 Floats will be regarded as proportions of the total
                 that must lie on (0, 1).
-            min_change : int or float, optional
+            min_change (int or float)
                 The smallest change to be considered significant.
-                Note: `n_features` must be None in order for `min_change` to operate.
-            kwargs : Keyword Args
-                Includes:
+                Note: `n_features` must be None in order for ``min_change`` to operate.
+            kwargs (Keyword Args)
                  * `_do_not_skip`:
-                 Explore loop exhaustion.
-                 **For internal use only**; Not intended for outside use.
+                    Explore loop exhaustion.
+                    **For internal use only**. Not intended for outside use.
 
         Returns:
-            S : list
-              The column indices of `X_train` (and `X_val`) that denote the chosen features.
+            S (list)
+              The column indices of ``X_train`` (and ``X_val``) that denote the chosen features.
+
+        Raises:
+            if ``n_features`` and ``min_change`` are both non-None.
 
         """
         input_checks(locals())
@@ -216,29 +221,28 @@ class Selection(object):
         """Perform Backward Selection on a Sklearn model.
 
         Args:
-            n_features : int or float
+            n_features (int or float)
                 The number of features to select.
                 Floats will be regarded as proportions of the total
                 that must lie on (0, 1).
-                `min_change` must be None for `n_features` to operate.
-            min_change : int or float, optional
+                ``min_change`` must be None for ``n_features`` to operate.
+            min_change (int or float)
                 The smallest change to be considered significant.
-                `n_features` must be None for `min_change` to operate.
-            kwargs : Keyword Args
-                Includes:
-                 * `_do_not_skip` : bool
+                `n_features` must be None for ``min_change`` to operate.
+            kwargs (Keyword Args)
+                * `_do_not_skip` (bool):
                     Explore loop exhaustion.
-                    **For internal use only**; Not intended for outside use.
-                * `_last_score_punt` : bool
+                    **For internal use only**. Not intended for outside use.
+                * `_last_score_punt` (bool):
                     Relax `defeated_last_iter_score` decision boundary.
                     **For internal use only**. Not intended for outside use.
 
         Returns:
-            S : list
+            S (list)
               The column indices of `X_train` (and `X_val`) that denote the chosen features.
 
         Raises:
-            if `n_features` and `min_change` are both non-None.
+            if ``n_features`` and ``min_change`` are both non-None.
 
         """
         input_checks(locals())

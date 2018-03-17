@@ -1,8 +1,9 @@
-# PyPunisher
+## PyPunisher <img src="docs/logo/pypunisher_logo.png" align="right"/>
 
 [![Build Status](https://travis-ci.org/UBC-MDS/PyPunisher.svg?branch=master)](https://travis-ci.org/UBC-MDS/PyPunisher)
+[![Coverage Status](https://coveralls.io/repos/github/UBC-MDS/PyPunisher/badge.svg?branch=coveralls)](https://coveralls.io/github/UBC-MDS/PyPunisher?branch=coveralls)
 
-PyPunisher is a package for feature and model selection in Python. Specifically, this package has implemented tools for 
+**PyPunisher** is a package for feature and model selection in Python. Specifically, this package has implemented tools for 
 forward and backward model selection (see [here](https://en.wikipedia.org/wiki/Stepwise_regression)). 
 In order to measure model quality during the selection procedures, we have also implemented
 the Akaike and Bayesian Information Criterion (see below), both of which *punish* complex models -- hence this package's
@@ -19,6 +20,10 @@ pip3 install git+git://github.com/UBC-MDS/PyPunisher@master
 ```
 
 Requires Python 3.6+.
+
+## Documentation
+
+The documentation for PyPunisher can be viewed [here](https://ubc-mds.github.io/PyPunisher/index.html).
 
 ## Functions included:
 
