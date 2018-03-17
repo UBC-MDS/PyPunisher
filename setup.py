@@ -19,7 +19,7 @@ setup(
     license='BSD-3',
     keywords='model selection',
     url='https://github.com/UBC-MDS/PyPunisher',
-    download_url='https://github.com/UBC-MDS/PyPunisher/archive/v3.0.0tar.gz',
+    download_url='https://github.com/UBC-MDS/PyPunisher/archive/v4.0.0tar.gz',
     packages=find_packages(exclude=("tests",)),
     # Note: requirements.txt contains some packages
     # which are not needed to simply use the package
