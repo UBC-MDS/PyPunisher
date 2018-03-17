@@ -3,16 +3,20 @@ python:
   - "3.6"
 # command to install dependencies
 cache: pip3
+before_install:
+  - pip install pytest pytest-cov
+  - pip install coveralls
 install:
   - 'pip install -r requirements.txt'
 # command to run tests
 script:
   - pytest
   - pylint --errors-only --extension-pkg-whitelist=numpy pypunisher/
+  - py.test --cov=pypunisher tests/ --cov-branch
 os: "linux"
 dist: "trusty"
 notifications:
     on_success: never
     on_failure: never
 after_success:
-  - codecov
+  - coveralls
