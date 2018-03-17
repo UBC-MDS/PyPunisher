@@ -50,8 +50,7 @@ def input_checks(locals_):
     # are in a reliable (alphabetical) order.
     locals_.pop('self')
     param_a, param_b = sorted(k for k, p in locals_.items())
-    locals_non_none = {k: v for k, v in locals_.items()
-                       if v is not None}
+    locals_non_none = {k: v for k, v in locals_.items() if v is not None}
 
     if len(locals_non_none) != 1:
         raise TypeError(
@@ -62,7 +61,7 @@ def input_checks(locals_):
 
     # Unpack the single key and value pair.
     name, obj = tuple(locals_non_none.items())[0]
-    if obj is None and not isinstance(obj, (int, float)):
+    if not isinstance(obj, (int, float)):
         raise TypeError(
             "`{}` must be of type int or float.".format(name)
         )

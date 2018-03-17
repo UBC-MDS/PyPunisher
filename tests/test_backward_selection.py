@@ -27,6 +27,10 @@ def test_backward_params():
     with pytest.raises(ValueError, match=msg):
         backward(n_features=None, min_change=-0.75)
 
+    msg = "`min_change` must be of type int or float."
+    with pytest.raises(TypeError, match=msg):
+        backward(min_change='-0.75', n_features=None)
+
     # Note: items in backticks (``) will be in alphabetical order.
     msg = "At least one of `min_change` and `n_features` must be None."
     with pytest.raises(TypeError, match=msg):
