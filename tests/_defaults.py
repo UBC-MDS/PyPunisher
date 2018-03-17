@@ -1,8 +1,8 @@
+#!/usr/bin/env python
+
 """
-
     Default Base for Testing Against
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+    ================================
 """
 from sklearn.linear_model import LinearRegression
 from tests._test_data import X_train, y_train, X_val, y_val

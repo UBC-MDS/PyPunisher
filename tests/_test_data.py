@@ -1,13 +1,12 @@
+#!/usr/bin/env python
+
 """
-
-    Test Data
-    ~~~~~~~~~
-
-    Generate: y = x + e, where e ~ Uniform(0, 50) and
-    `x` is embedded as the middle column in a zero matrix.
-    That is, only ONE column is predictive of y, the rest are
-    trivial column vectors.
-
+Test Data
+=========
+Generate: y = x + e, where e ~ Uniform(0, 50) and
+`x` is embedded as the middle column in a zero matrix.
+That is, only ONE column is predictive of y, the rest are
+trivial column vectors.
 """
 import numpy as np
 from sklearn.model_selection import train_test_split

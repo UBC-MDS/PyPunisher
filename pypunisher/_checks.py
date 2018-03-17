@@ -1,8 +1,8 @@
+#!/usr/bin/env python
+
 """
-
-    Checks
-    ~~~~~~
-
+Checks
+======
 """
 import numpy as np
 

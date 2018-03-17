@@ -1,8 +1,8 @@
+#!/usr/bin/env python
+
 """
-
-    Utils
-    ~~~~~
-
+Utils
+=====
 """
 
 def get_n_features(matrix, min_=2):

@@ -1,8 +1,8 @@
+#!/usr/bin/env python
+
 """
-
-    Tests Specific to Backward Selection
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+Tests Specific to Backward Selection
+====================================
 """
 import os
 import sys

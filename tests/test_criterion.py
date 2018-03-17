@@ -1,8 +1,8 @@
+#!/usr/bin/env python
+
 """
-
-    Criterion Tests
-    ~~~~~~~~~~~~~~~
-
+Criterion Tests
+===============
 """
 import os
 import sys

@@ -1,8 +1,8 @@
+#!/usr/bin/env python
+
 """
-
-    Forward and Backward Selection Algorithms
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+Forward and Backward Selection Algorithms
+=========================================
 """
 from pypunisher.metrics.criterion import aic, bic
 from pypunisher._checks import model_check, array_check, input_checks

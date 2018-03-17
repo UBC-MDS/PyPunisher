@@ -1,8 +1,8 @@
+#!/usr/bin/env python
+
 """
-
-    Run Tests Common to Forward and Backward Selection
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+Run Tests Common to Forward and Backward Selection
+==================================================
 """
 import os
 import sys

@@ -1,8 +1,8 @@
+#!/usr/bin/env python
+
 """
-
-    Tests Specific to Forward Selection
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+Tests Specific to Forward Selection
+===================================
 """
 import os
 import sys

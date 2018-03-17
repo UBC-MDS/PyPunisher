@@ -1,8 +1,8 @@
+#!/usr/bin/env python
+
 """
-
-     Information Criterion
-     ~~~~~~~~~~~~~~~~~~~~~
-
+ Information Criterion
+ =====================
 """
 from numpy import log, ndarray, pi
 from pypunisher._checks import model_check
