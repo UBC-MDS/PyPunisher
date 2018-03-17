@@ -1,5 +1,5 @@
-Developer Documentation
-=======================
+Documentation
+=============
 
 .. automodule:: pypunisher.metrics.criterion
 	:members:

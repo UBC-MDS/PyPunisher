@@ -15,7 +15,9 @@
 
 import sys
 import os
-import sphinx_rtd_theme
+import sphinx_bootstrap_theme
+# Note: a fork of the 'sphinx_bootstrap_theme' package was use which can be downloaded
+# as follows: $ pip3 install git+git://github.com/TariqAHassan/sphinx-bootstrap-theme@master
 import rst2pdf
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -40,10 +42,14 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
+    'sphinxcontrib.napoleon'  # pip install sphinxcontrib-napoleon
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
+
+# Order as functions/methods appear in the source code
+autodoc_member_order = 'bysource'
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -59,7 +65,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'PyPunisher'
+project = 'PyPunisheR'
 copyright = '2018, Jill Cates, Avinash Prabhakaran, Tariq Hassan'
 author = 'Jill Cates, Avinash Prabhakaran, Tariq Hassan'
 
@@ -129,13 +135,24 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'bootstrap'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
+
+html_theme_options = {
+    'navbar_links': [
+        ("View on GitHub", "https://github.com/UBC-MDS/PyPunisher", True)
+    ],
+    'navbar_sidebarrel': True,
+    'navbar_pagenav_name': 'Current Page',
+    'source_link_position': 'NONE',
+    'globaltoc_depth': 3,
+    'bootswatch_theme': 'simplex'
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
@@ -143,7 +160,7 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 # The name for this set of Sphinx documents.
 # "<project> v<release> documentation" by default.
 #
-# html_title = 'pypunisher v1.0.0'
+# html_title = 'pypunisher v4.0'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #
@@ -184,7 +201,7 @@ html_static_path = ['_static']
 
 # Custom sidebar templates, maps document names to template names.
 #
-# html_sidebars = {}
+html_sidebars = {'**': ['localtoc.html']}
 
 # Additional templates that should be rendered to pages, maps page names to
 # template names.

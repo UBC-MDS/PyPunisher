@@ -1,4 +1,4 @@
-## PyPunisheR <img src="docs/logo/pypunisher_logo.png" align="right"/>
+## PyPunisher <img src="docs/logo/pypunisher_logo.png" align="right"/>
 
 [![Build Status](https://travis-ci.org/UBC-MDS/PyPunisher.svg?branch=master)](https://travis-ci.org/UBC-MDS/PyPunisher)
 [![Coverage Status](https://coveralls.io/repos/github/UBC-MDS/PyPunisher/badge.svg?branch=coveralls)](https://coveralls.io/github/UBC-MDS/PyPunisher?branch=coveralls)
