@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath("../"))
 
 from pypunisher import Selection
 from tests._wrappers import forward, backward
-from tests._test_data import true_best_feature
+from tests._test_data import test_data, true_best_feature
 from tests._defaults import DEFAULT_SELECTION_PARAMS
 
 
@@ -74,6 +74,16 @@ def test_sklearn_model_methods():
         d['model'] = gen_dummy_model(exclude=method_to_drop)
         with pytest.raises(AttributeError):
             Selection(**d)
+
+# -----------------------------------------------------------------------------
+# Test Multiple Features
+# -----------------------------------------------------------------------------
+
+
+def test_multi_features():
+    """
+    """
+    backward(n_features=None, min_change=1, _last_score_punt=True)
 
 
 # -----------------------------------------------------------------------------

@@ -225,8 +225,12 @@ class Selection(object):
                 `n_features` must be None for `min_change` to operate.
             kwargs : Keyword Args
                 Includes:
-                 * `_do_not_skip`: for interal use only; it is
-                    not recommended that users use this parameter.
+                 * `_do_not_skip` : bool
+                    Explore loop exhaustion.
+                    **For internal use only**; Not intended for outside use.
+                * `_last_score_punt` : bool
+                    Relax `defeated_last_iter_score` decision boundary.
+                    **For internal use only**. Not intended for outside use.
 
         Returns:
             S : list
@@ -239,6 +243,7 @@ class Selection(object):
         input_checks(locals())
         S = list(range(self._total_number_of_features))  # start with all features
         do_not_skip = self._do_not_skip(kwargs)
+        last_score_punt = kwargs.get('_last_score_punt', False)
 
         if n_features and do_not_skip:
             n_features = parse_n_features(n_features, total=len(S))
@@ -271,8 +276,7 @@ class Selection(object):
                     break
             # 2b. Halt if the change is not longer considered significant.
             else:
-                if best['defeated_last_iter_score']:
-                    print("HERE:", best_new_score - last_iter_score, min_change)
+                if best['defeated_last_iter_score'] or last_score_punt:
                     if (best_new_score - last_iter_score) < min_change:
                         break  # there was a change, but it was not large enough.
                     else:

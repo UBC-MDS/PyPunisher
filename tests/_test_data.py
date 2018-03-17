@@ -13,7 +13,7 @@ from sklearn.model_selection import train_test_split
 
 
 def test_data(seed=99, add_extra_col=False):
-    """Generate training and testing data.
+    """Generate training and validation data.
 
     Args:
         seed : int
