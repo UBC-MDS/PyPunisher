@@ -1,8 +1,8 @@
+#!/usr/bin/env python
+
 """
-
-    Utils
-    ~~~~~
-
+Utils
+=====
 """
 
 def get_n_features(matrix, min_=2):
@@ -47,8 +47,7 @@ def enforce_use_of_all_cpus(model):
             exists
 
     """
-    if hasattr(model, 'n_jobs'):
-        setattr(model, 'n_jobs', -1)
+    setattr(model, 'n_jobs', -1)
     return model
 
 

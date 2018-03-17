@@ -1,8 +1,8 @@
+#!/usr/bin/env python
+
 """
-
-    Checks
-    ~~~~~~
-
+Checks
+======
 """
 import numpy as np
 
@@ -48,20 +48,21 @@ def input_checks(locals_):
     """
     # Sort so that the order of the parameter name
     # are in a reliable (alphabetical) order.
-    param_a, param_b = sorted(k for k, p in locals_.items() if k != 'self')
-    locals_non_non = {k: v for k, v in locals_.items()
-                      if v is not None and k != 'self'}
+    ALLOWED = ('min_change', 'n_features')
+    param_a, param_b = sorted(k for k, p in locals_.items() if k in ALLOWED)
+    locals_non_none = {k: v for k, v in locals_.items()
+                       if v is not None and k in ALLOWED}
 
-    if len(locals_non_non) != 1:
+    if len(locals_non_none) != 1:
         raise TypeError(
             "At least one of `{a}` and `{b}` must be None.".format(
                 a=param_a, b=param_b
             )
         )
 
-    # Unpack the single key and value pair
-    name, obj = tuple(locals_non_non.items())[0]
-    if obj is None and not isinstance(obj, (int, float)):
+    # Unpack the single key and value pair.
+    name, obj = tuple(locals_non_none.items())[0]
+    if not isinstance(obj, (int, float)):
         raise TypeError(
             "`{}` must be of type int or float.".format(name)
         )

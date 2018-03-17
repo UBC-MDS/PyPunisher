@@ -1,8 +1,8 @@
+#!/usr/bin/env python
+
 """
-
-    Forward and Backward Selection Algorithms
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+Forward and Backward Selection Algorithms
+=========================================
 """
 from pypunisher.metrics.criterion import aic, bic
 from pypunisher._checks import model_check, array_check, input_checks
@@ -93,6 +93,27 @@ class Selection(object):
             score = self._model.score(X_val, y_val)
         return score
 
+    @staticmethod
+    def _do_not_skip(kwargs):
+        """Check for skipping override by looking
+        for `_do_not_skip` in keyword arguments
+        If it is present, the loops in the algorithms
+        will be run to exhaustion.
+
+        Args:
+            kwargs : dict
+                Keyword Args
+
+        Returns:
+            Bool
+                If `_do_not_skip` is not present
+                      or `_do_not_skip` is present and is True.
+                Otherwise, the value of `do_not_skip`
+                      is returned.
+
+        """
+        return kwargs.get('_do_not_skip', True)
+
     def _forward_break_criteria(self, S, min_change, best_j_score,
                                 j_score_dict, n_features):
         """Check if `forward()` should break
@@ -128,7 +149,7 @@ class Selection(object):
         else:
             return False
 
-    def forward(self, min_change=0.5, n_features=None):
+    def forward(self, min_change=0.5, n_features=None, **kwargs):
         """Perform Forward Selection on a Sklearn model.
 
         Args:
@@ -140,6 +161,10 @@ class Selection(object):
                 Note: `min_change` must be None in order for `n_features` to operate.
                 Floats will be regarded as proportions of the total
                 that must lie on (0, 1).
+            kwargs : Keyword Args
+                Includes:
+                 * `_do_not_skip`: for interal use only; it is
+                    not recommended that users use this parameter.
 
         Returns:
             S : list
@@ -150,13 +175,17 @@ class Selection(object):
         S = list()
         best_score = None
         itera = list(range(self._total_number_of_features))
+        do_not_skip = self._do_not_skip(kwargs)
 
-        if n_features:
+        if n_features and do_not_skip:
             n_features = parse_n_features(n_features, total=len(itera))
 
         for i in range(self._total_number_of_features):
             if self._verbose:
                 print("Iteration: {}".format(i))
+
+            if not do_not_skip:
+                continue
 
             # 1. Find best feature, j, to add.
             j_score_dict = dict()
@@ -182,7 +211,7 @@ class Selection(object):
 
         return S
 
-    def backward(self, n_features=0.5, min_change=None):
+    def backward(self, n_features=0.5, min_change=None, **kwargs):
         """Perform Backward Selection on a Sklearn model.
 
         Args:
@@ -194,6 +223,14 @@ class Selection(object):
             min_change : int or float, optional
                 The smallest change to be considered significant.
                 `n_features` must be None for `min_change` to operate.
+            kwargs : Keyword Args
+                Includes:
+                 * `_do_not_skip` : bool
+                    Explore loop exhaustion.
+                    **For internal use only**; Not intended for outside use.
+                * `_last_score_punt` : bool
+                    Relax `defeated_last_iter_score` decision boundary.
+                    **For internal use only**. Not intended for outside use.
 
         Returns:
             S : list
@@ -205,8 +242,10 @@ class Selection(object):
         """
         input_checks(locals())
         S = list(range(self._total_number_of_features))  # start with all features
+        do_not_skip = self._do_not_skip(kwargs)
+        last_score_punt = kwargs.get('_last_score_punt', False)
 
-        if n_features:
+        if n_features and do_not_skip:
             n_features = parse_n_features(n_features, total=len(S))
 
         last_iter_score = self._fit_and_score(S, feature=None, algorithm='backward')
@@ -214,6 +253,9 @@ class Selection(object):
         for i in range(self._total_number_of_features):
             if self._verbose:
                 print("Iteration: {}".format(i))
+
+            if not do_not_skip:
+                continue
 
             # 1. Hunt for the least predictive feature.
             best = {'feature': None, 'score': None, 'defeated_last_iter_score': True}
@@ -228,13 +270,13 @@ class Selection(object):
             if isinstance(n_features, int):
                 S.remove(to_drop)  # blindly drop.
                 last_iter_score = best_new_score
-                if len(S) == n_features:
-                    break
-                else:
+                if not len(S) == n_features:
                     continue  # i.e., ignore criteria below.
+                else:
+                    break
             # 2b. Halt if the change is not longer considered significant.
-            if isinstance(min_change, (int, float)):
-                if best['defeated_last_iter_score']:
+            else:
+                if best['defeated_last_iter_score'] or last_score_punt:
                     if (best_new_score - last_iter_score) < min_change:
                         break  # there was a change, but it was not large enough.
                     else:
@@ -242,9 +284,5 @@ class Selection(object):
                         last_iter_score = best_new_score
                 else:
                     break
-
-            # 2c. Halt if only one feature remains.
-            if len(S) == 1:
-                break
 
         return S

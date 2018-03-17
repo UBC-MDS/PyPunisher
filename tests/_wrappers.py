@@ -1,8 +1,8 @@
+#!/usr/bin/env python
+
 """
-
-    Wrapper Functions for Testing
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+Wrapper Functions for Testing
+=============================
 """
 from copy import deepcopy
 from tests._defaults import DEFAULT_SELECTION_PARAMS
