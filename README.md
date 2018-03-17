@@ -20,6 +20,10 @@ pip3 install git+git://github.com/UBC-MDS/PyPunisher@master
 
 Requires Python 3.6+.
 
+## Documentation
+
+The documentation for PyPunisher can be viewed [here](https://ubc-mds.github.io/PyPunisher/index.html).
+
 ## Functions included:
 
 We have implemented two stepwise feature selection techniques:
