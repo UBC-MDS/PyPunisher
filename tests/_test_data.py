@@ -24,14 +24,14 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 SEED = 99
-features = 20
-obs = 501
-middle_feature = features // 2
+FEATURES = 20
+OBSERVATIONS = 501
+middle_feature = FEATURES // 2
 
 np.random.seed(SEED)
-X = np.zeros((obs, features))
-y = np.arange(obs)
-X[:, middle_feature] = y + np.random.uniform(0, 50, size=obs)
+X = np.zeros((OBSERVATIONS, FEATURES))
+y = np.arange(OBSERVATIONS)
+X[:, middle_feature] = y + np.random.uniform(0, 50, size=OBSERVATIONS)
 
 X_train, X_val, y_train, y_val = train_test_split(X, y, random_state=SEED)
 
