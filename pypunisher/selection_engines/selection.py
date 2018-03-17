@@ -163,8 +163,9 @@ class Selection(object):
                 Note: `n_features` must be None in order for `min_change` to operate.
             kwargs : Keyword Args
                 Includes:
-                 * `_do_not_skip`: for internal use only; it is
-                    not recommended that users use this parameter.
+                 * `_do_not_skip`:
+                 Explore loop exhaustion.
+                 **For internal use only**; Not intended for outside use.
 
         Returns:
             S : list
