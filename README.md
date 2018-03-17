@@ -111,6 +111,8 @@ print(sel.backward(n_features=1))
 ### AIC, BIC
 
 
+> We can also compute the selection metrics, AIC and BIC.
+
 ```python
 # Fit the model
 _ = model.fit(X_train, y_train)
@@ -124,8 +126,14 @@ print("BIC", bic(model, X_train=X_train, y_train=y_train))
 # BIC 3176.1498936378043
 ```
 
-> Note: sadly, Sklearn (`LinearRegression`) does not keep a pointer to the data
+> Notes:
+>
+> * sadly, Sklearn (`LinearRegression`) does not keep a pointer to the data
 that was used to train it. So, we have to pass that to `aic()` and `bic()` as well.
+> 
+> * We could pass 'aic' or 'bic' to the `criterion` parameter of `Selection()`, above,
+> if we wanted (by default, it will use sklearns default scoring criterion, 'r-squared')
+
 
 ## How to run unit tests
 
