@@ -15,22 +15,54 @@ from tests._wrappers import forward
 from tests._test_data import X_train
 
 
-def test_forward_params():
+# -----------------------------------------------------------------------------
+# Test `forward()` Params
+# -----------------------------------------------------------------------------
+
+
+def test_n_features_greater_than_zero_forward():
     """
-    Check parameters to `forward()` raise when expected.
+    Check that `n_features` is required to be > 0.
+    """
+    msg = "`n_features` must be greater than zero."
+    with pytest.raises(ValueError, match=msg):
+        forward(min_change=None, n_features=-0.75)
+
+
+def test_min_change_greater_than_zero_forward():
+    """
+    Check that `min_change` is required to be > 0.
     """
     msg = "`min_change` must be greater than zero."
     with pytest.raises(ValueError, match=msg):
         forward(min_change=-0.5, n_features=None)
 
-    msg = "`n_features` must be greater than zero."
-    with pytest.raises(ValueError, match=msg):
-        forward(min_change=None, n_features=-0.75)
 
+def test_n_features_fails_on_string_forward():
+    """
+    Check that forward raises when passed a string
+    for `n_features`.
+    """
     msg = "`n_features` must be of type int or float."
     with pytest.raises(TypeError, match=msg):
         forward(min_change=None, n_features='-0.75')
 
+
+def test_min_change_fails_on_string_forward():
+    """
+    Check that forward raises when passed a string
+    for `min_change`.
+    """
+    msg = "`min_change` must be of type int or float."
+    with pytest.raises(TypeError, match=msg):
+        forward(min_change='-0.75', n_features=None)
+
+
+def test_both_non_none_forward():
+    """
+    Check `forward()` raise when at least one
+    of `min_change` or `n_features` are not None.
+    """
     # Note: items in backticks (``) will be in alphabetical order.
     msg = "At least one of `min_change` and `n_features` must be None."
     with pytest.raises(TypeError, match=msg):
@@ -43,4 +75,5 @@ def test_forward_params():
 
 def test_loop_exhaust():
     """Text Exhausting forwards()'s loop."""
+    # Should not raise.
     forward(n_features=X_train.shape[-1], min_change=None, _do_not_skip=False)
