@@ -6,15 +6,16 @@ Run Tests Common to Forward and Backward Selection
 """
 import os
 import sys
-import pytest
 from copy import deepcopy
+
+import pytest
 
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
 
 from pypunisher import Selection
 from tests._wrappers import forward, backward
-from tests._test_data import true_best_feature
+from pypunisher._test_data import true_best_feature
 from tests._defaults import DEFAULT_SELECTION_PARAMS
 
 

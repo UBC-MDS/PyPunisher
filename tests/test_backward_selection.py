@@ -6,6 +6,7 @@ Tests Specific to Backward Selection
 """
 import os
 import sys
+
 import pytest
 from numpy import ones
 
@@ -13,7 +14,7 @@ sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
 
 from tests._wrappers import backward
-from tests._test_data import X_train
+from pypunisher._test_data import X_train
 
 
 # -----------------------------------------------------------------------------
