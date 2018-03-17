@@ -1,0 +1,513 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pypunisher.selection_engines.selection &mdash; PyPunisher v4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="PyPunisher v4.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> PyPunisher
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../code.html">Developer Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyPunisher</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pypunisher.selection_engines.selection</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pypunisher.selection_engines.selection</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Forward and Backward Selection Algorithms</span>
+<span class="sd">=========================================</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">pypunisher.metrics.criterion</span> <span class="k">import</span> <span class="n">aic</span><span class="p">,</span> <span class="n">bic</span>
+<span class="kn">from</span> <span class="nn">pypunisher._checks</span> <span class="k">import</span> <span class="n">model_check</span><span class="p">,</span> <span class="n">array_check</span><span class="p">,</span> <span class="n">input_checks</span>
+<span class="kn">from</span> <span class="nn">pypunisher.selection_engines._utils</span> <span class="k">import</span> <span class="p">(</span><span class="n">get_n_features</span><span class="p">,</span>
+                                                 <span class="n">enforce_use_of_all_cpus</span><span class="p">,</span>
+                                                 <span class="n">parse_n_features</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Selection"><a class="viewcode-back" href="../../../pypunisher.html#pypunisher.selection_engines.selection.Selection">[docs]</a><span class="k">class</span> <span class="nc">Selection</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Forward and Backward Selection Algorithms.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model : sklearn model</span>
+<span class="sd">            any sklearn model with `.fit()`, `.predict()` and</span>
+<span class="sd">            `.score()` methods.</span>
+<span class="sd">        X_train : ndarray</span>
+<span class="sd">            a 2D numpy array of (observations, features).</span>
+<span class="sd">        y_train : ndarray:</span>
+<span class="sd">            a 1D array of target classes for X_train.</span>
+<span class="sd">        X_val : ndarray</span>
+<span class="sd">            a 2D numpy array of (observations, features).</span>
+<span class="sd">        y_val : ndarray</span>
+<span class="sd">            a 1D array of target classes for X_validate.</span>
+<span class="sd">        criterion : str or None</span>
+<span class="sd">            model selection criterion.</span>
+<span class="sd">            * &#39;aic&#39;: use Akaike Information Criterion.</span>
+<span class="sd">            * &#39;bic&#39;: use Bayesian Information Criterion.</span>
+<span class="sd">            * None: Use the default score built into the model</span>
+<span class="sd">              object (i.e., call `.score()`).</span>
+<span class="sd">        verbose : bool</span>
+<span class="sd">            if True, print additional information as selection occurs.</span>
+<span class="sd">            Defaults to True.</span>
+
+<span class="sd">    Exposes:</span>
+<span class="sd">        * .forward()</span>
+<span class="sd">        * .backward()</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span>
+                 <span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">model_check</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">enforce_use_of_all_cpus</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_X_train</span> <span class="o">=</span> <span class="n">X_train</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_y_train</span> <span class="o">=</span> <span class="n">y_train</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_X_val</span> <span class="o">=</span> <span class="n">X_val</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_y_val</span> <span class="o">=</span> <span class="n">y_val</span>
+        <span class="n">array_check</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">criterion</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;aic&#39;</span><span class="p">,</span> <span class="s1">&#39;bic&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`criterion` must be one of: None, &#39;aic&#39;, &#39;bic&#39;.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_criterion</span> <span class="o">=</span> <span class="n">criterion</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_total_number_of_features</span> <span class="o">=</span> <span class="n">get_n_features</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_fit_and_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit and score the model</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            S : list</span>
+<span class="sd">                The list of features as found in `forward`</span>
+<span class="sd">                and `backward()`</span>
+<span class="sd">            feature : int</span>
+<span class="sd">                The feature to add or drop.</span>
+<span class="sd">            algorithm : str</span>
+<span class="sd">                One of: &#39;forward&#39;, &#39;backward&#39;.</span>
+
+<span class="sd">        Returns : float</span>
+<span class="sd">            The score of the model.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">algorithm</span> <span class="o">==</span> <span class="s1">&#39;forward&#39;</span><span class="p">:</span>
+            <span class="n">features</span> <span class="o">=</span> <span class="n">S</span> <span class="o">+</span> <span class="p">[</span><span class="n">feature</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">S</span> <span class="k">if</span> <span class="n">f</span> <span class="o">!=</span> <span class="n">feature</span><span class="p">]</span> <span class="k">if</span> <span class="n">feature</span> <span class="k">else</span> <span class="n">S</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_X_train</span><span class="p">[:,</span> <span class="n">features</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y_train</span><span class="p">)</span>
+
+        <span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_X_val</span><span class="p">[:,</span> <span class="n">features</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_y_val</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_criterion</span> <span class="o">==</span> <span class="s1">&#39;aic&#39;</span><span class="p">:</span>
+            <span class="c1"># Note: We want to do selection against the validation</span>
+            <span class="c1"># data, hence `X_train=X_val` and `y_train=y_val`.</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">aic</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="n">X_val</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="n">y_val</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_criterion</span> <span class="o">==</span> <span class="s1">&#39;bic&#39;</span><span class="p">:</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">bic</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="n">X_val</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="n">y_val</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">score</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_do_not_skip</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check for skipping override by looking</span>
+<span class="sd">        for `_do_not_skip` in keyword arguments</span>
+<span class="sd">        If it is present, the loops in the algorithms</span>
+<span class="sd">        will be run to exhaustion.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            kwargs : dict</span>
+<span class="sd">                Keyword Args</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Bool</span>
+<span class="sd">                If `_do_not_skip` is not present</span>
+<span class="sd">                      or `_do_not_skip` is present and is True.</span>
+<span class="sd">                Otherwise, the value of `do_not_skip`</span>
+<span class="sd">                      is returned.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;_do_not_skip&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_forward_break_criteria</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">min_change</span><span class="p">,</span> <span class="n">best_j_score</span><span class="p">,</span>
+                                <span class="n">j_score_dict</span><span class="p">,</span> <span class="n">n_features</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if `forward()` should break</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            S : list</span>
+<span class="sd">                The list of features as found in `forward`</span>
+<span class="sd">                and `backward()`</span>
+<span class="sd">            min_change : int or float, optional</span>
+<span class="sd">                The smallest change to be considered significant.</span>
+<span class="sd">            best_j_score : float</span>
+<span class="sd">                The best score for a given iteration as evolved</span>
+<span class="sd">                inside `forward()`.</span>
+<span class="sd">            j_score_dict : dict</span>
+<span class="sd">                A dictionary of scores in step 1. of `forward()`.</span>
+<span class="sd">            n_features : int</span>
+<span class="sd">                The `n_features` object as developed inide `forward()`.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool</span>
+<span class="sd">                Whether or not `forward()` should halt.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># a. Check if the algorithm should halt b/c of features themselves</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">j_score_dict</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_total_number_of_features</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="c1"># b. Break if the change was too small</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">min_change</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="n">best_j_score</span> <span class="o">&lt;</span> <span class="n">min_change</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="c1"># c. Break if the number of features in S &gt; n_features.</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">n_features</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="Selection.forward"><a class="viewcode-back" href="../../../pypunisher.html#pypunisher.selection_engines.selection.Selection.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">min_change</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Perform Forward Selection on a Sklearn model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n_features : int</span>
+<span class="sd">                the max. number of features to allow.</span>
+<span class="sd">                Note: `min_change` must be None in order for `n_features` to operate.</span>
+<span class="sd">                Floats will be regarded as proportions of the total</span>
+<span class="sd">                that must lie on (0, 1).</span>
+<span class="sd">            min_change : int or float, optional</span>
+<span class="sd">                The smallest change to be considered significant.</span>
+<span class="sd">                Note: `n_features` must be None in order for `min_change` to operate.</span>
+<span class="sd">            kwargs : Keyword Args</span>
+<span class="sd">                Includes:</span>
+<span class="sd">                 * `_do_not_skip`:</span>
+<span class="sd">                 Explore loop exhaustion.</span>
+<span class="sd">                 **For internal use only**; Not intended for outside use.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            S : list</span>
+<span class="sd">              The column indices of `X_train` (and `X_val`) that denote the chosen features.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">input_checks</span><span class="p">(</span><span class="nb">locals</span><span class="p">())</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">best_score</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">itera</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_number_of_features</span><span class="p">))</span>
+        <span class="n">do_not_skip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do_not_skip</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">n_features</span> <span class="ow">and</span> <span class="n">do_not_skip</span><span class="p">:</span>
+            <span class="n">n_features</span> <span class="o">=</span> <span class="n">parse_n_features</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">itera</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_number_of_features</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iteration: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">do_not_skip</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># 1. Find best feature, j, to add.</span>
+            <span class="n">j_score_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">itera</span><span class="p">:</span>
+                <span class="n">j_model_score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_and_score</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="n">j</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;forward&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">best_score</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="p">(</span><span class="n">j_model_score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">):</span>
+                    <span class="n">j_score_dict</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">j_model_score</span>
+
+            <span class="c1"># 2. Save the best j to S, if possible.</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">j_score_dict</span><span class="p">):</span>
+                <span class="n">best_j</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">j_score_dict</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">j_score_dict</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
+                <span class="n">best_j_score</span> <span class="o">=</span> <span class="n">j_score_dict</span><span class="p">[</span><span class="n">best_j</span><span class="p">]</span>
+                <span class="c1"># Update S, the best score and score history ---</span>
+                <span class="n">best_score</span> <span class="o">=</span> <span class="n">best_j_score</span>  <span class="c1"># update the score to beat</span>
+                <span class="n">S</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_j</span><span class="p">)</span>  <span class="c1"># add feature</span>
+                <span class="n">itera</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">best_j</span><span class="p">)</span>  <span class="c1"># no longer search over this feature.</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_break_criteria</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">min_change</span><span class="o">=</span><span class="n">min_change</span><span class="p">,</span>
+                                            <span class="n">best_j_score</span><span class="o">=</span><span class="n">best_j_score</span><span class="p">,</span>
+                                            <span class="n">j_score_dict</span><span class="o">=</span><span class="n">j_score_dict</span><span class="p">,</span>
+                                            <span class="n">n_features</span><span class="o">=</span><span class="n">n_features</span><span class="p">):</span>
+                <span class="k">break</span>
+</div>
+        <span class="k">return</span> <span class="n">S</span>
+
+<div class="viewcode-block" id="Selection.backward"><a class="viewcode-back" href="../../../pypunisher.html#pypunisher.selection_engines.selection.Selection.backward">[docs]</a>    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">min_change</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Perform Backward Selection on a Sklearn model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n_features : int or float</span>
+<span class="sd">                The number of features to select.</span>
+<span class="sd">                Floats will be regarded as proportions of the total</span>
+<span class="sd">                that must lie on (0, 1).</span>
+<span class="sd">                `min_change` must be None for `n_features` to operate.</span>
+<span class="sd">            min_change : int or float, optional</span>
+<span class="sd">                The smallest change to be considered significant.</span>
+<span class="sd">                `n_features` must be None for `min_change` to operate.</span>
+<span class="sd">            kwargs : Keyword Args</span>
+<span class="sd">                Includes:</span>
+<span class="sd">                 * `_do_not_skip` : bool</span>
+<span class="sd">                    Explore loop exhaustion.</span>
+<span class="sd">                    **For internal use only**; Not intended for outside use.</span>
+<span class="sd">                * `_last_score_punt` : bool</span>
+<span class="sd">                    Relax `defeated_last_iter_score` decision boundary.</span>
+<span class="sd">                    **For internal use only**. Not intended for outside use.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            S : list</span>
+<span class="sd">              The column indices of `X_train` (and `X_val`) that denote the chosen features.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            if `n_features` and `min_change` are both non-None.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">input_checks</span><span class="p">(</span><span class="nb">locals</span><span class="p">())</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_number_of_features</span><span class="p">))</span>  <span class="c1"># start with all features</span>
+        <span class="n">do_not_skip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do_not_skip</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">last_score_punt</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;_last_score_punt&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">n_features</span> <span class="ow">and</span> <span class="n">do_not_skip</span><span class="p">:</span>
+            <span class="n">n_features</span> <span class="o">=</span> <span class="n">parse_n_features</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">))</span>
+
+        <span class="n">last_iter_score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_and_score</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;backward&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_number_of_features</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iteration: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">do_not_skip</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># 1. Hunt for the least predictive feature.</span>
+            <span class="n">best</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;feature&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;defeated_last_iter_score&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">S</span><span class="p">:</span>
+                <span class="n">score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_and_score</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="n">j</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;backward&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">best</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="n">best</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]:</span>
+                    <span class="n">best</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;feature&#39;</span><span class="p">:</span> <span class="n">j</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">:</span> <span class="n">score</span><span class="p">,</span>
+                            <span class="s1">&#39;defeated_last_iter_score&#39;</span><span class="p">:</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="n">last_iter_score</span><span class="p">}</span>
+            <span class="n">to_drop</span><span class="p">,</span> <span class="n">best_new_score</span> <span class="o">=</span> <span class="n">best</span><span class="p">[</span><span class="s1">&#39;feature&#39;</span><span class="p">],</span> <span class="n">best</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span>
+
+            <span class="c1"># 2a. Halting Blindly Based on `n_features`.</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">S</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">to_drop</span><span class="p">)</span>  <span class="c1"># blindly drop.</span>
+                <span class="n">last_iter_score</span> <span class="o">=</span> <span class="n">best_new_score</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">)</span> <span class="o">==</span> <span class="n">n_features</span><span class="p">:</span>
+                    <span class="k">continue</span>  <span class="c1"># i.e., ignore criteria below.</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">break</span>
+            <span class="c1"># 2b. Halt if the change is not longer considered significant.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">best</span><span class="p">[</span><span class="s1">&#39;defeated_last_iter_score&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">last_score_punt</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">best_new_score</span> <span class="o">-</span> <span class="n">last_iter_score</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">min_change</span><span class="p">:</span>
+                        <span class="k">break</span>  <span class="c1"># there was a change, but it was not large enough.</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">S</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">to_drop</span><span class="p">)</span>
+                        <span class="n">last_iter_score</span> <span class="o">=</span> <span class="n">best_new_score</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">break</span>
+</div></div>
+        <span class="k">return</span> <span class="n">S</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Jill Cates, Avinash Prabhakaran, Tariq Hassan.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'v4.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
