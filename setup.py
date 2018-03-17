@@ -24,7 +24,7 @@ setup(
     # Note: requirements.txt contains some packages
     # which are not needed to simply use the package
     # (i.e., they're only need to execute tests, e.g., `pytest`).
-    install_requires=['numpy', 'scipy', 'tqdm', 'scikit-learn'],
+    install_requires=['numpy', 'scipy', 'scikit-learn'],
     classifiers=['Development Status :: 3 - Alpha',
                  'Natural Language :: English',
                  'Intended Audience :: Science/Research',
