@@ -149,22 +149,23 @@ class Selection(object):
         else:
             return False
 
-    def forward(self, min_change=0.5, n_features=None, **kwargs):
+    def forward(self, n_features=0.5, min_change=None, **kwargs):
         """Perform Forward Selection on a Sklearn model.
 
         Args:
-            min_change : int or float, optional
-                The smallest change to be considered significant.
-                Note: `n_features` must be None in order for `min_change` to operate.
             n_features : int
                 the max. number of features to allow.
                 Note: `min_change` must be None in order for `n_features` to operate.
                 Floats will be regarded as proportions of the total
                 that must lie on (0, 1).
+            min_change : int or float, optional
+                The smallest change to be considered significant.
+                Note: `n_features` must be None in order for `min_change` to operate.
             kwargs : Keyword Args
                 Includes:
-                 * `_do_not_skip`: for interal use only; it is
-                    not recommended that users use this parameter.
+                 * `_do_not_skip`:
+                 Explore loop exhaustion.
+                 **For internal use only**; Not intended for outside use.
 
         Returns:
             S : list
