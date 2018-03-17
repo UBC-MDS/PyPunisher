@@ -265,13 +265,14 @@ class Selection(object):
             if isinstance(n_features, int):
                 S.remove(to_drop)  # blindly drop.
                 last_iter_score = best_new_score
-                if len(S) == n_features:
-                    break
-                else:
+                if not len(S) == n_features:
                     continue  # i.e., ignore criteria below.
+                else:
+                    break
             # 2b. Halt if the change is not longer considered significant.
-            if isinstance(min_change, (int, float)):
+            else:
                 if best['defeated_last_iter_score']:
+                    print("HERE:", best_new_score - last_iter_score, min_change)
                     if (best_new_score - last_iter_score) < min_change:
                         break  # there was a change, but it was not large enough.
                     else:

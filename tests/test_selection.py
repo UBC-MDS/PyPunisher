@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath("../"))
 
 from pypunisher import Selection
 from tests._wrappers import forward, backward
-from tests._test_data import TRUE_BEST_FEATURE
+from tests._test_data import true_best_feature
 from tests._defaults import DEFAULT_SELECTION_PARAMS
 
 
@@ -88,7 +88,7 @@ forward_output += forward(n_features=1, min_change=None)
 # Force the backward selection algorithm to
 # select the single feature it thinks is most predictive.
 # If implemented correctly, `backward()` should be able to
-# identify `TRUE_BEST_FEATURE` as predictive.
+# identify `true_best_feature` as predictive.
 backward_output = backward(n_features=1)
 
 # Run using the other parameter option
@@ -142,7 +142,7 @@ def output_values(output):
     in the contrived data.
     """
     msg = "The algorithm failed to select the predictive feature."
-    assert TRUE_BEST_FEATURE in output, msg
+    assert true_best_feature in output, msg
 
 
 def test_fsel_output_values():
