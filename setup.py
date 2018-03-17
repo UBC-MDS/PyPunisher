@@ -11,7 +11,7 @@ def read(fname):
 
 setup(
     name='pypunisher',
-    version='4.0.0',
+    version='4.0.1',
     author='Jill Cates, Avinash Prabhakaran, Tariq Hassan',
     author_email='NA',
     description='Model Selection in Python',
@@ -19,7 +19,7 @@ setup(
     license='BSD-3',
     keywords='model selection',
     url='https://github.com/UBC-MDS/PyPunisher',
-    download_url='https://github.com/UBC-MDS/PyPunisher/archive/v4.0.0tar.gz',
+    download_url='https://github.com/UBC-MDS/PyPunisher/archive/v4.0.1tar.gz',
     packages=find_packages(exclude=("tests",)),
     # Note: requirements.txt contains some packages
     # which are not needed to simply use the package
