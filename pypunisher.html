@@ -1,0 +1,441 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pypunisher package &mdash; PyPunisher v4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="PyPunisher v4.0 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> PyPunisher
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="code.html">Developer Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyPunisher</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>pypunisher package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/pypunisher.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pypunisher-package">
+<h1>pypunisher package<a class="headerlink" href="#pypunisher-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pypunisher.metrics.criterion">
+<span id="pypunisher-metrics-criterion-module"></span><h2>pypunisher.metrics.criterion module<a class="headerlink" href="#module-pypunisher.metrics.criterion" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="information-criterion">
+<h3>Information Criterion<a class="headerlink" href="#information-criterion" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="pypunisher.metrics.criterion.aic">
+<code class="descclassname">pypunisher.metrics.criterion.</code><code class="descname">aic</code><span class="sig-paren">(</span><em>model</em>, <em>X_train</em>, <em>y_train</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypunisher/metrics/criterion.html#aic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypunisher.metrics.criterion.aic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Akaike Information Criterion (AIC)</p>
+<p>AIC’s objective is to prevent model overfitting by adding a penalty
+term which penalizes more compelx models. Its formal definition is:</p>
+<blockquote>
+<div>-2ln(L)+2*k</div></blockquote>
+<p>where L is the maximized value of the likelihood function.
+A smaller AIC value suggests that the model is a better fit for the data.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>model <span class="classifier-delimiter">:</span> <span class="classifier">A fitted sklearn model object)</span></dt>
+<dd>A fitted sklearn model.</dd>
+<dt>X_train <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
+<dd>The data used to train <cite>model</cite>.</dd>
+<dt>y_train <span class="classifier-delimiter">:</span> <span class="classifier">1d numpy array</span></dt>
+<dd>The response variable.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd><dl class="first last docutils">
+<dt>aic: float</dt>
+<dd>AIC value if sample size is sufficient.
+If n/k &lt; 40 where n is the number of observations
+and k is the number of features, AICc gets returned
+to adjust for small sample size.</dd>
+</dl>
+</dd>
+<dt>References:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="https://en.wikipedia.org/wiki/Akaike_information_criterion">https://en.wikipedia.org/wiki/Akaike_information_criterion</a></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pypunisher.metrics.criterion.bic">
+<code class="descclassname">pypunisher.metrics.criterion.</code><code class="descname">bic</code><span class="sig-paren">(</span><em>model</em>, <em>X_train</em>, <em>y_train</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypunisher/metrics/criterion.html#bic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypunisher.metrics.criterion.bic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Bayesian Information Criterion (BIC)</p>
+<p>BIC’s objective is to prevent model over-fitting by adding a penalty
+term which penalizes more complex models. Its formal definition is:</p>
+<blockquote>
+<div>-2ln(L)+ln(n)k</div></blockquote>
+<p>where L is the maximized value of the likelihood function.
+A smaller BIC value suggests that the model is a better fit for the data.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>model <span class="classifier-delimiter">:</span> <span class="classifier">sklearn model object)</span></dt>
+<dd>A fitted sklearn linear regression model.</dd>
+<dt>X_train <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
+<dd>The data used to train <cite>model</cite>.</dd>
+<dt>y_train <span class="classifier-delimiter">:</span> <span class="classifier">1d numpy array</span></dt>
+<dd>The response variable.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd><dl class="first last docutils">
+<dt>bic: float</dt>
+<dd>Bayesian Information Criterion value.</dd>
+</dl>
+</dd>
+<dt>References:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="https://en.wikipedia.org/wiki/Bayesian_information_criterion">https://en.wikipedia.org/wiki/Bayesian_information_criterion</a></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-pypunisher.selection_engines.selection">
+<span id="pypunisher-selection-engines-selection-module"></span><h2>pypunisher.selection_engines.selection module<a class="headerlink" href="#module-pypunisher.selection_engines.selection" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="forward-and-backward-selection-algorithms">
+<h3>Forward and Backward Selection Algorithms<a class="headerlink" href="#forward-and-backward-selection-algorithms" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="pypunisher.selection_engines.selection.Selection">
+<em class="property">class </em><code class="descclassname">pypunisher.selection_engines.selection.</code><code class="descname">Selection</code><span class="sig-paren">(</span><em>model</em>, <em>X_train</em>, <em>y_train</em>, <em>X_val</em>, <em>y_val</em>, <em>criterion=None</em>, <em>verbose=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypunisher/selection_engines/selection.html#Selection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypunisher.selection_engines.selection.Selection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Forward and Backward Selection Algorithms.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>model <span class="classifier-delimiter">:</span> <span class="classifier">sklearn model</span></dt>
+<dd>any sklearn model with <cite>.fit()</cite>, <cite>.predict()</cite> and
+<cite>.score()</cite> methods.</dd>
+<dt>X_train <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
+<dd>a 2D numpy array of (observations, features).</dd>
+<dt>y_train <span class="classifier-delimiter">:</span> <span class="classifier">ndarray:</span></dt>
+<dd>a 1D array of target classes for X_train.</dd>
+<dt>X_val <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
+<dd>a 2D numpy array of (observations, features).</dd>
+<dt>y_val <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
+<dd>a 1D array of target classes for X_validate.</dd>
+<dt>criterion <span class="classifier-delimiter">:</span> <span class="classifier">str or None</span></dt>
+<dd><p class="first">model selection criterion.
+* ‘aic’: use Akaike Information Criterion.
+* ‘bic’: use Bayesian Information Criterion.
+* None: Use the default score built into the model</p>
+<blockquote class="last">
+<div>object (i.e., call <cite>.score()</cite>).</div></blockquote>
+</dd>
+<dt>verbose <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd>if True, print additional information as selection occurs.
+Defaults to True.</dd>
+</dl>
+</dd>
+<dt>Exposes:</dt>
+<dd><ul class="first last simple">
+<li>.forward()</li>
+<li>.backward()</li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="pypunisher.selection_engines.selection.Selection.backward">
+<code class="descname">backward</code><span class="sig-paren">(</span><em>n_features=0.5</em>, <em>min_change=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypunisher/selection_engines/selection.html#Selection.backward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypunisher.selection_engines.selection.Selection.backward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform Backward Selection on a Sklearn model.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>n_features <span class="classifier-delimiter">:</span> <span class="classifier">int or float</span></dt>
+<dd>The number of features to select.
+Floats will be regarded as proportions of the total
+that must lie on (0, 1).
+<cite>min_change</cite> must be None for <cite>n_features</cite> to operate.</dd>
+<dt>min_change <span class="classifier-delimiter">:</span> <span class="classifier">int or float, optional</span></dt>
+<dd>The smallest change to be considered significant.
+<cite>n_features</cite> must be None for <cite>min_change</cite> to operate.</dd>
+<dt>kwargs <span class="classifier-delimiter">:</span> <span class="classifier">Keyword Args</span></dt>
+<dd><dl class="first docutils">
+<dt>Includes:</dt>
+<dd><ul class="first last simple">
+<li><dl class="first docutils">
+<dt><cite>_do_not_skip</cite> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd>Explore loop exhaustion.
+<strong>For internal use only</strong>; Not intended for outside use.</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<ul class="last simple">
+<li><dl class="first docutils">
+<dt><cite>_last_score_punt</cite> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd>Relax <cite>defeated_last_iter_score</cite> decision boundary.
+<strong>For internal use only</strong>. Not intended for outside use.</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd><dl class="first last docutils">
+<dt>S <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>The column indices of <cite>X_train</cite> (and <cite>X_val</cite>) that denote the chosen features.</dd>
+</dl>
+</dd>
+<dt>Raises:</dt>
+<dd>if <cite>n_features</cite> and <cite>min_change</cite> are both non-None.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pypunisher.selection_engines.selection.Selection.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>n_features=0.5</em>, <em>min_change=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypunisher/selection_engines/selection.html#Selection.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pypunisher.selection_engines.selection.Selection.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform Forward Selection on a Sklearn model.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>n_features <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>the max. number of features to allow.
+Note: <cite>min_change</cite> must be None in order for <cite>n_features</cite> to operate.
+Floats will be regarded as proportions of the total
+that must lie on (0, 1).</dd>
+<dt>min_change <span class="classifier-delimiter">:</span> <span class="classifier">int or float, optional</span></dt>
+<dd>The smallest change to be considered significant.
+Note: <cite>n_features</cite> must be None in order for <cite>min_change</cite> to operate.</dd>
+<dt>kwargs <span class="classifier-delimiter">:</span> <span class="classifier">Keyword Args</span></dt>
+<dd><dl class="first last docutils">
+<dt>Includes:</dt>
+<dd><ul class="first simple">
+<li><cite>_do_not_skip</cite>:</li>
+</ul>
+<p class="last">Explore loop exhaustion.
+<strong>For internal use only</strong>; Not intended for outside use.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd><dl class="first last docutils">
+<dt>S <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>The column indices of <cite>X_train</cite> (and <cite>X_val</cite>) that denote the chosen features.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Jill Cates, Avinash Prabhakaran, Tariq Hassan.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v4.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
