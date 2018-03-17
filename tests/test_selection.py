@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath("../"))
 
 from pypunisher import Selection
 from tests._wrappers import forward, backward
-from tests._test_data import test_data, true_best_feature
+from tests._test_data import true_best_feature
 from tests._defaults import DEFAULT_SELECTION_PARAMS
 
 
@@ -80,8 +80,10 @@ def test_sklearn_model_methods():
 # -----------------------------------------------------------------------------
 
 
-def test_multi_features():
+def test_passing_significant_change():
     """
+    Test cases where there is a significant `min_change`
+    during backward selection.
     """
     backward(n_features=None, min_change=1, _last_score_punt=True)
 
