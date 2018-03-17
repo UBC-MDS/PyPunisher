@@ -1,8 +1,7 @@
 # PyPunisher
 
 [![Build Status](https://travis-ci.org/UBC-MDS/PyPunisher.svg?branch=master)](https://travis-ci.org/UBC-MDS/PyPunisher)
-
-[![codecov](https://codecov.io/gh/UBC-MDS/PyPunisher/branch/master/graph/badge.svg)](https://codecov.io/gh/UBC-MDS/PyPunisher)
+[![Coverage Status](https://coveralls.io/repos/github/UBC-MDS/PyPunisher/badge.svg?branch=coveralls)](https://coveralls.io/github/UBC-MDS/PyPunisher?branch=coveralls)
 
 PyPunisher is a package for feature and model selection in Python. Specifically, this package will implement tools for 
 forward and backward model selection (see [here](https://en.wikipedia.org/wiki/Stepwise_regression)). 
