@@ -77,7 +77,8 @@ sel = Selection(model, X_train=X_train, X_val=X_val,
 
 ### Forward Selection
 
-> Run the forward selection algorithm.
+> Run the forward selection algorithm, i.e., start no features
+> and build up a set of length `n_features` that are predictive.
 
 > Let's pretend we know there is a single predictive feature...
 > we just down know *which* one!
@@ -95,6 +96,10 @@ print(true_best_feature)
 ```
 
 ### Backward Selection
+
+> We can also go in the opposite direction, i.e., start with all
+> of the features and remove the least predictive ones until we
+> are left with a set of length `n_features`.
 
 ```python
 print(sel.backward(n_features=1))
