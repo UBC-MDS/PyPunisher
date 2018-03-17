@@ -43,4 +43,4 @@ def test_forward_params():
 
 def test_loop_exhaust():
     """Text Exhausting forwards()'s loop."""
-    forward(n_features=X_train.shape[-1], min_change=None, _do_skip=False)
+    forward(n_features=X_train.shape[-1], min_change=None, _do_not_skip=False)

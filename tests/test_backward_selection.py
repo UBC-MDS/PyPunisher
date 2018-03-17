@@ -52,4 +52,4 @@ def test_backward_params():
 
 def test_loop_exhaust():
     """Text Exhausting backward()'s loop."""
-    backward(n_features=X_train.shape[-1], min_change=None, _do_skip=False)
+    backward(n_features=X_train.shape[-1], min_change=None, _do_not_skip=False)

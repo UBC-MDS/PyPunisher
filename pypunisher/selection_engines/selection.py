@@ -94,11 +94,11 @@ class Selection(object):
         return score
 
     @staticmethod
-    def _do_skip(kwargs):
-        """Check if skipping is permitted
-        by its presence in `kwarg`.
-        If it is present, the loops will be run to
-        exhaustion.
+    def _do_not_skip(kwargs):
+        """Check for skipping override by looking
+        for `_do_not_skip` in keyword arguments
+        If it is present, the loops in the algorithms
+        will be run to exhaustion.
 
         Args:
             kwargs : dict
@@ -106,13 +106,13 @@ class Selection(object):
 
         Returns:
             Bool
-                True: if `_do_skip` is not present
-                      or `_do_skip` is present and is True.
-                      Otherwise, the value of `do_skip`
+                If `_do_not_skip` is not present
+                      or `_do_not_skip` is present and is True.
+                Otherwise, the value of `do_not_skip`
                       is returned.
 
         """
-        return kwargs.get('_do_skip', True)
+        return kwargs.get('_do_not_skip', True)
 
     def _forward_break_criteria(self, S, min_change, best_j_score,
                                 j_score_dict, n_features):
@@ -163,7 +163,7 @@ class Selection(object):
                 that must lie on (0, 1).
             kwargs : Keyword Args
                 Includes:
-                 * `_do_skip`: for interal use only; it is
+                 * `_do_not_skip`: for interal use only; it is
                     not recommended that users use this parameter.
 
         Returns:
@@ -175,16 +175,16 @@ class Selection(object):
         S = list()
         best_score = None
         itera = list(range(self._total_number_of_features))
-        do_skip = self._do_skip(kwargs)
+        do_not_skip = self._do_not_skip(kwargs)
 
-        if n_features and do_skip:
+        if n_features and do_not_skip:
             n_features = parse_n_features(n_features, total=len(itera))
 
         for i in range(self._total_number_of_features):
             if self._verbose:
                 print("Iteration: {}".format(i))
 
-            if not do_skip:
+            if not do_not_skip:
                 continue
 
             # 1. Find best feature, j, to add.
@@ -225,7 +225,7 @@ class Selection(object):
                 `n_features` must be None for `min_change` to operate.
             kwargs : Keyword Args
                 Includes:
-                 * `_do_skip`: for interal use only; it is
+                 * `_do_not_skip`: for interal use only; it is
                     not recommended that users use this parameter.
 
         Returns:
@@ -238,9 +238,9 @@ class Selection(object):
         """
         input_checks(locals())
         S = list(range(self._total_number_of_features))  # start with all features
-        do_skip = self._do_skip(kwargs)
+        do_not_skip = self._do_not_skip(kwargs)
 
-        if n_features and do_skip:
+        if n_features and do_not_skip:
             n_features = parse_n_features(n_features, total=len(S))
 
         last_iter_score = self._fit_and_score(S, feature=None, algorithm='backward')
@@ -249,7 +249,7 @@ class Selection(object):
             if self._verbose:
                 print("Iteration: {}".format(i))
 
-            if not do_skip:
+            if not do_not_skip:
                 continue
 
             # 1. Hunt for the least predictive feature.
