@@ -13,6 +13,7 @@ sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
 
 from tests._wrappers import backward
+from tests._test_data import X_train
 
 
 def test_backward_params():
@@ -43,3 +44,12 @@ def test_backward_params():
     msg = "less than 2 features present."
     with pytest.raises(IndexError, match=msg):
         backward(X_train=ones((501, 1)), X_val=ones((501, 1)))
+
+
+# -----------------------------------------------------------------------------
+# Test Exhausting loop
+# -----------------------------------------------------------------------------
+
+def test_loop_exhaust():
+    """Text Exhausting backward()'s loop."""
+    backward(n_features=X_train.shape[-1], min_change=None, _do_skip=False)

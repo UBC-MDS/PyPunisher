@@ -48,9 +48,10 @@ def input_checks(locals_):
     """
     # Sort so that the order of the parameter name
     # are in a reliable (alphabetical) order.
-    locals_.pop('self')
-    param_a, param_b = sorted(k for k, p in locals_.items())
-    locals_non_none = {k: v for k, v in locals_.items() if v is not None}
+    ALLOWED = ('min_change', 'n_features')
+    param_a, param_b = sorted(k for k, p in locals_.items() if k in ALLOWED)
+    locals_non_none = {k: v for k, v in locals_.items()
+                       if v is not None and k in ALLOWED}
 
     if len(locals_non_none) != 1:
         raise TypeError(
