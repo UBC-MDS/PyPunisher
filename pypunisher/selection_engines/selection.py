@@ -4,9 +4,6 @@
 Forward and Backward Selection Algorithms
 =========================================
 """
-# NOTE: `Selection()`, `Selection().forward()` and
-# `Selection.backward()` have docstrings formatted
-# for sphinx's auto-documentation engine.
 
 from pypunisher.metrics.criterion import aic, bic
 from pypunisher._checks import model_check, array_check, input_checks

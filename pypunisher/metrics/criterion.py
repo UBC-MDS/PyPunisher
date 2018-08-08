@@ -4,8 +4,6 @@
  Information Criterion
  =====================
 """
-# NOTE: aic() and `bic()` have docstrings formatted
-# for sphinx's auto-documentation engine.
 
 from numpy import log, ndarray, pi
 from pypunisher._checks import model_check
