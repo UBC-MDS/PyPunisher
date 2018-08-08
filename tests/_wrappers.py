@@ -8,7 +8,6 @@ from copy import deepcopy
 from tests._defaults import DEFAULT_SELECTION_PARAMS
 from pypunisher.selection_engines.selection import Selection
 
-
 def _sel(**kwargs):
     func_kwargs = dict()
     dsp = deepcopy(DEFAULT_SELECTION_PARAMS)
@@ -19,7 +18,6 @@ def _sel(**kwargs):
             func_kwargs[k] = v
     sel = Selection(**dsp)
     return sel, func_kwargs
-
 
 def forward(**kwargs):
     sel, func_kwargs = _sel(**kwargs)

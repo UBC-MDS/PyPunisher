@@ -23,7 +23,6 @@ from tests._defaults import DEFAULT_SELECTION_PARAMS
 # Test Inputs: Types
 # -----------------------------------------------------------------------------
 
-
 def test_input_types():
     """
     Check input types when Initializing Selection().
@@ -33,7 +32,6 @@ def test_input_types():
         d[k] = 12345
         with pytest.raises(TypeError):
             Selection(**d)
-
 
 def test_too_few_features():
     """
@@ -51,7 +49,6 @@ def test_too_few_features():
 # -----------------------------------------------------------------------------
 # Test inputs: Model Attributes
 # -----------------------------------------------------------------------------
-
 
 def test_sklearn_model_methods():
     """
@@ -79,7 +76,6 @@ def test_sklearn_model_methods():
 # -----------------------------------------------------------------------------
 # Test Multiple Features
 # -----------------------------------------------------------------------------
-
 
 def test_passing_significant_change():
     """
@@ -112,7 +108,6 @@ backward_output += backward(min_change=0.0001, n_features=None)
 # Test outputs: Type
 # -----------------------------------------------------------------------------
 
-
 def output_type(output):
     """
     Test that output type is a list.
@@ -120,10 +115,8 @@ def output_type(output):
     msg = "Output from the algorithm was not a list."
     assert isinstance(output, list), msg
 
-
 def test_fsel_output_type():
     output_type(forward_output)
-
 
 def test_bsel_output_type():
     output_type(backward_output)
@@ -132,7 +125,6 @@ def test_bsel_output_type():
 # -----------------------------------------------------------------------------
 # Test `n_features`
 # -----------------------------------------------------------------------------
-
 
 def test_n_features():
     """
@@ -148,7 +140,6 @@ def test_n_features():
 # Test outputs: Selection of the Predictive Feature
 # -----------------------------------------------------------------------------
 
-
 def output_values(output):
     """
     Test that ForwardSelection selects the best feature
@@ -157,10 +148,8 @@ def output_values(output):
     msg = "The algorithm failed to select the predictive feature."
     assert true_best_features in output
 
-
 def test_fsel_output_values():
     output_values(forward_output)
-
 
 def test_bsel_output_values():
     output_values(backward_output)
@@ -173,7 +162,6 @@ def test_bsel_output_values():
 def test_fsel_aic_output():
     forward_output = forward(n_features=2, min_change=None, criterion='aic')
     assert len(forward_output) > 0
-
 
 def test_fsel_bic_output():
     forward_output = forward(n_features=2, min_change=None, criterion='bic')
@@ -188,7 +176,6 @@ def test_bsel_aic_output():
     backward_output = backward(n_features=2, min_change=None, criterion='aic')
     assert len(backward_output) >= 1
 
-
 def test_bsel_bic_output():
     backward_output = backward(n_features=2, min_change=None, criterion='bic')
     assert len(backward_output) >= 1
@@ -202,7 +189,6 @@ def test_fsel_min_change_output():
     forward_output = forward(n_features=None, min_change=1, criterion=None)
     assert len(forward_output) >= 1
 
-
 def test_bsel_min_change_output():
     backward_output = backward(n_features=None, min_change=10, criterion='aic')
     assert len(backward_output) >= 1
@@ -215,7 +201,6 @@ def test_bsel_min_change_output():
 def test_fsel_verbose_output():
     forward_output = forward(n_features=None, min_change=1, verbose=True)
     assert len(forward_output) >= 1
-
 
 def test_bsel_verbose_output():
     backward_output = backward(n_features=2, min_change=None, verbose=True)

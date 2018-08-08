@@ -8,9 +8,10 @@
 from numpy import log, ndarray, pi
 from pypunisher._checks import model_check
 
-
 def _get_coeffs(model, X_train, y_train):
     """
+    Helper function that returns appropriate coefficients
+    for AIC and BIC.
 
     Args:
         model : sklearn model object
@@ -38,7 +39,8 @@ def _get_coeffs(model, X_train, y_train):
 
 
 def aic(model, X_train, y_train):
-    """Compute the Akaike Information Criterion (AIC)
+    """
+    Compute the Akaike Information Criterion (AIC)
 
     AIC's objective is to prevent model overfitting by adding a penalty
     term which penalizes more complex models. Its formal definition is:
@@ -80,7 +82,8 @@ def aic(model, X_train, y_train):
 
 
 def bic(model, X_train, y_train):
-    """Compute the Bayesian Information Criterion (BIC)
+    """
+    Compute the Bayesian Information Criterion (BIC)
 
     BIC's objective is to prevent model over-fitting by adding a penalty
     term which penalizes more complex models. Its formal definition is:

@@ -8,12 +8,13 @@ import numpy as np
 
 
 def model_check(model):
-    """Check that `model` contains `fit`, `predict` and `score` methods.
+    """
+    Check that `model` contains `fit`, `predict`
+    and `score` methods.
 
     Args:
         model : sklearn model
             Any sklearn model
-
     """
     for attr in ('fit', 'predict', 'score'):
         if not hasattr(model, attr):
@@ -23,12 +24,12 @@ def model_check(model):
 
 
 def array_check(self):
-    """Check that the arrays in `self` are
+    """
+    Check that the arrays in `self` are
     truly ndarrays.
 
     Args:
         self : class object
-
     """
     for i in ("_X_train", '_y_train', '_X_val', '_y_val'):
         if not isinstance(getattr(self, i), np.ndarray):
@@ -36,15 +37,14 @@ def array_check(self):
 
 
 def input_checks(locals_):
-    """Check that
-    (a) the only one of the the two inputs are non-None
-    (b) that the remaining element is numeric and is strictly
+    """
+    Check that: a) the only one of the the two inputs are non-None,
+    b) that the remaining element is numeric and is strictly
     greater than zero.
 
     Args:
         locals_ : dict
             Yield of `locals()` within a function.
-
     """
     # Sort so that the order of the parameter name
     # are in a reliable (alphabetical) order.

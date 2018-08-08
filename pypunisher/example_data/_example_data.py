@@ -16,8 +16,8 @@ y_train : 1D array
     Training labels.
 y_val : 1D array
     Validation Labels
-true_best_feature : int, list
-    Denotes the best feature
+true_best_features : int, list
+    Denotes the best features
     that is actually predictive of the response.
 """
 import numpy as np

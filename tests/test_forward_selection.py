@@ -20,7 +20,6 @@ from pypunisher.example_data._example_data import X_train
 # Test `forward()` Params
 # -----------------------------------------------------------------------------
 
-
 def test_n_features_greater_than_zero_forward():
     """
     Check that `n_features` is required to be > 0.
