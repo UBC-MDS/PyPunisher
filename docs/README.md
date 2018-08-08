@@ -11,7 +11,7 @@ within the root (making version control easier).
 $ cd docs
 $ make html
 $ cd build/html
-$ git checkout gh-pages  # should be on this branch already, but just to sure.
+$ git checkout gh-pages  # should be on this branch already, but just to be sure.
 $ git add .
 $ git commit -m "SOME COMMIT MESSAGE HERE"
 $ git push origin gh-pages
