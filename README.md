@@ -3,15 +3,21 @@
 [![Build Status](https://travis-ci.org/UBC-MDS/PyPunisher.svg?branch=master)](https://travis-ci.org/UBC-MDS/PyPunisher)
 [![Coverage Status](https://coveralls.io/repos/github/UBC-MDS/PyPunisher/badge.svg?branch=coveralls)](https://coveralls.io/github/UBC-MDS/PyPunisher?branch=coveralls)
 
-**PyPunisher** is a package for feature and model selection in Python. Specifically, this package has implemented tools for 
-forward and backward model selection (see [here](https://en.wikipedia.org/wiki/Stepwise_regression)). 
-In order to measure model quality during the selection procedures, we have also implemented
-the Akaike and Bayesian Information Criterion (see below), both of which *punish* complex models -- hence this package's
+**PyPunisher** is a Python implementation of forward and backward feature selection. Feature selection, or [stepwise regression](https://www.wikiwand.com/en/Stepwise_regression), is a key step in the data science pipeline that reduces model complexity by selecting the most relevant features from the original dataset. In order to measure model quality during the selection procedures, we have also implemented the Akaike and Bayesian Information Criterion (see below), both of which *punish* complex models -- hence this package's
 name.
 
-We recognize that these tools already exist in Python. However, as discussed below, we have some minor
-misgivings about how one of these techniques has been implemented, and have made some small some improvements
-in `PyPunisher`.
+This package implements two stepwise feature selection techniques: 
+
+- `forward_selection()`: starts with a **null model** and iteratively **adds** useful features 
+- `backward_elimination()`: starts with a **full model** and iteratively **removes** the least useful feature at each step
+
+We have also implemented metrics that evaluate model performance: 
+
+- `aic()`: computes the [Akaike information criterion](https://en.wikipedia.org/wiki/Akaike_information_criterion)
+- `bic()`: computes the [Bayesian information criterion](https://en.wikipedia.org/wiki/Bayesian_information_criterion) 
+
+These two criteria have been used to measure the relative quality of models within `forward_selection()` and `backward_elimination()`. In general, having more parameters in your model increases prediction accuracy but is highly susceptible to overfitting. AIC and BIC add a penalty for the number of features in a model. This penalty term is larger in BIC than in AIC. A lower AIC or BIC score indicates a better fit for the data, relative to competing models.  
+
 
 ## Installation
 
@@ -24,20 +30,6 @@ Requires Python 3.6+.
 ## Documentation
 
 The documentation for PyPunisher can be viewed [here](https://ubc-mds.github.io/PyPunisher/index.html).
-
-## Functions included:
-
-We have implemented two stepwise feature selection techniques:
-
-- `forward_selection()`: starts with a **null model** and iteratively **adds** useful features 
-- `backward_elimination()`: starts with a **full model** and iteratively **removes** the least useful feature at each step
-
-We have also implemented metrics that evaluate model performance: 
-
-- `aic()`: computes the [Akaike information criterion](https://en.wikipedia.org/wiki/Akaike_information_criterion)
-- `bic()`: computes the [Bayesian information criterion](https://en.wikipedia.org/wiki/Bayesian_information_criterion) 
-
-These two criteria have been used to measure the *relative* quality of models within `forward_selection()` and `backward_selection()`. In general, having more parameters in your model increases prediction accuracy but is highly susceptible to overfitting. AIC and BIC add a penalty for the number of features in a model. This penalty term is larger in BIC than in AIC. A lower AIC or BIC score indicates a better fit for the data, relative to competing models.  
 
 
 ## Examples
