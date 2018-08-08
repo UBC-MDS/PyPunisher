@@ -26,17 +26,14 @@ from sklearn.model_selection import train_test_split
 SEED = 99
 FEATURES = 20
 OBSERVATIONS = 501
-middle_feature = FEATURES // 2
+sig_features = [7,13,18]
 
 np.random.seed(SEED)
 X = np.zeros((OBSERVATIONS, FEATURES))
 y = np.arange(OBSERVATIONS)
-X[:, middle_feature] = y + np.random.uniform(0, 50, size=OBSERVATIONS)
+for i in range(len(sig_features)):
+    X[:, sig_features[i]] = y + np.random.uniform(0, 50, size=OBSERVATIONS)
 
 X_train, X_val, y_train, y_val = train_test_split(X, y, random_state=SEED)
 
-true_best_feature = middle_feature
-
-# Visualize ---
-# import matplotlib.pyplot as plt
-# plt.scatter(X[:, middle_feature], y, s=1)
+true_best_features = sig_features

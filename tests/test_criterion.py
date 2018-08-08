@@ -18,7 +18,7 @@ from sklearn.linear_model import LinearRegression
 from pypunisher.example_data._example_data import X_train, y_train
 from tests._wrappers import forward, backward
 
-COMP_TOLERANCE = 200  # comparision tolerance between floats
+COMP_TOLERANCE = 500  # comparision tolerance between floats
 
 # -----------------------------------------------------------------------------
 # Setup
@@ -37,7 +37,6 @@ sk_model = LinearRegression().fit(X=X_train, y=y_train)
 # `model` Param
 # -----------------------------------------------------------------------------
 
-
 def test_metric_model_param():
     """Test that the `model` params in `aic()` and `bic()`
     will raise a TypeError when passed something other
@@ -55,7 +54,6 @@ def test_metric_model_param():
 # Test criterion through selection
 # -----------------------------------------------------------------------------
 
-
 def test_selection_class_use_of_criterion():
     """Test Criterion through `forward()` and `backward()."""
 
@@ -70,7 +68,6 @@ def test_selection_class_use_of_criterion():
 # -----------------------------------------------------------------------------
 # `data` Param
 # -----------------------------------------------------------------------------
-
 
 def test_metric_data_param():
     """Test that the `data` params in `aic()` and `bic()`
@@ -102,7 +99,6 @@ def test_metric_output():
 # -----------------------------------------------------------------------------
 # Output Value (Compare against the Stats Models Package).
 # -----------------------------------------------------------------------------
-
 
 def test_metric_output_value():
     """Test that the actual AIC and BIC values computed by
