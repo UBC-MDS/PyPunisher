@@ -32,7 +32,7 @@ Requires Python 3.6+.
 The documentation for PyPunisher can be viewed [here](https://ubc-mds.github.io/PyPunisher/index.html).
 
 
-## Examples
+## Example Usage
 
 ### Imports and Create Instance
 
@@ -42,8 +42,7 @@ from sklearn.linear_model import LinearRegression
 from pypunisher.example_data import X_train, X_val, y_train, y_val, true_best_feature
 ```
 
-> Note: This example dataset has only one predictive feature. 
-> We'll see which one below.
+**Note:** PyPunisher comes with `example_data` for testing and tutorial purposes. This example dataset has only one predictive feature. We'll see which one below.
 
 ```python
 model = LinearRegression()
@@ -53,8 +52,7 @@ sel = Selection(model, X_train=X_train, X_val=X_val,
 
 ### Forward Selection
 
-> Run the forward selection algorithm, i.e., start no features
-> and build up a set of length `n_features` that are predictive.
+Run the forward selection algorithm. Start with no features and build up a set of length `n_features`.
 
 > Let's pretend we know there is a single predictive feature...
 > we just down know *which* one!
@@ -73,9 +71,7 @@ print(true_best_feature)
 
 ### Backward Selection
 
-> We can also go in the opposite direction, i.e., start with all
-> of the features and remove the least predictive ones until we
-> are left with a set of length `n_features`.
+We can also go in the opposite direction, and start with all of the features and remove the least predictive ones until we are left with a set of length `n_features`.
 
 ```python
 print(sel.backward(n_features=1))
@@ -85,7 +81,6 @@ print(sel.backward(n_features=1))
 > Great! Backward selection also obtained the correct answer.
 
 ### AIC, BIC
-
 
 > We can also compute the selection metrics, AIC and BIC.
 
